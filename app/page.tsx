@@ -8,5 +8,8 @@ export default async function Index() {
     data: { user },
   } = await supabase.auth.getUser();
 
-  return <div>Hello World</div>;
+  const test = await supabase.auth.getSession();
+
+  console.log(user);
+  return <div>Hello World </div>;
 }
