@@ -7,7 +7,7 @@ import { ThreeDotButton } from "@/components/ui/ThreeDotButton";
 const Top = () => {
   return (
     <div className="flex h-[6rem] w-full">
-      <div className="pl-[4.5rem] pr-[7rem] pt-[2rem] w-[300px] border-r border-lightlines dark:border-darklines">
+      <div className="pl-8 pt-8 w-[300px] border-r border-lightlines dark:border-darklines shrink-0">
         <Logo />
       </div>
       <div className="flex items-center justify-between w-full px-6">

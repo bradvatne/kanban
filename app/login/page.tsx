@@ -1,40 +1,40 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import { useRouter } from 'next/navigation'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 
 export default function Login() {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [view, setView] = useState('sign-in')
-  const router = useRouter()
-  const supabase = createClientComponentClient()
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [view, setView] = useState("sign-in");
+  const router = useRouter();
+  const supabase = createClientComponentClient();
 
   const handleSignUp = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
+    e.preventDefault();
     await supabase.auth.signUp({
       email,
       password,
       options: {
         emailRedirectTo: `${location.origin}/auth/callback`,
       },
-    })
-    setView('check-email')
-  }
+    });
+    setView("check-email");
+  };
 
   const handleSignIn = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
+    e.preventDefault();
     await supabase.auth.signInWithPassword({
       email,
       password,
-    })
-    router.push('/')
-  }
+    });
+    router.push("/");
+  };
 
   return (
     <div className="flex-1 flex flex-col w-full max-w-sm justify-center gap-2">
-      {view === 'check-email' ? (
+      {view === "check-email" ? (
         <p className="text-center text-neutral-400">
           Check <span className="font-bold text-white">{email}</span> to
           continue signing up
@@ -42,7 +42,7 @@ export default function Login() {
       ) : (
         <form
           className="flex-1 flex flex-col w-full max-w-sm justify-center gap-2"
-          onSubmit={view === 'sign-in' ? handleSignIn : handleSignUp}
+          onSubmit={view === "sign-in" ? handleSignIn : handleSignUp}
         >
           <label className="text-md text-neutral-400" htmlFor="email">
             Email
@@ -65,7 +65,7 @@ export default function Login() {
             value={password}
             placeholder="••••••••"
           />
-          {view === 'sign-in' ? (
+          {view === "sign-in" ? (
             <>
               <button className="bg-green-700 rounded px-4 py-2 text-neutral-200 mb-6">
                 Sign In
@@ -74,14 +74,14 @@ export default function Login() {
                 Don't have an account?
                 <button
                   className="ml-1 text-white underline"
-                  onClick={() => setView('sign-up')}
+                  onClick={() => setView("sign-up")}
                 >
                   Sign Up Now
                 </button>
               </p>
             </>
           ) : null}
-          {view === 'sign-up' ? (
+          {view === "sign-up" ? (
             <>
               <button className="bg-green-700 rounded px-4 py-2 text-neutral-200 mb-6">
                 Sign Up
@@ -90,7 +90,7 @@ export default function Login() {
                 Already have an account?
                 <button
                   className="ml-1 text-white underline"
-                  onClick={() => setView('sign-in')}
+                  onClick={() => setView("sign-in")}
                 >
                   Sign In Now
                 </button>
@@ -100,5 +100,5 @@ export default function Login() {
         </form>
       )}
     </div>
-  )
+  );
 }

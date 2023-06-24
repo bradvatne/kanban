@@ -15,6 +15,9 @@ module.exports = {
         'lightgrey': '#F4F7FD',
         'lightlines': '#E4EBFA',
         'darklines': '#3E3F4E'
+      },
+      letterSpacing: {
+        'widest': '.15rem'
       }
     },
   },
