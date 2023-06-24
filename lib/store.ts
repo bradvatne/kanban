@@ -16,7 +16,7 @@ interface State {
 
 // Define your store
 export const useLayoutStore = create<State>((set) => ({
-  currentBoard: undefined,
+  currentBoard: "Platform Launch",
   taskModal: { visible: false, type: "VIEW", taskData: undefined },
   setCurrentBoard: (board: BoardRow) =>
     set(() => ({ currentBoard: board.title! })),
