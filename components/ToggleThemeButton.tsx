@@ -1,20 +1,16 @@
 "use client";
 import React from "react";
-import { toggleScheme } from "@/lib/color-scheme";
+import { useTheme } from "next-themes";
 import { useRouter } from "next/navigation";
 
 const ToggleThemeButton = () => {
-  const router = useRouter();
-  const toggle = async () => {
-    await toggleScheme();
-    router.refresh();
-  };
+  const { theme, setTheme } = useTheme();
   return (
     <button
       type="button"
       aria-label="Toggle dark mode"
       className="px-2 py-1.5 rounded-sm bg-zinc-900 dark:bg-zinc-100"
-      onClick={toggle}
+      onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
     >
       <span className="inline-block text-sm dark:hidden text-zinc-100">
         Switch to Dark
