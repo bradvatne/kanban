@@ -2,6 +2,7 @@ import { Database } from "@/types/supabase";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 import ToggleThemeButton from "@/components/ToggleThemeButton";
+import Top from "@/sections/Top";
 
 export default async function Index() {
   const supabase = createServerComponentClient<Database>({ cookies });
@@ -15,8 +16,8 @@ export default async function Index() {
 
   console.log(thing);
   return (
-    <div className="dark:bg-black">
-      <ToggleThemeButton />
+    <div className="dark:bg-black h-full">
+      <Top />
     </div>
   );
 }

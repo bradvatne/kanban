@@ -1,4 +1,3 @@
-import { ThemeProvider } from "next-themes";
 import "./globals.css";
 import { Providers } from "@/components/ThemeProvider";
 
@@ -8,10 +7,10 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html>
-      <body>
+    <html suppressHydrationWarning>
+      <body className="min-h-screen">
         <Providers>
-          <main className="min-h-screen">{children}</main>
+          <main className="h-full">{children}</main>
         </Providers>
       </body>
     </html>
