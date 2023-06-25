@@ -1,15 +1,15 @@
 "use client";
 import { CreateNewBoardButton } from "@/components/ui/CreateNewBoardButton";
 import { SelectBoardButton } from "@/components/ui/SelectBoardButton";
-import { useLayoutStore } from "@/lib/store";
+import { useStore } from "@/lib/store";
 import { BoardRow, Database } from "@/types/supabase";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import React, { useEffect } from "react";
 
 export const Left = () => {
   const client = createClientComponentClient<Database>();
-  const setBoards = useLayoutStore((state) => state.setBoards);
-  const boards = useLayoutStore((state) => state.boards);
+  const setBoards = useStore((state) => state.setBoards);
+  const boards = useStore((state) => state.boards);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -27,7 +27,7 @@ export const Left = () => {
   }, [setBoards, client]);
 
   return (
-    <div className="w-[300px]">
+    <div className="w-[300px] shrink-0">
       <div className="uppercase text-xs text-mediumgrey tracking-widest font-bold pl-8 pt-4">
         All Boards ({boards.length})
       </div>
