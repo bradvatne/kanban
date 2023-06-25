@@ -32,7 +32,12 @@ export const Left = () => {
         All Boards ({boards.length})
       </div>
       <div className="pt-[1.2rem]">
-      {boards && boards.length > 0 && boards.map((board) => <SelectBoardButton board={board} />)}
+        {boards &&
+          boards.length > 0 &&
+          boards.map((board) => (
+            <SelectBoardButton board={board} key={board.id} />
+          ))}
+        <CreateNewBoardButton />
       </div>
     </div>
   );

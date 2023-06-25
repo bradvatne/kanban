@@ -12,6 +12,14 @@ interface State {
     taskData: TaskRow | undefined;
   };
   isLeftDrawerVisible: boolean;
+  boardModal: {
+    visible: boolean;
+    boardData: BoardRow | undefined;
+  };
+  setBoardModal: (boardModal: {
+    visible: boolean;
+    boardData: BoardRow | undefined;
+  }) => void;
   setBoards: (boards: BoardRow[]) => void;
   setIsLeftDrawerVisible: () => void;
   setCurrentBoard: (board: BoardRow) => void;
@@ -24,6 +32,14 @@ export const useLayoutStore = create<State>((set) => ({
   boards: [],
   taskModal: { visible: false, type: "VIEW", taskData: undefined },
   isLeftDrawerVisible: true,
+  boardModal: {
+    visible: false,
+    boardData: undefined,
+  },
+  setBoardModal: (boardModal: {
+    visible: boolean;
+    boardData: BoardRow | undefined;
+  }) => set(() => ({ boardModal })),
   setBoards: (boards: BoardRow[]) => set(() => ({ boards })),
   setIsLeftDrawerVisible: () =>
     set((state) => ({ isLeftDrawerVisible: !state.isLeftDrawerVisible })),
