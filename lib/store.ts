@@ -5,12 +5,14 @@ type ModalType = "VIEW" | "ADD" | "EDIT";
 
 interface State {
   currentBoard: string | undefined;
+  boards: BoardRow[];
   taskModal: {
     visible: boolean;
     type: ModalType;
     taskData: TaskRow | undefined;
   };
   isLeftDrawerVisible: boolean;
+  setBoards: (boards: BoardRow[]) => void;
   setIsLeftDrawerVisible: () => void;
   setCurrentBoard: (board: BoardRow) => void;
   setTaskModal: (task: TaskRow, type: ModalType, visible: boolean) => void;
@@ -19,8 +21,10 @@ interface State {
 // Define your store
 export const useLayoutStore = create<State>((set) => ({
   currentBoard: "Platform Launch",
+  boards: [],
   taskModal: { visible: false, type: "VIEW", taskData: undefined },
   isLeftDrawerVisible: true,
+  setBoards: (boards: BoardRow[]) => set(() => ({ boards })),
   setIsLeftDrawerVisible: () =>
     set((state) => ({ isLeftDrawerVisible: !state.isLeftDrawerVisible })),
   setCurrentBoard: (board: BoardRow) =>
