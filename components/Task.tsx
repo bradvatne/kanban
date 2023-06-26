@@ -1,7 +1,6 @@
 "use client";
-import { Database, SubtaskRow, TaskRow } from "@/types/supabase";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import React, { useEffect, useState } from "react";
+import { TaskRow } from "@/types/supabase";
+import React from "react";
 
 export const Task = ({ task }: { task: TaskRow }) => {
   return (
