@@ -5,10 +5,10 @@ import { Modals } from "@/components/Modals";
 
 export default async function Index() {
   return (
-    <div className="h-full">
+    <div className="h-full relative">
       <Modals />
       <Top />
-      <div className="flex h-full">
+      <div className="flex test">
         <Left />
         <Right />
       </div>

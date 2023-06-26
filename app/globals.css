@@ -3,13 +3,18 @@
 @tailwind utilities;
 
 :root {
-
+    margin: 0;
+    box-sizing: border-box;
 }
 
 @media (prefers-color-scheme: dark) {
 
 }
 
-body {
+html {
+    height: 100vh;
+}
 
+.test {
+    height: calc(100% - 100px);
 }

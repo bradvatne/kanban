@@ -9,7 +9,9 @@ export const AddTaskButton = () => {
   return (
     <button
       className="rounded-3xl bg-purple hover:bg-purplehover text-white font-bold px-[1.5rem] py-3"
-      onClick={() => setTaskModal(taskModal.taskData as TaskRow, "ADD", true)}
+      onClick={() =>
+        setTaskModal({ taskData: undefined, type: "ADD", visible: true })
+      }
     >
       + Add New Task
     </button>

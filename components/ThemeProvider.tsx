@@ -7,5 +7,9 @@ import { BoardRow, Database } from "@/types/supabase";
 import { useStore } from "@/lib/store";
 
 export const Providers = ({ children }: { children: ReactNode }) => {
-  return <ThemeProvider attribute="class">{children}</ThemeProvider>;
+  return (
+    <ThemeProvider attribute="class">
+      <div className="h-full">{children}</div>
+    </ThemeProvider>
+  );
 };
