@@ -56,13 +56,11 @@ export const Left = () => {
         </div>
       </div>
       <div>
-        {/* <ToggleThemeButton />*/}
+        <ToggleThemeButton />
         <HideSidebarButton />
       </div>
     </div>
   ) : (
-
-      <OpenEyeIcon />
-
+    <OpenEyeIcon />
   );
 };

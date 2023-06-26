@@ -2,6 +2,8 @@
 import React from "react";
 import { useTheme } from "next-themes";
 import { useRouter } from "next/navigation";
+import { Moon } from "./ui/Moon";
+import { Sun } from "./ui/Sun";
 
 const ToggleThemeButton = () => {
   const { theme, setTheme } = useTheme();
@@ -9,15 +11,19 @@ const ToggleThemeButton = () => {
     <button
       type="button"
       aria-label="Toggle dark mode"
-      className="px-2 py-1.5 rounded-sm bg-zinc-900 dark:bg-zinc-100"
-      onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+      className="mb-[1.38rem] bg-lightgrey h-12 w-[16rem] ml-5 rounded-md flex items-center justify-center gap-6 dark:bg-darkgrey"
     >
-      <span className="inline-block text-sm dark:hidden text-zinc-100">
-        Switch to Dark
-      </span>
-      <span className="hidden text-sm dark:inline-block text-zinc-800">
-        Switch to Light
-      </span>
+      <Sun />
+      <label className="relative inline-flex items-center cursor-pointer">
+        <input
+          type="checkbox"
+          value=""
+          className="sr-only peer"
+          onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+        />
+        <div className="w-10 h-5 bg-purple peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-purplehover dark:peer-focus:ring-purplehover rounded-full peer dark:bg-purple peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-purple"></div>
+      </label>
+      <Moon />
     </button>
   );
 };
