@@ -8,7 +8,7 @@ export const Right = () => {
   const columns = currentBoard?.Columns;
 
   return (
-    <div className="bg-lightgrey w-full h-full outline outline-lightlines outline-1 flex gap-[1.5rem] pt-6 pl-6">
+    <div className="bg-lightgrey w-full h-full outline outline-lightlines outline-1 flex gap-[1.5rem] pt-6 pl-6 dark:bg-verydarkgrey dark:outline-darklines">
       {columns &&
         columns.map((column) => <Column column={column} key={column.id} />)}
     </div>

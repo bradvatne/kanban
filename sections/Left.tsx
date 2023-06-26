@@ -41,7 +41,7 @@ export const Left = () => {
   }, [setBoards, supabase]);
 
   return isLeftDrawerVisible ? (
-    <div className="w-[300px] shrink-0 flex flex-col justify-between h-full">
+    <div className="w-[300px] shrink-0 flex flex-col justify-between h-full dark:bg-darkgrey">
       <div>
         <div className="uppercase text-xs text-mediumgrey tracking-widest font-bold pl-8 pt-4">
           All Boards ({boards.length})

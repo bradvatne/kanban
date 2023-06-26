@@ -10,7 +10,7 @@ module.exports = {
         'purplehover': '#A8A4FF',
         'red': '#EA5555',
         'redhover': '#FF9898',
-        'verydarkgrey': '#2021C',
+        'verydarkgrey': '#20212C',
         'darkgrey': '#2B2C37',
         'mediumgrey': '#828FA3',
         'lightgrey': '#F4F7FD',

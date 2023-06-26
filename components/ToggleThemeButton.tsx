@@ -11,7 +11,7 @@ const ToggleThemeButton = () => {
     <button
       type="button"
       aria-label="Toggle dark mode"
-      className="mb-[1.38rem] bg-lightgrey h-12 w-[16rem] ml-5 rounded-md flex items-center justify-center gap-6 dark:bg-darkgrey"
+      className="mb-[1.38rem] bg-lightgrey h-12 w-[16rem] ml-5 rounded-md flex items-center justify-center gap-6 dark:bg-verydarkgrey"
     >
       <Sun />
       <label className="relative inline-flex items-center cursor-pointer">
