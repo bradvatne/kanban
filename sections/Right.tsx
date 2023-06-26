@@ -20,7 +20,7 @@ export const Right = () => {
       setColumns(data as ColumnsRow[]);
     };
 
-    fetchData();
+    currentBoard && fetchData();
   }, [currentBoard, client]);
 
   return (

@@ -4,21 +4,23 @@ import { ColumnsRow, Database, TaskRow } from "@/types/supabase";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import React, { useEffect, useState } from "react";
 import { useStore } from "zustand";
+import { Task } from "./Task";
 
 const Column = ({ column }: { column: ColumnsRow }) => {
   const client = createClientComponentClient<Database>();
   const [tasks, setTasks] = useState<TaskRow[]>([]);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchColumns = async () => {
       const { data } = await client
         .from("task")
-        .select()
+        .select("id, title, columnid, subtask (id, taskid, title, complete)")
         .eq("columnid", column.id);
       setTasks(data as TaskRow[]);
+      console.log(data);
     };
 
-    fetchData();
+    fetchColumns();
   }, [column, client]);
   const color = `rounded-full w-[15px] h-[15px] ${column.color}`;
   return (
@@ -30,10 +32,7 @@ const Column = ({ column }: { column: ColumnsRow }) => {
         </span>
       </div>
       {tasks.map((task) => (
-        <div className="bg-white px-4 py-6 shrink-0 w-[17.5rem] rounded-lg shadow-custom hover:cursor-pointer">
-          <div className="text-black font-bold text-custom">{task.title}</div>
-          <div className="text-xs text-mediumgrey mt-2"></div>
-        </div>
+        <Task task={task} key={task.id} />
       ))}
     </div>
   );

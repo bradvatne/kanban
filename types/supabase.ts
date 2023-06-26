@@ -4,128 +4,157 @@ export type Json =
   | boolean
   | null
   | { [key: string]: Json }
-  | Json[]
+  | Json[];
 
 export interface Database {
   public: {
     Tables: {
       board: {
         Row: {
-          id: number
-          title: string | null
-          userid: string | null
-        }
+          id: number;
+          title: string | null;
+          userid: string | null;
+        };
         Insert: {
-          id?: number
-          title?: string | null
-          userid?: string | null
-        }
+          id?: number;
+          title?: string | null;
+          userid?: string | null;
+        };
         Update: {
-          id?: number
-          title?: string | null
-          userid?: string | null
-        }
+          id?: number;
+          title?: string | null;
+          userid?: string | null;
+        };
         Relationships: [
           {
-            foreignKeyName: "board_userid_fkey"
-            columns: ["userid"]
-            referencedRelation: "users"
-            referencedColumns: ["id"]
+            foreignKeyName: "board_userid_fkey";
+            columns: ["userid"];
+            referencedRelation: "users";
+            referencedColumns: ["id"];
           }
-        ]
-      }
+        ];
+      };
       Columns: {
         Row: {
-          boardid: number | null
-          color: string | null
-          id: number
-          title: string | null
-        }
+          boardid: number | null;
+          color: string | null;
+          id: number;
+          title: string | null;
+        };
         Insert: {
-          boardid?: number | null
-          color?: string | null
-          id?: number
-          title?: string | null
-        }
+          boardid?: number | null;
+          color?: string | null;
+          id?: number;
+          title?: string | null;
+        };
         Update: {
-          boardid?: number | null
-          color?: string | null
-          id?: number
-          title?: string | null
-        }
+          boardid?: number | null;
+          color?: string | null;
+          id?: number;
+          title?: string | null;
+        };
         Relationships: [
           {
-            foreignKeyName: "Columns_boardid_fkey"
-            columns: ["boardid"]
-            referencedRelation: "board"
-            referencedColumns: ["id"]
+            foreignKeyName: "Columns_boardid_fkey";
+            columns: ["boardid"];
+            referencedRelation: "board";
+            referencedColumns: ["id"];
           }
-        ]
-      }
+        ];
+      };
+      subtask: {
+        Row: {
+          complete: boolean;
+          id: number;
+          taskid: number;
+          title: string;
+        };
+        Insert: {
+          complete?: boolean;
+          id?: number;
+          taskid: number;
+          title: string;
+        };
+        Update: {
+          complete?: boolean;
+          id?: number;
+          taskid?: number;
+          title?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "subtask_taskid_fkey";
+            columns: ["taskid"];
+            referencedRelation: "task";
+            referencedColumns: ["id"];
+          }
+        ];
+      };
       task: {
         Row: {
-          columnid: number | null
-          id: number
-          title: string | null
-        }
+          columnid: number | null;
+          id: number;
+          title: string | null;
+        };
         Insert: {
-          columnid?: number | null
-          id?: number
-          title?: string | null
-        }
+          columnid?: number | null;
+          id?: number;
+          title?: string | null;
+        };
         Update: {
-          columnid?: number | null
-          id?: number
-          title?: string | null
-        }
+          columnid?: number | null;
+          id?: number;
+          title?: string | null;
+        };
         Relationships: [
           {
-            foreignKeyName: "task_columnid_fkey"
-            columns: ["columnid"]
-            referencedRelation: "Columns"
-            referencedColumns: ["id"]
+            foreignKeyName: "task_columnid_fkey";
+            columns: ["columnid"];
+            referencedRelation: "Columns";
+            referencedColumns: ["id"];
           }
-        ]
-      }
+        ];
+      };
       Users: {
         Row: {
-          authid: string | null
-          id: string
-        }
+          authid: string | null;
+          id: string;
+        };
         Insert: {
-          authid?: string | null
-          id?: string
-        }
+          authid?: string | null;
+          id?: string;
+        };
         Update: {
-          authid?: string | null
-          id?: string
-        }
+          authid?: string | null;
+          id?: string;
+        };
         Relationships: [
           {
-            foreignKeyName: "Users_authid_fkey"
-            columns: ["authid"]
-            referencedRelation: "users"
-            referencedColumns: ["id"]
+            foreignKeyName: "Users_authid_fkey";
+            columns: ["authid"];
+            referencedRelation: "users";
+            referencedColumns: ["id"];
           }
-        ]
-      }
-    }
+        ];
+      };
+    };
     Views: {
-      [_ in never]: never
-    }
+      [_ in never]: never;
+    };
     Functions: {
-      [_ in never]: never
-    }
+      [_ in never]: never;
+    };
     Enums: {
-      [_ in never]: never
-    }
+      [_ in never]: never;
+    };
     CompositeTypes: {
-      [_ in never]: never
-    }
-  }
+      [_ in never]: never;
+    };
+  };
 }
 
-export type BoardRow = Database['public']['Tables']['board']['Row'];
-export type ColumnsRow = Database['public']['Tables']['Columns']['Row'];
-export type TaskRow = Database['public']['Tables']['task']['Row'];
-export type UsersRow = Database['public']['Tables']['Users']['Row'];
+export type BoardRow = Database["public"]["Tables"]["board"]["Row"];
+export type ColumnsRow = Database["public"]["Tables"]["Columns"]["Row"];
+export type TaskRow = Database["public"]["Tables"]["task"]["Row"];
+export type UsersRow = Database["public"]["Tables"]["Users"]["Row"];
+export type SubtaskRow = Database["public"]["Tables"]["subtask"]["Row"];
