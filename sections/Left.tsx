@@ -7,7 +7,7 @@ import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import React, { useEffect } from "react";
 
 export const Left = () => {
-  const client = createClientComponentClient<Database>();
+  const supabase = createClientComponentClient<Database>();
   const setBoards = useStore((state) => state.setBoards);
   const boards = useStore((state) => state.boards);
 
@@ -16,9 +16,9 @@ export const Left = () => {
       //Get User ID
       const {
         data: { session },
-      } = await client.auth.getSession();
+      } = await supabase.auth.getSession();
       //Fetch all user data in 1 query using join
-      const { data } = await client
+      const { data } = await supabase
         .from("board")
         .select(
           "*, Columns (boardid, color, id, title, task (columnid, id, title, subtask(taskid, id, title, complete)))"
@@ -27,11 +27,13 @@ export const Left = () => {
       //Store query result in store
       if (data !== null) {
         setBoards(data);
+        console.log(data);
       } else setBoards([]);
     };
 
+
     fetchData();
-  }, [setBoards, client]);
+  }, [setBoards, supabase]);
 
   return (
     <div className="w-[300px] shrink-0">

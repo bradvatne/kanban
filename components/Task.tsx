@@ -14,12 +14,3 @@ export const Task = ({ task }: { task: TaskRow }) => {
     </div>
   );
 };
-
-/*
-
-export type BoardRow = Database['public']['Tables']['board']['Row'];
-export type ColumnsRow = Database['public']['Tables']['Columns']['Row'];
-export type TaskRow = Database['public']['Tables']['task']['Row'];
-export type UsersRow = Database['public']['Tables']['Users']['Row'];
-
-*/
