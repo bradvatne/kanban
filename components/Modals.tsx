@@ -14,7 +14,7 @@ export const Modals = () => {
       <div onClick={() => setBoardModal({ ...boardModal, visible: false })}>
         {boardModal.visible && <CreateBoardModal />}
       </div>
-      <div onClick={() => setTaskModal(taskModal as any, "VIEW", false)}>
+      <div onClick={() => setTaskModal({...taskModal, visible: false})}>
         {taskModal.visible && <TaskModal />}
       </div>
     </>

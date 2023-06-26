@@ -2,16 +2,16 @@ import { BoardRow, ColumnsRow, TaskRow } from "@/types/supabase";
 import { create } from "zustand";
 
 type ModalType = "VIEW" | "ADD" | "EDIT";
-
+type TaskModalType = {
+  visible: boolean;
+  type: ModalType;
+  taskData: TaskRow | undefined;
+};
 export interface State {
   currentBoard: BoardRow | undefined;
   boards: BoardRow[];
   columns: ColumnsRow[];
-  taskModal: {
-    visible: boolean;
-    type: ModalType;
-    taskData: TaskRow | undefined;
-  };
+  taskModal: TaskModalType;
   isLeftDrawerVisible: boolean;
   boardModal: {
     visible: boolean;
@@ -25,7 +25,7 @@ export interface State {
   setColumns: (columns: ColumnsRow[]) => void;
   setIsLeftDrawerVisible: () => void;
   setCurrentBoard: (board: BoardRow) => void;
-  setTaskModal: (task: TaskRow, type: ModalType, visible: boolean) => void;
+  setTaskModal: (taskModal: TaskModalType) => void;
 }
 
 // Define your store
@@ -48,12 +48,8 @@ export const useStore = create<State>((set) => ({
   setIsLeftDrawerVisible: () =>
     set((state) => ({ isLeftDrawerVisible: !state.isLeftDrawerVisible })),
   setCurrentBoard: (board: BoardRow) => set(() => ({ currentBoard: board })),
-  setTaskModal: (taskData: TaskRow, type: ModalType, visible: boolean) =>
+  setTaskModal: (taskData: TaskModalType) =>
     set(() => ({
-      taskModal: {
-        visible,
-        type,
-        taskData,
-      },
+      taskModal: taskData,
     })),
 }));
