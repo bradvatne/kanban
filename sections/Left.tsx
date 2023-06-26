@@ -1,5 +1,9 @@
 "use client";
+import { HideSidebarButton } from "@/components/HideSidebarButton";
+import ToggleThemeButton from "@/components/ToggleThemeButton";
 import { CreateNewBoardButton } from "@/components/ui/CreateNewBoardButton";
+import { EyeIcon } from "@/components/ui/EyeIcon";
+import { OpenEyeIcon } from "@/components/ui/OpenEyeIcon";
 import { SelectBoardButton } from "@/components/ui/SelectBoardButton";
 import { useStore } from "@/lib/store";
 import { Database } from "@/types/supabase";
@@ -11,6 +15,7 @@ export const Left = () => {
   const setBoards = useStore((state) => state.setBoards);
   const boards = useStore((state) => state.boards);
   const setCurrentBoard = useStore((state) => state.setCurrentBoard);
+  const isLeftDrawerVisible = useStore((state) => state.isLeftDrawerVisible);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -35,7 +40,7 @@ export const Left = () => {
     fetchData();
   }, [setBoards, supabase]);
 
-  return (
+  return isLeftDrawerVisible ? (
     <div className="w-[300px] shrink-0 flex flex-col justify-between h-full">
       <div>
         <div className="uppercase text-xs text-mediumgrey tracking-widest font-bold pl-8 pt-4">
@@ -51,8 +56,13 @@ export const Left = () => {
         </div>
       </div>
       <div>
-        Hello
+        {/* <ToggleThemeButton />*/}
+        <HideSidebarButton />
       </div>
     </div>
+  ) : (
+
+      <OpenEyeIcon />
+
   );
 };
