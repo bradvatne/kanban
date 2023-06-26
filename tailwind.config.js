@@ -2,6 +2,7 @@
 module.exports = {
   darkMode: "class",
   content: ['./app/**/*.{js,ts,jsx,tsx,mdx}', './components/**/*.{js,ts,jsx,tsx,mdx}', './sections/**/*.{js,ts,jsx,tsx,mdx}'],
+  safelist: ['bg-[#49C4E5]', 'bg-[#8471F2]', 'bg-[#67E2AE]'],
   theme: {
     extend: {
       colors: {
@@ -18,6 +19,12 @@ module.exports = {
       },
       letterSpacing: {
         'widest': '.15rem'
+      },
+      boxShadow: {
+        'custom': '0px 4px 6px 0px rgba(54, 78, 126, 0.10);'
+      },
+      fontSize: {
+        'custom' : '0.9375rem'
       }
     },
   },

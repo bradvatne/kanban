@@ -18,15 +18,15 @@ export const Right = () => {
         .select()
         .eq("boardid", currentBoard?.id);
       setColumns(data as ColumnsRow[]);
-      console.log(data);
     };
 
     fetchData();
   }, [currentBoard, client]);
 
   return (
-    <div className="bg-lightgrey w-full h-full outline outline-lightlines outline-1">
-      {columns && columns.map((column) => <Column column={column} />)}
+    <div className="bg-lightgrey w-full h-full outline outline-lightlines outline-1 flex gap-[1.5rem] pt-6 pl-6">
+      {columns &&
+        columns.map((column) => <Column column={column} key={column.id} />)}
     </div>
   );
 };

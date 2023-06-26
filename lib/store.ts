@@ -3,7 +3,7 @@ import { create } from "zustand";
 
 type ModalType = "VIEW" | "ADD" | "EDIT";
 
-interface State {
+export interface State {
   currentBoard: BoardRow | undefined;
   boards: BoardRow[];
   columns: ColumnsRow[];
