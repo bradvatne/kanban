@@ -18,9 +18,15 @@ export const Left = () => {
       } = await client.auth.getSession();
       const { data } = await client
         .from("board")
-        .select()
+        .select(
+          "*, Columns (boardid, color, id, title, task (columnid, id, title, subtask(taskid, id, title, complete)))"
+        )
         .eq("userid", session?.user.id);
-      setBoards(data as BoardRow[]);
+      if (data !== null) {
+        setBoards(data);
+      } else setBoards([]);
+
+      console.log(data);
     };
 
     fetchData();
