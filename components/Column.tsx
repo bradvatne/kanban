@@ -4,7 +4,7 @@ import { Task } from "./Task";
 
 const Column = ({ column }: { column: ColumnsRow }) => {
   return (
-    <div className="flex flex-col gap-5">
+    <div className="flex flex-col gap-5 w-[17.5rem] overflow-y-auto scrollbar-hide">
       <div className="flex items-center gap-3">
         <div className={`rounded-full w-[15px] h-[15px] ${column.color}`} />
         <span className="text-xs uppercase text-mediumgrey tracking-widest font-bold">

@@ -8,7 +8,7 @@ export const Task = ({ task }: { task: TaskRow }) => {
   const taskModal = useStore((state) => state.taskModal);
   return (
     <div
-      className="bg-white px-4 py-6 shrink-0 w-[17.5rem] rounded-lg shadow-custom hover:cursor-pointer dark:bg-darkgrey"
+      className="bg-white px-4 py-6 shrink-0  rounded-lg shadow-custom hover:cursor-pointer dark:bg-darkgrey"
       onClick={() =>
         setTaskModal({ ...taskModal, type: "VIEW", visible: true })
       }

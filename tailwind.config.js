@@ -15,7 +15,8 @@ module.exports = {
         'mediumgrey': '#828FA3',
         'lightgrey': '#F4F7FD',
         'lightlines': '#E4EBFA',
-        'darklines': '#3E3F4E'
+        'darklines': '#3E3F4E',
+        'gradient': "linear-gradient(180deg, #E9EFFA 0%, rgba(233, 239, 250, 0.50) 100%)"
       },
       letterSpacing: {
         'widest': '.15rem'
@@ -28,5 +29,5 @@ module.exports = {
       }
     },
   },
-  plugins: [],
+  plugins: [require('tailwind-scrollbar-hide')],
 }

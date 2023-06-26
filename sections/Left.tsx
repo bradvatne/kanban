@@ -23,6 +23,7 @@ export const Left = () => {
       const {
         data: { session },
       } = await supabase.auth.getSession();
+      console.log(session);
       //Fetch all user data in 1 query using join
       const { data } = await supabase
         .from("board")
@@ -38,7 +39,7 @@ export const Left = () => {
     };
 
     fetchData();
-  }, [setBoards, supabase]);
+  }, [setBoards, supabase, ]);
 
   return isLeftDrawerVisible ? (
     <div className="w-[300px] shrink-0 flex flex-col justify-between h-full dark:bg-darkgrey">
