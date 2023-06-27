@@ -1,7 +1,8 @@
 "use client";
 import { TaskRow } from "@/types/supabase";
-import React from "react";
+import React, { useState } from "react";
 import { useStore } from "@/lib/store";
+import { TaskModal } from "./TaskModal";
 
 export const Task = ({
   task,
@@ -10,13 +11,13 @@ export const Task = ({
   task: TaskRow;
   setTaskModal: Function;
 }) => {
+  const [showTaskModal, setShowTaskModal] = useState(false);
   return (
     <div
       className="bg-white px-4 py-6 shrink-0  rounded-lg shadow-custom hover:cursor-pointer dark:bg-darkgrey"
-      onClick={() =>
-        setTaskModal({ taskData: task, type: "VIEW", visible: true })
-      }
+      onClick={() => setShowTaskModal(true)}
     >
+      {showTaskModal && <TaskModal task={task} />}
       <div className="text-black font-bold text-custom dark:text-white">
         {task.title}
       </div>
