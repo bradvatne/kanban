@@ -172,3 +172,5 @@ export type ColumnsRow = Columns & {
 export type BoardRow = Board & {
   Columns: ColumnsRow[];
 };
+
+

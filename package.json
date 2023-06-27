@@ -10,6 +10,7 @@
     "@supabase/supabase-js": "^2.26.0",
     "autoprefixer": "10.4.14",
     "encoding": "^0.1.13",
+    "immer": "^10.0.2",
     "next": "latest",
     "next-themes": "^0.2.1",
     "postcss": "8.4.24",
