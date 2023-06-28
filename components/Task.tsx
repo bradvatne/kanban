@@ -12,6 +12,8 @@ export const Task = ({
   setTaskModal: Function;
 }) => {
   const [showTaskModal, setShowTaskModal] = useState(false);
+
+
   return (
     <div
       className="bg-white px-4 py-6 shrink-0  rounded-lg shadow-custom hover:cursor-pointer dark:bg-darkgrey"

@@ -15,7 +15,8 @@ export const TaskModal = ({ task }: { task: TaskRow }) => {
           of {task.subtask.length})
         </h3>
         {task.subtask.map((subtask) => (
-          <Subtask subtask={subtask} />
+          <Subtask subtask={subtask} complete={subtask.complete} />
+         
         ))}
       </div>
     </div>
