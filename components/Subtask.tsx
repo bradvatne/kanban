@@ -3,19 +3,19 @@ import { SubtaskRow } from "@/types/supabase";
 import React from "react";
 import { useStore } from "@/lib/store";
 
-export const Subtask = ({
-  subtask,
-  complete,
-}: {
-  subtask: SubtaskRow;
-  complete: boolean;
-}) => {
+export const Subtask = ({ subtaskId }: { subtaskId: number }) => {
   const completedStyle = "text-sm text-mediumgrey font-bold line-through";
   const inProgressStyle = "text-sm text-black font-bold";
   const toggleSubtaskStatus = useStore((state) => state.toggleSubtaskStatus);
-  const task = subtask.taskid;
-  const board = useStore((state) => state.currentBoard);
-  board?.Columns.find((x) => x.task.find((x) => x.id));
+  const state = useStore();
+
+  const [subtask] = state.boards.flatMap((board) =>
+    board.Columns.flatMap((column) =>
+      column.task.flatMap((task) =>
+        task.subtask.find((subtask) => subtask.id === subtaskId)
+      )
+    )
+  );
 
   return (
     <div
@@ -25,13 +25,13 @@ export const Subtask = ({
       <input
         type="checkbox"
         className="accent-purple"
-        defaultChecked={subtask.complete}
+        defaultChecked={subtask?.complete}
         onClick={() => {
-          toggleSubtaskStatus(subtask.id);
+          toggleSubtaskStatus(subtask?.id!);
         }}
       />
-      <span className={complete ? completedStyle : inProgressStyle}>
-        {subtask.title}
+      <span className={subtask?.complete ? completedStyle : inProgressStyle}>
+        {subtask?.title}
       </span>
     </div>
   );
