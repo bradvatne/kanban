@@ -153,22 +153,3 @@ export interface Database {
   };
 }
 
-type Board = Database["public"]["Tables"]["board"]["Row"];
-type Columns = Database["public"]["Tables"]["Columns"]["Row"];
-type Task = Database["public"]["Tables"]["task"]["Row"];
-type Subtask = Database["public"]["Tables"]["subtask"]["Row"];
-export type UsersRow = Database["public"]["Tables"]["Users"]["Row"];
-
-export type SubtaskRow = Subtask;
-
-export type TaskRow = Task & {
-  subtask: SubtaskRow[];
-};
-
-export type ColumnsRow = Columns & {
-  task: TaskRow[];
-};
-
-export type BoardRow = Board & {
-  Columns: ColumnsRow[];
-};

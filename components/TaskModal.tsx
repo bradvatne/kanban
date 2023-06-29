@@ -1,16 +1,14 @@
 "use client";
 import React, { useEffect } from "react";
 import { Subtask } from "./Subtask";
-import { SubtaskRow, TaskRow } from "@/types/supabase";
 import { useStore } from "@/lib/store";
 
-export const TaskModal = ({
-  task,
-  setShowTaskModal,
-}: {
-  task: TaskRow;
-  setShowTaskModal: Function;
-}) => {
+export const TaskModal = ({ id }: { id: number }) => {
+  const setShowTaskModal = useStore((state) => state.setShowTaskModal);
+  const task = useStore((state) => state.getTaskById(id)(state));
+  const subtasks = useStore((state) =>
+    Object.values(state.subtasks).filter((subtasks) => subtasks.taskId === id)
+  );
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
@@ -25,7 +23,6 @@ export const TaskModal = ({
     };
   }, []);
 
-
   return (
     <div
       className="z-50 absolute w-screen h-screen bg-black bg-opacity-50 flex justify-center items-center top-0 left-0"
@@ -37,11 +34,11 @@ export const TaskModal = ({
           {task.id}
         </p>
         <h3 className="text-xs text-mediumgrey font-bold mb-4">
-          Subtasks ({task.subtask.filter((subtask) => !subtask.complete).length}
-          of {task.subtask.length})
+          Subtasks ({subtasks.filter((subtask) => !subtask.complete).length}
+          of {subtasks.length})
         </h3>
-        {task.subtask.map((subtask) => (
-          <Subtask subtask={subtask} />
+        {subtasks.map((subtask) => (
+          <Subtask id={id} key={id} />
         ))}
       </div>
     </div>

@@ -2,26 +2,30 @@
 import React, { useState } from "react";
 import { useStore } from "@/lib/store";
 import { TaskModal } from "./TaskModal";
-import { SubtaskRow, TaskRow } from "@/types/supabase";
+import { Subtask } from "@/types/types";
 
-export const Task = ({ task }: { task: TaskRow }) => {
-  const [showTaskModal, setShowTaskModal] = useState(false);
+export const Task = ({ id }: { id: number }) => {
+  const [showTaskModal, setShowTaskModal] = useStore((state) => [
+    state.showTaskModal,
+    state.setShowTaskModal,
+  ]);
+  const task = useStore((state) => state.getTaskById(id)(state));
+  const subtasks = useStore((state) =>
+    Object.values(state.subtasks).filter((subtasks) => subtasks.taskId === id)
+  );
+
   return (
     <div
       className="bg-white px-4 py-6 shrink-0  rounded-lg shadow-custom hover:cursor-pointer dark:bg-darkgrey"
       onClick={() => setShowTaskModal(true)}
     >
-      {showTaskModal && (
-        <TaskModal task={task!} setShowTaskModal={setShowTaskModal} />
-      )}
+      {showTaskModal && <TaskModal id={id} />}
       <div className="text-black font-bold text-custom dark:text-white">
         {task?.title}
       </div>
       <div className="text-xs text-mediumgrey mt-2 font-bold">
-        {task.subtask?.filter(
-          (subtask: SubtaskRow) => subtask?.complete === false
-        ).length ?? 0}{" "}
-        out of {task?.subtask?.length ?? 0} subtasks
+        {subtasks.filter((subtask: Subtask) => subtask.complete).length} out of{" "}
+        {subtasks.length} subtasks.
       </div>
     </div>
   );
