@@ -1,22 +1,24 @@
-import { BoardRow, ColumnsRow, TaskRow } from "@/types/supabase";
+import { BoardRow, ColumnsRow, SubtaskRow, TaskRow } from "@/types/supabase";
 import { create } from "zustand";
+import { produce } from "immer";
 
 type ModalType = "VIEW" | "ADD" | "EDIT";
-type TaskModalType = {
-  visible: boolean;
-  type: ModalType;
-  taskData: TaskRow | undefined;
-};
+
 export interface State {
   currentBoard: BoardRow | undefined;
   boards: BoardRow[];
   columns: ColumnsRow[];
-  taskModal: TaskModalType;
+  taskModal: {
+    visible: boolean;
+    type: ModalType;
+    taskData: TaskRow | undefined;
+  };
   isLeftDrawerVisible: boolean;
   boardModal: {
     visible: boolean;
     boardData: BoardRow | undefined;
   };
+  toggleSubtaskStatus: (subtaskId: number) => void;
   setBoardModal: (boardModal: {
     visible: boolean;
     boardData: BoardRow | undefined;
@@ -25,7 +27,15 @@ export interface State {
   setColumns: (columns: ColumnsRow[]) => void;
   setIsLeftDrawerVisible: () => void;
   setCurrentBoard: (board: BoardRow) => void;
-  setTaskModal: (taskModal: TaskModalType) => void;
+  setTaskModal: ({
+    taskData,
+    type,
+    visible,
+  }: {
+    taskData: TaskRow;
+    type: ModalType;
+    visible: boolean;
+  }) => void;
 }
 
 // Define your store
@@ -39,6 +49,35 @@ export const useStore = create<State>((set) => ({
     visible: false,
     boardData: undefined,
   },
+  toggleSubtaskStatus: (subtaskId: number) =>
+    set((state) => {
+      return produce(state, (draftState) => {
+        const { boards } = draftState;
+
+        for (const board of boards) {
+          for (const column of board.Columns) {
+            for (const task of column.task) {
+              const subtask = task.subtask.find(
+                (subtask) => subtask.id === subtaskId
+              );
+
+              if (subtask) {
+                subtask.complete = !subtask.complete;
+                break;
+              }
+            }
+
+            if (subtaskId) {
+              break;
+            }
+          }
+
+          if (subtaskId) {
+            break;
+          }
+        }
+      });
+    }),
   setBoardModal: (boardModal: {
     visible: boolean;
     boardData: BoardRow | undefined;
@@ -48,8 +87,20 @@ export const useStore = create<State>((set) => ({
   setIsLeftDrawerVisible: () =>
     set((state) => ({ isLeftDrawerVisible: !state.isLeftDrawerVisible })),
   setCurrentBoard: (board: BoardRow) => set(() => ({ currentBoard: board })),
-  setTaskModal: (taskData: TaskModalType) =>
+  setTaskModal: ({
+    taskData,
+    type,
+    visible,
+  }: {
+    taskData: TaskRow;
+    type: ModalType;
+    visible: boolean;
+  }) =>
     set(() => ({
-      taskModal: taskData,
+      taskModal: {
+        visible,
+        type,
+        taskData,
+      },
     })),
 }));
