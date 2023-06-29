@@ -25,18 +25,6 @@ export const TaskModal = ({
     };
   }, []);
 
-  const state = useStore();
-
-  const subtasks = state.boards.flatMap((board) =>
-    board.Columns.flatMap((column) =>
-      column.task.flatMap((task) =>
-        task.subtask.filter((subtask) => subtask.taskid === task.id)
-      )
-    )
-  );
-
-  console.log(subtasks);
-
   return (
     <div
       className="z-50 absolute w-screen h-screen bg-black bg-opacity-50 flex justify-center items-center top-0 left-0"
@@ -51,8 +39,8 @@ export const TaskModal = ({
           Subtasks ({task.subtask.filter((subtask) => !subtask.complete).length}
           of {task.subtask.length})
         </h3>
-        {subtasks.map((subtask) => (
-          <Subtask subtaskId={subtask.id} />
+        {task.subtask.map((subtask) => (
+          <Subtask subtask={subtask} />
         ))}
       </div>
     </div>

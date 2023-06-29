@@ -12,7 +12,7 @@ const Column = ({ column }: { column: ColumnsRow }) => {
         </span>
       </div>
       {column.task.map((task) => (
-        <Task taskId={task.id} key={task.id} />
+        <Task task={task} key={task.id} />
       ))}
     </div>
   );

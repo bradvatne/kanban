@@ -3,20 +3,11 @@ import { SubtaskRow } from "@/types/supabase";
 import React from "react";
 import { useStore } from "@/lib/store";
 
-export const Subtask = ({ subtaskId }: { subtaskId: number }) => {
+export const Subtask = ({ subtask }: { subtask: SubtaskRow }) => {
   const completedStyle = "text-sm text-mediumgrey font-bold line-through";
   const inProgressStyle = "text-sm text-black font-bold";
   const toggleSubtaskStatus = useStore((state) => state.toggleSubtaskStatus);
-  const state = useStore();
-
-  const [subtask] = state.boards.flatMap((board) =>
-    board.Columns.flatMap((column) =>
-      column.task.flatMap((task) =>
-        task.subtask.find((subtask) => subtask.id === subtaskId)
-      )
-    )
-  );
-
+  
   return (
     <div
       className="rounded bg-lightgrey flex gap-4 mb-2 p-3"
@@ -27,7 +18,7 @@ export const Subtask = ({ subtaskId }: { subtaskId: number }) => {
         className="accent-purple"
         defaultChecked={subtask?.complete}
         onClick={() => {
-          toggleSubtaskStatus(subtask?.id!);
+          toggleSubtaskStatus(subtask.id);
         }}
       />
       <span className={subtask?.complete ? completedStyle : inProgressStyle}>
