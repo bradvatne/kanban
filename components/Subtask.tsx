@@ -30,7 +30,7 @@ export const Subtask = ({
           toggleSubtaskStatus(subtask.id);
         }}
       />
-      <span className={subtask.complete ? completedStyle : inProgressStyle}>
+      <span className={complete ? completedStyle : inProgressStyle}>
         {subtask.title}
       </span>
     </div>

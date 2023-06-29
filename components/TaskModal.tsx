@@ -1,6 +1,8 @@
 import React from "react";
+import { Subtask } from "./Subtask";
+import { TaskRow } from "@/types/supabase";
 
-export const TaskModal = () => {
+export const TaskModal = ({ task }: { task: TaskRow }) => {
   return (
     <div className="z-50 absolute w-screen h-screen bg-black bg-opacity-50 flex justify-center items-center top-0 left-0">
       <div className="w-[30rem] p-[2rem] bg-white rounded-md">
