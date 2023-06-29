@@ -25,6 +25,7 @@ export const TaskModal = ({
     };
   }, []);
 
+
   return (
     <div
       className="z-50 absolute w-screen h-screen bg-black bg-opacity-50 flex justify-center items-center top-0 left-0"
