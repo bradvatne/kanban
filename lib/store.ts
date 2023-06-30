@@ -25,6 +25,7 @@ export type State = {
   setColumns: (columns: Columns) => void;
   setTasks: (tasks: Tasks) => void;
   setSubtasks: (subtasks: Subtasks) => void;
+  removeTask: (id: number) => void;
   getTaskById: (id: number) => (state: State) => Task;
   getColumnById: (id: number) => (state: State) => Column;
   getSubtaskById: (id: number) => (state: State) => Subtask;
@@ -54,7 +55,12 @@ export const useStore = create<State>((set) => ({
   setColumns: (columns: Columns) => set(() => ({ columns })),
   setTasks: (tasks: Tasks) => set(() => ({ tasks })),
   setSubtasks: (subtasks: Subtasks) => set(() => ({ subtasks })),
-  setCurrentBoard: (id: number) => set(()=> ({currentBoard: id})),
+  setCurrentBoard: (id: number) => set(() => ({ currentBoard: id })),
+  removeTask: (id: number) =>
+    set((state) => {
+      const { [id]: _, ...remainingTasks } = state.tasks;
+      return { tasks: remainingTasks };
+    }),
   getBoardById: (id: number) => (state: State) => state.boards[id],
   getColumnById: (id: number) => (state: State) => state.columns[id],
   getTaskById: (id: number) => (state: State) => state.tasks[id],

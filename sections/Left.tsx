@@ -10,9 +10,10 @@ import { Board } from "@/types/types";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import React, { useEffect } from "react";
 import { fetchData } from "@/lib/queries";
+import { getSupabaseClient } from "@/lib/supabaseClient";
 
 export const Left = () => {
-  const supabase = createClientComponentClient<Database>();
+  const supabase = getSupabaseClient();
   const state = useStore();
 
   useEffect(() => {

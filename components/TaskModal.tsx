@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Subtask } from "./Subtask";
 import { useStore } from "@/lib/store";
 import { ThreeDotButton } from "./ui/ThreeDotButton";
+import { removeTaskOptimistic } from "@/lib/queries";
 
 export const TaskModal = ({
   id,
@@ -30,6 +31,7 @@ export const TaskModal = ({
     };
   }, []);
 
+  const removeTask = useStore((state) => state.removeTask);
   const statuses = useStore((state) =>
     Object.values(state.columns).filter(
       (column) => column.boardId === state.currentBoard
@@ -50,7 +52,12 @@ export const TaskModal = ({
                 <button className="text-mediumgrey text-custom">
                   Edit Task
                 </button>
-                <button className="text-red">Delete Task</button>
+                <button
+                  className="text-red"
+                  onClick={() => removeTaskOptimistic(task.id, removeTask)}
+                >
+                  Delete Task
+                </button>
               </div>
             )}
           </div>
@@ -70,7 +77,10 @@ export const TaskModal = ({
         </label>
         <select className="block mt-2 w-full rounded-md py-[.5rem] px-[1rem] bg-white border-lightlines border focus:border-purple">
           {Object.values(statuses).map((status) => (
-            <option className="text-mediumgrey pt-1 px-1">
+            <option
+              className="text-mediumgrey my-1 hover:cursor-pointer"
+              key={status.id}
+            >
               {status.title}
             </option>
           ))}

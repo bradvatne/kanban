@@ -2,6 +2,9 @@ import { Database } from "@/types/supabase";
 import { Boards, Columns, Subtasks, Tasks } from "@/types/types";
 import { State } from "./store";
 import { SupabaseClient } from "@supabase/supabase-js";
+import { useStore } from "@/lib/store";
+import { getSupabaseClient } from "./supabaseClient";
+
 export const fetchData = async (
   supabase: SupabaseClient<Database>,
   state: State
@@ -57,4 +60,23 @@ export const fetchData = async (
     state.setTasks(tasks);
     state.setSubtasks(subtasks);
   } else console.log("something has gone wrong");
+};
+
+export const removeTaskOptimistic = async (id: number, removeTask: Function) => {
+
+  const supabase = getSupabaseClient();
+  removeTask(id);
+
+  try {
+    const { error } = await supabase.from("task").delete().eq("id", id);
+
+    if (error) {
+      console.log(error);
+      throw error;
+    }
+  } catch (error) {
+    // If the server request fails, revert the optimistic update
+    removeTask(id);
+    // Handle the error appropriately (e.g., show a notification)
+  }
 };

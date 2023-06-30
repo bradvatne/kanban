@@ -20,7 +20,7 @@ export const Subtask = ({ id }: { id: number }) => {
     >
       <input
         type="checkbox"
-        className="accent-purple"
+        className="text-purple"
         checked={subtask.complete}
         onChange={() => {}}
       />
