@@ -20,7 +20,6 @@ export default async function Index() {
   }
   return (
     <div className="h-full relative">
-      <Modals />
       <Top />
       <div className="flex test">
         <Left />

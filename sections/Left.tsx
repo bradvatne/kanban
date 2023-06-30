@@ -75,7 +75,7 @@ export const Left = () => {
     };
 
     fetchData();
-  }, [state, supabase]);
+  }, [supabase]);
 
   return state.showLeftDrawer ? (
     <div className="w-[300px] shrink-0 flex flex-col justify-between h-full dark:bg-darkgrey">

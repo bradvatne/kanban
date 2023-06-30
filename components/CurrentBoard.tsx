@@ -4,5 +4,8 @@ import React from "react";
 
 export const CurrentBoard = () => {
   const currentBoard = useStore((state) => state.currentBoard);
-  return <div className="text-2xl font-bold">{currentBoard?.title}</div>;
+  const board = useStore((state) =>
+    Object.values(state.boards).find((board) => board.id === currentBoard)
+  );
+  return <div className="text-2xl font-bold">{board?.title}</div>;
 };

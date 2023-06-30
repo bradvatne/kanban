@@ -1,13 +1,13 @@
 "use client";
-import { BoardRow } from "@/types/supabase";
 import React from "react";
 import { BoardIcon } from "./BoardIcon";
 import { useStore } from "@/lib/store";
+import { Board } from "@/types/types";
 
-export const SelectBoardButton = ({ board }: { board: BoardRow }) => {
+export const SelectBoardButton = ({ board }: { board: Board }) => {
   const currentBoard = useStore((state) => state.currentBoard);
   const setCurrentBoard = useStore((state) => state.setCurrentBoard);
-  const boardIsActive = currentBoard?.title === board.title;
+  const boardIsActive = currentBoard === board.id;
   const inactiveStyle =
     "pl-8 py-4 w-[17.25rem] flex items-center gap-4 shrink-0 grow-0 font-bold text-mediumgrey hover:pointer";
   const activeStyle =
@@ -16,7 +16,7 @@ export const SelectBoardButton = ({ board }: { board: BoardRow }) => {
   return (
     <button
       className={boardIsActive ? activeStyle : inactiveStyle}
-      onClick={() => setCurrentBoard(board)}
+      onClick={() => setCurrentBoard(board.id)}
     >
       <BoardIcon color={boardIsActive ? "white" : "#828FA3"} />
       {board.title}

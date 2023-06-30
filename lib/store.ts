@@ -1,11 +1,20 @@
 import { create } from "zustand";
 import { produce } from "immer";
-import { Boards, Column, Columns, Subtask, Subtasks, Task, Tasks } from "@/types/types";
+import {
+  Boards,
+  Column,
+  Columns,
+  Subtask,
+  Subtasks,
+  Task,
+  Tasks,
+} from "@/types/types";
 
 type State = {
   currentBoard: number | undefined;
   showTaskModal: boolean;
   showLeftDrawer: boolean;
+  showBoardModal: boolean;
   boards: Boards;
   columns: Columns;
   tasks: Tasks;
@@ -26,6 +35,7 @@ export const useStore = create<State>((set) => ({
   currentBoard: undefined,
   showTaskModal: false,
   showLeftDrawer: true,
+  showBoardModal: false,
   boards: {},
   columns: {},
   tasks: {},
@@ -44,9 +54,9 @@ export const useStore = create<State>((set) => ({
   setColumns: (columns: Columns) => set(() => ({ columns })),
   setTasks: (tasks: Tasks) => set(() => ({ tasks })),
   setSubtasks: (subtasks: Subtasks) => set(() => ({ subtasks })),
+  setCurrentBoard: (id: number) => set(()=> ({currentBoard: id})),
   getBoardById: (id: number) => (state: State) => state.boards[id],
   getColumnById: (id: number) => (state: State) => state.columns[id],
   getTaskById: (id: number) => (state: State) => state.tasks[id],
   getSubtaskById: (id: number) => (state: State) => state.subtasks[id],
-  setCurrentBoard: (id: number) => set(() => ({ currentBoard: 1 })),
 }));
