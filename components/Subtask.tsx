@@ -13,7 +13,7 @@ export const Subtask = ({ id }: { id: number }) => {
 
   return (
     <div
-      className="rounded bg-lightgrey flex gap-4 mb-2 p-3"
+      className="rounded bg-lightgrey flex gap-4 mb-2 p-3 hover:bg-purplehover"
       onClick={(e) => {
         toggleSubtaskComplete(subtask.id);
       }}
