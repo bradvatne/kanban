@@ -16,13 +16,13 @@ export const Subtask = ({ id }: { id: number }) => {
       className="rounded bg-lightgrey flex gap-4 mb-2 p-3"
       onClick={(e) => {
         toggleSubtaskComplete(subtask.id);
-        e.stopPropagation();
       }}
     >
       <input
         type="checkbox"
         className="accent-purple"
         checked={subtask.complete}
+        onChange={() => {}}
       />
       <span className={subtask.complete ? completedStyle : inProgressStyle}>
         {subtask?.title}

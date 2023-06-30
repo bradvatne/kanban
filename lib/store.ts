@@ -10,7 +10,7 @@ import {
   Tasks,
 } from "@/types/types";
 
-type State = {
+export type State = {
   currentBoard: number | undefined;
   showTaskModal: boolean;
   showLeftDrawer: boolean;
