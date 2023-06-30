@@ -33,7 +33,7 @@ export const TaskModal = ({
       <div className="w-[30rem] p-[2rem] bg-white rounded-md">
         <h2 className="text-xl text-black font-bold">{task.title}</h2>
         <p className="text-sm text-mediumgrey font-medium leading-6 my-[1.5rem]">
-          {task.id}
+          {task.description}
         </p>
         <h3 className="text-xs text-mediumgrey font-bold mb-4">
           Subtasks ({subtasks.filter((subtask) => subtask.complete).length}

@@ -95,16 +95,19 @@ export interface Database {
           columnid: number | null;
           id: number;
           title: string | null;
+          description: string | null;
         };
         Insert: {
           columnid?: number | null;
           id?: number;
           title?: string | null;
+          description: string | null;
         };
         Update: {
           columnid?: number | null;
           id?: number;
           title?: string | null;
+          description: string | null;
         };
         Relationships: [
           {
@@ -152,4 +155,3 @@ export interface Database {
     };
   };
 }
-

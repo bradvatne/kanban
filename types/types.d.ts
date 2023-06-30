@@ -18,6 +18,7 @@ export type Task = {
   id: number;
   columnId: number;
   title: string;
+  description: string | null;
 };
 
 export type Tasks = { [key: number]: Task };
