@@ -1,5 +1,5 @@
 import { Database } from "@/types/supabase";
-import { Boards, Columns, Subtasks, Tasks } from "@/types/types";
+import { Boards, Columns, Subtask, Subtasks, Task, Tasks } from "@/types/types";
 import { State } from "./store";
 import { SupabaseClient } from "@supabase/supabase-js";
 import { useStore } from "@/lib/store";
@@ -62,10 +62,12 @@ export const fetchData = async (
   } else console.log("something has gone wrong");
 };
 
-export const removeTaskOptimistic = async (id: number, removeTask: Function) => {
-
+export const removeTaskOptimistic = async (
+  id: number,
+  removeTaskFromState: Function
+) => {
   const supabase = getSupabaseClient();
-  removeTask(id);
+  removeTaskFromState(id);
 
   try {
     const { error } = await supabase.from("task").delete().eq("id", id);
@@ -76,7 +78,45 @@ export const removeTaskOptimistic = async (id: number, removeTask: Function) => 
     }
   } catch (error) {
     // If the server request fails, revert the optimistic update
-    removeTask(id);
+    removeTaskFromState(id);
     // Handle the error appropriately (e.g., show a notification)
+  }
+};
+
+export const addSubtaskToDatabase = async (subtask: Subtask, taskId: number) => {
+  
+} 
+
+export const addTaskToDatabase = async (
+  columnId: number,
+  addTaskToState: State["addTask"],
+  description: string,
+  title: string,
+  subtasks: Subtask[]
+) => {
+  const supabase = getSupabaseClient();
+  try {
+    const { data, error } = await supabase
+      .from("task")
+      .insert({ title, columnId, description });
+
+    if (error) {
+      console.log(error);
+      throw error;
+    }
+
+    if (data) {
+      const typedData = data as any[];
+      const id = typedData[0].id;
+
+      addTaskToState({
+        id,
+        columnId,
+        description,
+        title,
+      });
+    }
+  } catch (error) {
+    console.log(error);
   }
 };

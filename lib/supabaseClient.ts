@@ -4,7 +4,7 @@ import {
   createClientComponentClient,
 } from "@supabase/auth-helpers-nextjs";
 
-let supabase: SupabaseClient | null = null;
+let supabase: SupabaseClient<Database> | null = null;
 
 export function getSupabaseClient() {
   if (!supabase) {
