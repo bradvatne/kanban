@@ -25,7 +25,7 @@ export type Tasks = { [key: number]: Task };
 
 export type Subtask = {
   id: number;
-  taskId: number;
+  taskid: number;
   title: string;
   complete: boolean;
 };

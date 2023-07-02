@@ -15,7 +15,7 @@ export const TaskModal = ({
   const [showMiniMenu, setShowMiniMenu] = useState(false);
   const task = useStore((state) => state.getTaskById(id)(state));
   const subtasks = useStore((state) =>
-    Object.values(state.subtasks).filter((subtasks) => subtasks.taskId === id)
+    Object.values(state.subtasks).filter((subtasks) => subtasks.taskid === id)
   );
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {

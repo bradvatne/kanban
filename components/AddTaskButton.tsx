@@ -4,11 +4,10 @@ import { State, useStore } from "@/lib/store";
 import { getSupabaseClient } from "@/lib/supabaseClient";
 
 export const AddTaskButton = () => {
-  const [loading, setLoading] = useState(false);
   const [showAddTaskModal, setShowAddTaskModal] = useState(false);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [status, setStatus] = useState("");
+  const [status, setStatus] = useState(0);
   const [subtasks, setSubtasks] = useState(["", ""]);
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -47,7 +46,6 @@ export const AddTaskButton = () => {
     subtasks: string[];
   }) => {
     const supabase = getSupabaseClient();
-    setLoading(true);
     console.log("setting loading");
     try {
       console.log("starting try block");
@@ -76,6 +74,7 @@ export const AddTaskButton = () => {
 
         console.log("state updated");
         for (let subtask of subtasks) {
+          console.log(subtask, "subtasks");
           const { data, error } = await supabase
             .from("subtask")
             .insert({ taskid: id, title: subtask })
@@ -83,8 +82,11 @@ export const AddTaskButton = () => {
 
           if (data) {
             const typedSubtaskData = data as any[];
-            const { id, title, taskId, complete } = typedSubtaskData[0];
-            addSubtaskToState({ id, title, taskId, complete });
+            const { id, title, taskid, complete } = typedSubtaskData[0];
+            console.log(id, title, taskid, complete);
+            console.log("is that right ^^^^");
+            addSubtaskToState({ id, title, taskid, complete });
+            console.log();
           } else if (error) {
             console.log(error);
           }
@@ -93,7 +95,6 @@ export const AddTaskButton = () => {
       setShowAddTaskModal(false);
     } catch (error) {
       console.log(error);
-      setLoading(false);
     }
   };
 
@@ -120,7 +121,6 @@ export const AddTaskButton = () => {
               Title
             </label>
             <input
-              disabled={loading}
               type="text"
               className="block rounded-md text-sm border-[#828FA340] w-full mt-2  focus:outline-none  placeholder-black placeholder-opacity-25 focus:border-purple focus:ring-1 focus:ring-purplehover mb-6"
               id="title"
@@ -136,7 +136,6 @@ export const AddTaskButton = () => {
               Description
             </label>
             <input
-              disabled={loading}
               type="text"
               className="block rounded-md text-sm border-[#828FA340] w-full mt-2  focus:outline-none placeholder-black placeholder-opacity-25 focus:border-purple focus:ring-1 focus:ring-purplehover mb-6"
               id="description"
@@ -167,7 +166,7 @@ export const AddTaskButton = () => {
               className="block w-full rounded border border-[#828FA340] hover:cursor-pointer focus:border-purple focus:ring-1 focus:ring-purplehover mb-6"
               onChange={(e) => {
                 console.log(e.target.value);
-                setStatus(e.target.value);
+                setStatus(parseInt(e.target.value));
               }}
             >
               {columns.map((column) => (

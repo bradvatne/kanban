@@ -47,7 +47,7 @@ export const fetchData = async (
           for (let subtask of task.subtask) {
             subtasks[subtask.id] = {
               id: subtask.id,
-              taskId: task.id,
+              taskid: task.id,
               title: subtask.title,
               complete: subtask.complete,
             };
@@ -85,7 +85,7 @@ export const removeTaskOptimistic = async (
 
 export const addSubtaskToDatabase = async (
   subtask: Subtask,
-  taskId: number
+  taskid: number
 ) => {};
 
 export const addTaskToDatabase = async ({
@@ -126,21 +126,23 @@ export const addTaskToDatabase = async ({
 
       addTaskToState({
         id,
-        columnid,
+        columnid: parseInt(columnid!) as number,
         description,
         title,
       });
 
       console.log("state updated");
       for (let subtask of subtasks) {
+        console.log("starting subtask");
         const { data, error } = await supabase
           .from("subtask")
-          .insert({ taskid: id, title: subtask });
+          .insert({ taskid: id, title: subtask })
+          .select();
 
         if (data) {
           const typedSubtaskData = data as any[];
-          const { id, title, taskId, complete } = typedSubtaskData[0];
-          addSubtaskToState({ id, title, taskId, complete });
+          const { id, title, taskid, complete } = typedSubtaskData[0];
+          addSubtaskToState({ id, title, taskid, complete });
         } else if (error) {
           console.log(error);
         }
