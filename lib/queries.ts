@@ -39,7 +39,7 @@ export const fetchData = async (
         for (let task of column.task) {
           tasks[task.id] = {
             id: task.id,
-            columnId: column.id,
+            columnid: column.id,
             title: task.title!,
             description: task.description,
           };
@@ -83,22 +83,36 @@ export const removeTaskOptimistic = async (
   }
 };
 
-export const addSubtaskToDatabase = async (subtask: Subtask, taskId: number) => {
-  
-} 
+export const addSubtaskToDatabase = async (
+  subtask: Subtask,
+  taskId: number
+) => {};
 
-export const addTaskToDatabase = async (
-  columnId: number,
-  addTaskToState: State["addTask"],
-  description: string,
-  title: string,
-  subtasks: Subtask[]
-) => {
+export const addTaskToDatabase = async ({
+  columnid,
+  description,
+  title,
+  subtasks,
+  addTaskToState,
+  addSubtaskToState,
+  setLoading,
+}: {
+  columnid: any;
+  description: string;
+  title: string;
+  subtasks: string[];
+  addTaskToState: State["addTask"];
+  addSubtaskToState: State["addSubtask"];
+  setLoading: Function;
+}) => {
   const supabase = getSupabaseClient();
+  setLoading(true);
+  console.log("setting loading");
   try {
+    console.log("starting try block");
     const { data, error } = await supabase
       .from("task")
-      .insert({ title, columnId, description });
+      .insert({ title, columnid, description });
 
     if (error) {
       console.log(error);
@@ -106,17 +120,35 @@ export const addTaskToDatabase = async (
     }
 
     if (data) {
+      console.log("data recieved, updating state");
       const typedData = data as any[];
       const id = typedData[0].id;
 
       addTaskToState({
         id,
-        columnId,
+        columnid,
         description,
         title,
       });
+
+      console.log("state updated");
+      for (let subtask of subtasks) {
+        const { data, error } = await supabase
+          .from("subtask")
+          .insert({ taskid: id, title: subtask });
+
+        if (data) {
+          const typedSubtaskData = data as any[];
+          const { id, title, taskId, complete } = typedSubtaskData[0];
+          addSubtaskToState({ id, title, taskId, complete });
+        } else if (error) {
+          console.log(error);
+        }
+      }
     }
   } catch (error) {
     console.log(error);
+    setLoading(false);
   }
+  setLoading(false);
 };

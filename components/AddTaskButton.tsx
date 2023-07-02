@@ -1,11 +1,17 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { ThreeDotButton } from "./ui/ThreeDotButton";
+import { State, useStore } from "@/lib/store";
+import { addTaskToDatabase } from "@/lib/queries";
+import { getSupabaseClient } from "@/lib/supabaseClient";
 
 export const AddTaskButton = () => {
+  const [loading, setLoading] = useState(false);
   const [showAddTaskModal, setShowAddTaskModal] = useState(false);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [status, setStatus] = useState("");
+  const [subtasks, setSubtasks] = useState(["", ""]);
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
@@ -19,6 +25,76 @@ export const AddTaskButton = () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
   }, []);
+
+  const columns = useStore((state) =>
+    Object.values(state.columns).filter(
+      (item) => item.boardId === state.currentBoard
+    )
+  );
+
+  const [addTaskToState, addSubtaskToState] = useStore((state) => [
+    state.addTask,
+    state.addSubtask,
+  ]);
+
+  const addTaskToDatabase = async ({
+    columnid,
+    description,
+    title,
+    subtasks,
+  }: {
+    columnid: any;
+    description: string;
+    title: string;
+    subtasks: string[];
+  }) => {
+    const supabase = getSupabaseClient();
+    setLoading(true);
+    console.log("setting loading");
+    try {
+      console.log("starting try block");
+      const { data, error } = await supabase
+        .from("task")
+        .insert({ title, columnid, description });
+
+      if (error) {
+        console.log(error);
+        throw error;
+      }
+
+      if (data) {
+        console.log("data recieved, updating state");
+        const typedData = data as any[];
+        const id = typedData[0].id;
+
+        addTaskToState({
+          id,
+          columnid,
+          description,
+          title,
+        });
+
+        console.log("state updated");
+        for (let subtask of subtasks) {
+          const { data, error } = await supabase
+            .from("subtask")
+            .insert({ taskid: id, title: subtask });
+
+          if (data) {
+            const typedSubtaskData = data as any[];
+            const { id, title, taskId, complete } = typedSubtaskData[0];
+            addSubtaskToState({ id, title, taskId, complete });
+          } else if (error) {
+            console.log(error);
+          }
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+    setLoading(false);
+  };
 
   return (
     <>
@@ -43,6 +119,7 @@ export const AddTaskButton = () => {
               Title
             </label>
             <input
+              disabled={loading}
               type="text"
               className="block rounded-md text-sm border-[#828FA340] w-full mt-2  focus:outline-none  placeholder-black placeholder-opacity-25 focus:border-purple focus:ring-1 focus:ring-purplehover mb-6"
               id="title"
@@ -58,6 +135,7 @@ export const AddTaskButton = () => {
               Description
             </label>
             <input
+              disabled={loading}
               type="text"
               className="block rounded-md text-sm border-[#828FA340] w-full mt-2  focus:outline-none placeholder-black placeholder-opacity-25 focus:border-purple focus:ring-1 focus:ring-purplehover mb-6"
               id="description"
@@ -72,8 +150,9 @@ export const AddTaskButton = () => {
             >
               Subtasks
             </label>
-            <SubtaskInput />
-            <SubtaskInput />
+            {subtasks.map((_, id) => (
+              <SubtaskInput setSubtasks={setSubtasks} key={id} id={id} />
+            ))}
             <button className="bg-[#635FC71A] bg-opacity-10 py-2 flex w-full items-center justify-center rounded-3xl text-purple font-bold text-sm mb-6">
               + Add New Subtask
             </button>
@@ -83,11 +162,30 @@ export const AddTaskButton = () => {
             >
               Status
             </label>
-            <select className="block w-full rounded border border-[#828FA340] hover:cursor-pointer focus:border-purple focus:ring-1 focus:ring-purplehover mb-6">
-              <option>Todo</option>
-              <option>Todo</option>
+            <select
+              className="block w-full rounded border border-[#828FA340] hover:cursor-pointer focus:border-purple focus:ring-1 focus:ring-purplehover mb-6"
+              onChange={(e) => {
+                console.log(e.target.value);
+                setStatus(e.target.value);
+              }}
+            >
+              {columns.map((column) => (
+                <option value={column.id} key={column.id}>
+                  {column.title}
+                </option>
+              ))}
             </select>
-            <button className="bg-purple py-2 flex w-full items-center justify-center rounded-3xl text-white font-bold text-sm mb-2">
+            <button
+              className="bg-purple py-2 flex w-full items-center justify-center rounded-3xl text-white font-bold text-sm mb-2"
+              onClick={() => {
+                addTaskToDatabase({
+                  columnid: status,
+                  title: title,
+                  description: description,
+                  subtasks: subtasks,
+                });
+              }}
+            >
               Create Task
             </button>
           </div>
@@ -97,13 +195,31 @@ export const AddTaskButton = () => {
   );
 };
 
-const SubtaskInput = () => {
-  const [text, setText] = useState("");
+const SubtaskInput = ({
+  setSubtasks,
+  id,
+}: {
+  setSubtasks: Function;
+  id: number;
+}) => {
+  const updateParent = (parentId: number, newValue: string) => {
+    setSubtasks((state: string[]) =>
+      state.map((item, index) => {
+        if (index === parentId) {
+          // Update the state for the desired index
+          return newValue;
+        } else {
+          // Return the item as it is for other indices
+          return item;
+        }
+      })
+    );
+  };
+
   return (
     <div className="flex items-center">
       <input
-        value={text}
-        onChange={(e) => setText(e.target.value)}
+        onChange={(e) => updateParent(id, e.target.value)}
         type="text"
         className="block rounded-md text-sm border-[#828FA340] w-full mt-2  focus:outline-none placeholder-black placeholder-opacity-25 focus:border-purple focus:ring-1 focus:ring-purplehover mb-3"
         id="subtask"

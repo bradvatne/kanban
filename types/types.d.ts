@@ -16,7 +16,7 @@ export type Columns = { [key: number]: Column };
 
 export type Task = {
   id: number;
-  columnId: number;
+  columnid: number;
   title: string;
   description: string | null;
 };
