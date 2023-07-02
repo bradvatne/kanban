@@ -58,14 +58,19 @@ export const useStore = create<State>((set) => ({
   setTasks: (tasks: Tasks) => set(() => ({ tasks })),
   setSubtasks: (subtasks: Subtasks) => set(() => ({ subtasks })),
   setCurrentBoard: (id: number) => set(() => ({ currentBoard: id })),
-  removeTask: (id: number) =>
-    set((state) => {
-      const { [id]: _, ...remainingTasks } = state.tasks;
-      return { tasks: remainingTasks };
-    }),
+  removeTask: (id: number) => {
+    set(
+      produce((draft) => {
+        delete draft.tasks[id];
+      })
+    );
+  },
   addTask: (task: Task) => {
-    console.log("adding", task);
-    set((state) => ({ tasks: { ...state.tasks, [task.id]: task } }));
+    set(
+      produce((draft) => {
+        draft.tasks[task.id] = task;
+      })
+    );
   },
   addSubtask: (subtask: Subtask) =>
     set((state) => ({

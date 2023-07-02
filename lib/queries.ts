@@ -67,7 +67,6 @@ export const removeTaskOptimistic = async (
   removeTaskFromState: Function
 ) => {
   const supabase = getSupabaseClient();
-  removeTaskFromState(id);
 
   try {
     const { error } = await supabase.from("task").delete().eq("id", id);
@@ -78,9 +77,10 @@ export const removeTaskOptimistic = async (
     }
   } catch (error) {
     // If the server request fails, revert the optimistic update
-    removeTaskFromState(id);
+    console.log(error);
     // Handle the error appropriately (e.g., show a notification)
   }
+  removeTaskFromState(id);
 };
 
 export const addSubtaskToDatabase = async (

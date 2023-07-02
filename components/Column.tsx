@@ -5,25 +5,23 @@ import { Task } from "./Task";
 import { Task as TaskType, Tasks } from "@/types/types";
 
 const Column = ({ id }: { id: number }) => {
-  const column = useStore((state) => state.getColumnById(id)(state));
-  const allTasks = useStore((state) => state.tasks);
-  const tasks = Object.values(allTasks).filter((task) => task.columnid === id);
-  const [filteredTasks, setFilteredTasks] = useState<TaskType[]>();
+  const { tasks, columns } = useStore();
 
-  useEffect(() => {
-    setFilteredTasks(
-      Object.values(allTasks).filter((task) => task.columnid === id)
-    );
-  }, [allTasks]);
+  console.log("hello");
+  const filteredTasks = Object.values(tasks).filter(
+    (task) => task.columnid === id
+  );
   return (
     <div className="flex flex-col gap-5 w-[17.5rem] overflow-y-auto scrollbar-hide">
       <div className="flex items-center gap-3">
-        <div className={`rounded-full w-[15px] h-[15px] ${column.color}`} />
+        <div
+          className={`rounded-full w-[15px] h-[15px] ${columns[id].color}`}
+        />
         <span className="text-xs uppercase text-mediumgrey tracking-widest font-bold">
-          {column.title} ({tasks.length})
+          {columns[id].title} ({Object.values(tasks).filter(task => task.columnid === id).length})
         </span>
       </div>
-      {filteredTasks?.map((task) => (
+      {filteredTasks.map((task) => (
         <Task id={task.id} key={task.id} />
       ))}
     </div>

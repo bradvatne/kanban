@@ -1,8 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { ThreeDotButton } from "./ui/ThreeDotButton";
 import { State, useStore } from "@/lib/store";
-import { addTaskToDatabase } from "@/lib/queries";
 import { getSupabaseClient } from "@/lib/supabaseClient";
 
 export const AddTaskButton = () => {
@@ -55,8 +53,10 @@ export const AddTaskButton = () => {
       console.log("starting try block");
       const { data, error } = await supabase
         .from("task")
-        .insert({ title, columnid, description });
+        .insert({ title, columnid, description })
+        .select();
 
+      console.log(data);
       if (error) {
         console.log(error);
         throw error;
@@ -78,7 +78,8 @@ export const AddTaskButton = () => {
         for (let subtask of subtasks) {
           const { data, error } = await supabase
             .from("subtask")
-            .insert({ taskid: id, title: subtask });
+            .insert({ taskid: id, title: subtask })
+            .select();
 
           if (data) {
             const typedSubtaskData = data as any[];
@@ -89,11 +90,11 @@ export const AddTaskButton = () => {
           }
         }
       }
+      setShowAddTaskModal(false);
     } catch (error) {
       console.log(error);
       setLoading(false);
     }
-    setLoading(false);
   };
 
   return (
