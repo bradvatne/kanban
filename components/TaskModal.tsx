@@ -48,7 +48,7 @@ export const TaskModal = ({
           >
             <ThreeDotButton />
             {showMiniMenu && (
-              <div className="absolute flex p-4 flex-col gap-4 rounded-lg bg-white w-[12rem] -right-24 top-10">
+              <div className="absolute flex p-4 flex-col gap-4 rounded-lg bg-white w-[12rem] -right-24 top-10 shadow-xl">
                 <button className="text-mediumgrey text-custom">
                   Edit Task
                 </button>
