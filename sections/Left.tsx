@@ -1,7 +1,7 @@
 "use client";
 import { HideSidebarButton } from "@/components/HideSidebarButton";
 import ToggleThemeButton from "@/components/ToggleThemeButton";
-import { CreateNewBoardButton } from "@/components/ui/CreateNewBoardButton";
+import { CreateNewBoardButton } from "@/components/AddBoardButton";
 import { OpenEyeIcon } from "@/components/ui/OpenEyeIcon";
 import { SelectBoardButton } from "@/components/ui/SelectBoardButton";
 import { useStore } from "@/lib/store";

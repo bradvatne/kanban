@@ -1,8 +1,8 @@
 "use client";
 import React from "react";
-import { BoardIcon } from "./BoardIcon";
+import { BoardIcon } from "./ui/BoardIcon";
 import { useStore } from "@/lib/store";
-import { CreateBoardModal } from "../AddBoardModal";
+import { CreateBoardModal } from "./AddBoardModal";
 
 export const CreateNewBoardButton = () => {
   const [showBoardModal, setShowBoardModal] = useStore((state) => [
@@ -17,7 +17,9 @@ export const CreateNewBoardButton = () => {
       >
         <BoardIcon color="#635FC7" />+ Create New Board
       </button>
-      {showBoardModal && <CreateBoardModal setShowBoardModal={setShowBoardModal}/>}
+      {showBoardModal && (
+        <CreateBoardModal setShowBoardModal={setShowBoardModal} />
+      )}
     </>
   );
 };
