@@ -3,9 +3,7 @@ import React from "react";
 import { useStore } from "@/lib/store";
 
 export const OpenEyeIcon = () => {
-  const setIsLeftDrawerVisible = useStore(
-    (state) => state.setIsLeftDrawerVisible
-  );
+  const setShowLeftDrawer = useStore((state) => state.setShowLeftDrawer);
   return (
     <svg
       width="56"
@@ -14,7 +12,7 @@ export const OpenEyeIcon = () => {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       className="absolute bottom-8 hover:cursor-pointer"
-      onClick={() => setIsLeftDrawerVisible()}
+      onClick={() => setShowLeftDrawer(true)}
     >
       <path
         d="M0 0H32C45.2548 0 56 10.7452 56 24C56 37.2548 45.2548 48 32 48H0V0Z"

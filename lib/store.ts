@@ -22,6 +22,7 @@ export type State = {
   toggleSubtaskComplete: (subtaskId: number) => void;
   setShowTaskModal: (bool: boolean) => void;
   setShowBoardModal: (bool: boolean) => void;
+  setShowLeftDrawer: (bool: boolean) => void;
   setBoards: (boards: Boards) => void;
   setColumns: (columns: Columns) => void;
   setTasks: (tasks: Tasks) => void;
@@ -55,6 +56,7 @@ export const useStore = create<State>((set) => ({
     ),
   setShowTaskModal: (bool: boolean) => set(() => ({ showTaskModal: bool })),
   setShowBoardModal: (bool: boolean) => set(() => ({ showBoardModal: bool })),
+  setShowLeftDrawer: (bool: boolean) => set(() => ({ showLeftDrawer: bool })),
   setBoards: (boards: Boards) => set(() => ({ boards })),
   setColumns: (columns: Columns) => set(() => ({ columns })),
   setTasks: (tasks: Tasks) => set(() => ({ tasks })),

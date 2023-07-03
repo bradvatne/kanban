@@ -11,12 +11,6 @@ export const Task = ({ id }: { id: number }) => {
     Object.values(state.subtasks).filter((subtasks) => subtasks.taskid === id)
   );
 
-  const [count, setCount] = useState(0);
-
-  useEffect(() => {
-    setCount(subtasks.length);
-  }, [subtasks]);
-
   return (
     <div
       className="bg-white px-4 py-6 shrink-0  rounded-lg shadow-custom hover:cursor-pointer dark:bg-darkgrey"
@@ -30,7 +24,7 @@ export const Task = ({ id }: { id: number }) => {
       </div>
       <div className="text-xs text-mediumgrey mt-2 font-bold">
         {subtasks.filter((subtask: Subtask) => subtask.complete).length} out of{" "}
-        {count} subtasks.
+        {subtasks.length} subtasks.
       </div>
     </div>
   );
