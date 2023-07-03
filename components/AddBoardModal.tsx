@@ -31,7 +31,25 @@ export const CreateBoardModal = ({
       <label className="text-xs text-mediumgrey font-bold" htmlFor="title">
         Columns
       </label>
-      <ColumnInput setColumns={setColumns} />
+      {columns.map((column, idx) => (
+        <ColumnInput setColumns={setColumns} id={idx} />
+      ))}
+      <button
+        className="bg-[#635FC71A] bg-opacity-10  py-2 flex w-full items-center justify-center rounded-3xl text-purple font-bold text-sm mb-2"
+        onClick={() => {
+          setColumns((columns) => [...columns, ""]);
+        }}
+      >
+        Add Column
+      </button>
+      <button
+        className="bg-purple py-2 flex w-full items-center justify-center rounded-3xl text-white font-bold text-sm mb-2"
+        onClick={() => {
+          console.log("hello");
+        }}
+      >
+        Create Board
+      </button>
     </Modal>
   );
 };
