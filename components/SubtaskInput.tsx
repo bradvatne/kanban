@@ -26,7 +26,7 @@ export const SubtaskInput = ({
       <input
         onChange={(e) => updateParent(id, e.target.value)}
         type="text"
-        className="block rounded-md text-sm border-[#828FA340] w-full mt-2  focus:outline-none placeholder-black placeholder-opacity-25 focus:border-purple focus:ring-1 focus:ring-purplehover mb-3"
+        className="block rounded-md dark:bg-verydarkgrey text-sm border-[#828FA340] w-full mt-2  focus:outline-none placeholder-black dark:placeholder-mediumgrey placeholder-opacity-25 focus:border-purple focus:ring-1 focus:ring-purplehover mb-3"
         id="subtask"
         placeholder="Ex. Make Coffee"
       />

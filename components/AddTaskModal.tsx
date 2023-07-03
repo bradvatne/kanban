@@ -96,14 +96,16 @@ export const AddTaskModal = ({
   return (
     <Modal>
       <div className="flex justify-between items-center mb-[1.5rem]">
-        <h2 className="text-xl text-black font-bold inline">Add New Task</h2>
+        <h2 className="text-xl text-black dark:text-white font-bold inline">
+          Add New Task
+        </h2>
       </div>
       <label className="text-xs text-mediumgrey font-bold" htmlFor="title">
         Title
       </label>
       <input
         type="text"
-        className="block rounded-md text-sm border-[#828FA340] w-full mt-2  focus:outline-none  placeholder-black placeholder-opacity-25 focus:border-purple focus:ring-1 focus:ring-purplehover mb-6"
+        className="block rounded-md text-sm dark:text-white dark:bg-verydarkgrey border-[#828FA340] w-full mt-2  focus:outline-none  placeholder-black dark:placeholder-mediumgrey placeholder-opacity-25 focus:border-purple focus:ring-1 focus:ring-purplehover mb-6"
         id="title"
         placeholder="Ex. Take Coffee Break"
         value={title}
@@ -118,7 +120,7 @@ export const AddTaskModal = ({
       </label>
       <input
         type="text"
-        className="block rounded-md text-sm border-[#828FA340] w-full mt-2  focus:outline-none placeholder-black placeholder-opacity-25 focus:border-purple focus:ring-1 focus:ring-purplehover mb-6"
+        className="block rounded-md text-sm dark:text-white dark:bg-verydarkgrey border-[#828FA340] w-full mt-2  focus:outline-none placeholder-black dark:placeholder-mediumgrey placeholder-opacity-25 focus:border-purple focus:ring-1 focus:ring-purplehover mb-6"
         id="description"
         placeholder="Ex. It's always good to take a little break!"
         value={description}
@@ -134,27 +136,34 @@ export const AddTaskModal = ({
       {subtasks.map((_, id) => (
         <SubtaskInput setSubtasks={setSubtasks} key={id} id={id} />
       ))}
-      <button className="bg-[#635FC71A] bg-opacity-10 py-2 flex w-full items-center justify-center rounded-3xl text-purple font-bold text-sm mb-6">
+      <button
+        className="bg-[#635FC71A] bg-opacity-10 py-2 flex w-full items-center justify-center rounded-3xl text-purple font-bold text-sm mb-6 hover:bg-purplehover"
+        onClick={() => setSubtasks((subtasks) => [...subtasks, ""])}
+      >
         + Add New Subtask
       </button>
       <label className="text-xs text-mediumgrey font-bold" htmlFor="title">
         Status
       </label>
       <select
-        className="block w-full rounded border border-[#828FA340] hover:cursor-pointer focus:border-purple focus:ring-1 focus:ring-purplehover mb-6"
+        className="block w-full dark:bg-verydarkgrey rounded border border-[#828FA340] hover:cursor-pointer focus:border-purple focus:ring-1 focus:ring-purplehover mb-6"
         onChange={(e) => {
           console.log(e.target.value);
           setStatus(parseInt(e.target.value));
         }}
       >
         {columns.map((column) => (
-          <option value={column.id} key={column.id}>
+          <option
+            value={column.id}
+            key={column.id}
+            className="dark:bg-verydarkgrey"
+          >
             {column.title}
           </option>
         ))}
       </select>
       <button
-        className="bg-purple py-2 flex w-full items-center justify-center rounded-3xl text-white font-bold text-sm mb-2"
+        className="bg-purple py-2 flex w-full items-center justify-center rounded-3xl text-white font-bold text-sm mb-2 hover:bg-purplehover"
         onClick={() => {
           addTaskToDatabase({
             columnid: status,

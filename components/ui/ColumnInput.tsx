@@ -16,7 +16,7 @@ export const ColumnInput = ({
       <input
         onChange={(e) => {}}
         type="text"
-        className="block rounded-md text-sm border-[#828FA340] w-full mt-2  focus:outline-none placeholder-black placeholder-opacity-25 focus:border-purple focus:ring-1 focus:ring-purplehover mb-3"
+        className="block dark:placeholder-mediumgrey dark:bg-verydarkgrey rounded-md text-sm border-[#828FA340] w-full mt-2  focus:outline-none placeholder-black placeholder-opacity-25 focus:border-purple focus:ring-1 focus:ring-purplehover mb-3"
         id="subtask"
         placeholder="Ex. Make Coffee"
       />

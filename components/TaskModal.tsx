@@ -50,10 +50,12 @@ export const TaskModal = ({
         >
           <ThreeDotButton />
           {showMiniMenu && (
-            <div className="absolute flex p-4 flex-col gap-4 rounded-lg bg-white w-[12rem] -right-24 top-10 shadow-xl">
-              <button className="text-mediumgrey text-custom">Edit Task</button>
+            <div className="absolute flex p-4 flex-col gap-4 rounded-lg bg-white w-[12rem] -right-24 top-10 shadow-xl dark:bg-verydarkgrey ">
+              <button className="text-mediumgrey text-custom text-left">
+                Edit Task
+              </button>
               <button
-                className="text-red"
+                className="text-red text-left"
                 onClick={() => removeTaskOptimistic(task.id, removeTask)}
               >
                 Delete Task
