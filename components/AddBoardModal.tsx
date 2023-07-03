@@ -1,7 +1,8 @@
 "use state";
 import React, { useState } from "react";
 import { Modal } from "./ui/Modal";
-import {useEscapeKey} from "@/lib/hooks";
+import { useEscapeKey } from "@/lib/hooks";
+import { ColumnInput } from "@/components/ui/ColumnInput";
 
 export const CreateBoardModal = ({
   setShowBoardModal,
@@ -9,7 +10,7 @@ export const CreateBoardModal = ({
   setShowBoardModal: Function;
 }) => {
   const [title, setTitle] = useState("");
-  const [columns, setColumns] = useState([]);
+  const [columns, setColumns] = useState([""]);
   useEscapeKey(() => setShowBoardModal(false));
   return (
     <Modal>
@@ -23,17 +24,14 @@ export const CreateBoardModal = ({
         type="text"
         className="block rounded-md text-sm border-[#828FA340] w-full mt-2  focus:outline-none  placeholder-black placeholder-opacity-25 focus:border-purple focus:ring-1 focus:ring-purplehover mb-6"
         id="title"
-        placeholder="Ex. Take Coffee Break"
+        placeholder="Ex. Product Launch"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
       />
-
-      <label
-        className="text-xs text-mediumgrey font-bold"
-        htmlFor="description"
-      >
+      <label className="text-xs text-mediumgrey font-bold" htmlFor="title">
         Columns
       </label>
+      <ColumnInput setColumns={setColumns} />
     </Modal>
   );
 };
