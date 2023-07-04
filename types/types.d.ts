@@ -1,15 +1,15 @@
 export type Board = {
   id: number;
-  title: string;
+  title: string | null;
 };
 
 export type Boards = { [key: number]: Board };
 
 export type Column = {
   id: number;
-  boardId: number;
-  title: string;
-  color: string;
+  boardId: number | null;
+  title: string | null;
+  color: string | null;
 };
 
 export type Columns = { [key: number]: Column };
