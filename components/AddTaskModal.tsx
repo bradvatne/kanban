@@ -5,6 +5,7 @@ import { useEscapeKey } from "@/lib/hooks";
 import { useStore } from "@/lib/store";
 import { getSupabaseClient } from "@/lib/supabaseClient";
 import { SubtaskInput } from "./SubtaskInput";
+import { Subtask } from "@/types/types";
 
 export const AddTaskModal = ({
   setShowAddTaskModal,
@@ -47,7 +48,8 @@ export const AddTaskModal = ({
       const { data, error } = await supabase
         .from("task")
         .insert({ title, columnid, description })
-        .select();
+        .select()
+        .single();
 
       console.log(data);
       if (error) {
@@ -56,10 +58,7 @@ export const AddTaskModal = ({
       }
 
       if (data) {
-        console.log("data recieved, updating state");
-        const typedData = data as any[];
-        const id = typedData[0].id;
-
+        const { id } = data;
         addTaskToState({
           id,
           columnid,
@@ -67,21 +66,16 @@ export const AddTaskModal = ({
           title,
         });
 
-        console.log("state updated");
         for (let subtask of subtasks) {
-          console.log(subtask, "subtasks");
           const { data, error } = await supabase
             .from("subtask")
             .insert({ taskid: id, title: subtask })
-            .select();
+            .select()
+            .single();
 
           if (data) {
-            const typedSubtaskData = data as any[];
-            const { id, title, taskid, complete } = typedSubtaskData[0];
-            console.log(id, title, taskid, complete);
-            console.log("is that right ^^^^");
+            const { id, title, taskid, complete } = data;
             addSubtaskToState({ id, title, taskid, complete });
-            console.log();
           } else if (error) {
             console.log(error);
           }
