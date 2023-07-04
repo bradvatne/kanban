@@ -1,4 +1,4 @@
-"use state";
+"use client";
 import React, { useState } from "react";
 import { Modal } from "./ui/Modal";
 import { useEscapeKey } from "@/lib/hooks";
@@ -39,7 +39,6 @@ export const CreateBoardModal = ({
           id,
           title,
         });
-
 
         for (const column of columns) {
           const { data, error } = await supabase
