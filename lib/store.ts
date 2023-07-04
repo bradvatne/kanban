@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { produce } from "immer";
 import {
+  Board,
   Boards,
   Column,
   Columns,
@@ -27,6 +28,8 @@ export type State = {
   setColumns: (columns: Columns) => void;
   setTasks: (tasks: Tasks) => void;
   setSubtasks: (subtasks: Subtasks) => void;
+  addBoard: (board: Board) => void;
+  addColumn: (column: Column) => void;
   addTask: (task: Task) => void;
   addSubtask: (subtask: Subtask) => void;
   removeTask: (id: number) => void;
@@ -67,6 +70,20 @@ export const useStore = create<State>((set) => ({
     set(
       produce((draft) => {
         delete draft.tasks[id];
+      })
+    );
+  },
+  addBoard: (board: Board) => {
+    set(
+      produce((draft) => {
+        draft.boards[board.id] = board;
+      })
+    );
+  },
+  addColumn: (column: Column) => {
+    set(
+      produce((draft) => {
+        draft.tasks[column.id] = column;
       })
     );
   },
