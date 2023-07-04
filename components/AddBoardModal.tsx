@@ -47,7 +47,7 @@ export const CreateBoardModal = ({
       <button
         className="bg-purple py-2 flex w-full items-center justify-center rounded-3xl text-white font-bold text-sm mb-2 hover:bg-purplehover"
         onClick={() => {
-          console.log("hello");
+          console.log(title, columns);
         }}
       >
         Create Board
