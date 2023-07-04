@@ -5,6 +5,7 @@ import { useStore } from "@/lib/store";
 import { ThreeDotButton } from "./ui/ThreeDotButton";
 import { removeTaskOptimistic } from "@/lib/queries";
 import { Modal } from "./ui/Modal";
+import { useEscapeKey } from "@/lib/hooks";
 
 export const TaskModal = ({
   id,
@@ -18,19 +19,7 @@ export const TaskModal = ({
   const subtasks = useStore((state) =>
     Object.values(state.subtasks).filter((subtasks) => subtasks.taskid === id)
   );
-  useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        setShowTaskModal(false);
-      }
-    };
-
-    window.addEventListener("keydown", handleKeyDown);
-
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-    };
-  }, []);
+  useEscapeKey(() => setShowTaskModal(false));
 
   const removeTask = useStore((state) => state.removeTask);
   const statuses = useStore((state) =>
