@@ -45,7 +45,7 @@ export const useStore = create<State>((set) => ({
   columns: {},
   tasks: {},
   subtasks: {},
-  toggleSubtaskComplete: (subtaskId: number) =>
+  toggleSubtaskComplete: (subtaskId) => {
     set(
       produce((draft) => {
         const subtask = draft.subtasks[subtaskId];
@@ -53,7 +53,8 @@ export const useStore = create<State>((set) => ({
           subtask.complete = !subtask.complete;
         }
       })
-    ),
+    );
+  },
   setShowTaskModal: (bool: boolean) => set(() => ({ showTaskModal: bool })),
   setShowBoardModal: (bool: boolean) => set(() => ({ showBoardModal: bool })),
   setShowLeftDrawer: (bool: boolean) => set(() => ({ showLeftDrawer: bool })),
