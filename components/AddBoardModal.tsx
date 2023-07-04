@@ -40,6 +40,7 @@ export const CreateBoardModal = ({
           title,
         });
 
+
         for (const column of columns) {
           const { data, error } = await supabase
             .from("Columns")

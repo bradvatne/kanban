@@ -1,10 +1,7 @@
 "use client";
 import { ThemeProvider } from "next-themes";
-import React, { ReactNode, useEffect } from "react";
-import { createClient } from "@supabase/supabase-js";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import { BoardRow, Database } from "@/types/supabase";
-import { useStore } from "@/lib/store";
+import React, { ReactNode } from "react";
+
 
 export const Providers = ({ children }: { children: ReactNode }) => {
   return (

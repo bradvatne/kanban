@@ -59,6 +59,8 @@ export const fetchData = async (
     state.setColumns(columns);
     state.setTasks(tasks);
     state.setSubtasks(subtasks);
+    console.log(Object.values(state.boards));
+    state.setCurrentBoard(data[0].id);
   } else console.log("something has gone wrong");
 };
 

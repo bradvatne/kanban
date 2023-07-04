@@ -1,7 +1,6 @@
 import Top from "@/sections/Top";
 import { Left } from "@/sections/Left";
 import { Right } from "@/sections/Right";
-import { Modals } from "@/components/Modals";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from 'next/headers'
 import { redirect } from "next/navigation";
