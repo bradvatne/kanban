@@ -1,12 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
+import { EditBoard } from "./EditBoard";
+import { useStore } from "@/lib/store";
 
-export const AddColumn = ({
-  setShowEditBoardModal,
-}: {
-  setShowEditBoardModal: Function;
-}) => {
+export const AddColumn = () => {
+  const currentBoard = useStore((state) => state.currentBoard);
+  const [showEditBoardModal, setShowEditBoardModal] = useState(false);
   return (
     <div className="flex flex-col">
+      {showEditBoardModal && (
+        <EditBoard
+          id={currentBoard ?? null}
+          setShowBoardModal={setShowEditBoardModal}
+        />
+      )}
       <span className="text-xs uppercase text-mediumgrey tracking-widest font-bold opacity-0 mb-5">
         Spacer
       </span>

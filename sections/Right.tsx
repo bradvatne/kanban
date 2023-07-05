@@ -6,15 +6,14 @@ import { useStore } from "@/lib/store";
 import React, { useState } from "react";
 
 export const Right = () => {
-  const [currentBoard, columns] = useStore((state) => [
-    state.currentBoard,
-    state.columns,
-  ]);
+  
+  const columns = useStore((state) => state.columns);
+  const currentBoard = useStore((state) => state.currentBoard);
 
   const [showEditBoardModal, setShowEditBoardModal] = useState(false);
 
   const filteredColumns = Object.values(columns).filter(
-  (column) => column.boardid === currentBoard
+    (column) => column.boardid === currentBoard
   );
   return showEditBoardModal ? (
     <EditBoard id={currentBoard!} setShowBoardModal={setShowEditBoardModal} />
@@ -25,7 +24,7 @@ export const Right = () => {
           <Column id={column.id} key={column.id} />
         ))}
       {filteredColumns.length > 0 ? (
-        <AddColumn setShowEditBoardModal={setShowEditBoardModal} />
+        <AddColumn />
       ) : (
         <div className="w-full h-full flex items-center justify-center text-lg font-bold text-mediumgrey flex-col">
           <p className="pb-8">

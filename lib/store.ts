@@ -85,7 +85,7 @@ export const useStore = create<State>((set) => ({
   addColumn: (column: Column) => {
     set(
       produce((draft) => {
-        draft.tasks[column.id] = column;
+        draft.columns[column.id] = column;
       })
     );
   },

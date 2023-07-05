@@ -2,7 +2,7 @@ import { useEscapeKey } from "@/lib/hooks";
 import { useStore } from "@/lib/store";
 import { getSupabaseClient } from "@/lib/supabaseClient";
 import { Column } from "@/types/types";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ColumnInput } from "./ui/ColumnInput";
 import { Modal } from "./ui/Modal";
 
@@ -11,10 +11,15 @@ export const EditBoard = ({
   id,
 }: {
   setShowBoardModal: Function;
-  id: number;
+  id: number | null;
 }) => {
-  const board = useStore((state) => state.boards[id]);
-  const [title, setTitle] = useState(board.title);
+  const [title, setTitle] = useState("");
+  const board = useStore((state) => (id ? state.boards[id] : null));
+  useEffect(() => {
+    if (board) {
+      setTitle(board.title ?? "");
+    }
+  }, []);
   const initialColumns = useStore((state) =>
     Object.values(state.columns).filter((column) => column.boardid === id)
   );
@@ -39,6 +44,8 @@ export const EditBoard = ({
   const addBoardToState = useStore((state) => state.addBoard);
   const addColumnToState = useStore((state) => state.addColumn);
 
+  const test = useStore((state) => state.columns);
+
   const updateBoard = async () => {
     try {
       const userid = (await supabase.auth.getUser())?.data?.user?.id;
@@ -48,24 +55,27 @@ export const EditBoard = ({
         );
       }
       console.log(`Attempting to update title ${title} to ${id}`);
+
       const { data, error } = await supabase
         .from("board")
-        .upsert({ id, title, userid })
+        .upsert({ id: id ?? undefined, title, userid })
         .eq("id", id)
         .select()
         .single();
 
       if (data) {
         addBoardToState(data);
+        let boardid = data.id;
 
         for (const column of columns) {
+          7;
           const { data, error } = await supabase
             .from("Columns")
             .upsert({
-              id: id === -1 ? undefined : column.id,
-              color: "bg-[#]",
+              id: column.id === -1 ? undefined : column.id,
+              color: column.color,
               title: column.title,
-              boardid: id,
+              boardid: boardid,
             })
             .eq("id", id)
             .select()

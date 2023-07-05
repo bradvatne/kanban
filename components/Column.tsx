@@ -4,27 +4,24 @@ import { useStore } from "@/lib/store";
 import { Task } from "./Task";
 
 const Column = ({ id }: { id: number }) => {
-  const state = useStore();
-  let filteredTasks = Object.values(state.tasks).filter(
-    (task) => task.columnid === id
+  const tasks = useStore((state) =>
+    Object.values(state.tasks).filter((task) => task.columnid === id)
   );
-  const [count, setCount] = useState(0);
+  const column = useStore((state) => state.getColumnById(id)(state));
 
-  useEffect(() => {
-    setCount(filteredTasks.length);
-  }, [state]);
-
+  const test = useStore((state) => state.columns);
   return (
     <div className="flex flex-col gap-5 w-[17.5rem] overflow-y-auto scrollbar-hide">
       <div className="flex items-center gap-3">
-        <div
-          className={`rounded-full w-[15px] h-[15px] ${state.columns[id].color}`}
-        />
-        <span className="text-xs uppercase text-mediumgrey tracking-widest font-bold">
-          {state.columns[id].title} ({count})
+        <div className={`rounded-full w-[15px] h-[15px] ${column.color}`} />
+        <span
+          className="text-xs uppercase text-mediumgrey tracking-widest font-bold"
+          onClick={() => console.log(test)}
+        >
+          {column.title} ({tasks?.length})
         </span>
       </div>
-      {filteredTasks.map((task) => (
+      {tasks.map((task) => (
         <Task id={task.id} key={task.id} />
       ))}
     </div>
