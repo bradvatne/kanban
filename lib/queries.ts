@@ -31,7 +31,7 @@ export const fetchData = async (
       for (let column of board.Columns) {
         columns[column.id] = {
           id: column.id,
-          boardId: board.id,
+          boardid: board.id,
           color: column.color!,
           title: column.title!,
         };

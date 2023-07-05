@@ -75,6 +75,7 @@ export const useStore = create<State>((set) => ({
     );
   },
   addBoard: (board: Board) => {
+    console.log(`adding ${board}`);
     set(
       produce((draft) => {
         draft.boards[board.id] = board;

@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from "react";
 import { useStore } from "@/lib/store";
 import { Task } from "./Task";
-import { Task as TaskType, Tasks } from "@/types/types";
 
 const Column = ({ id }: { id: number }) => {
   const state = useStore();

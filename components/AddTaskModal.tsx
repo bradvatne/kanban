@@ -21,7 +21,7 @@ export const AddTaskModal = ({
 
   const columns = useStore((state) =>
     Object.values(state.columns).filter(
-      (item) => item.boardId === state.currentBoard
+      (item) => item.boardid === state.currentBoard
     )
   );
   const defaultStatus = columns && columns[0] && columns[0]?.id;

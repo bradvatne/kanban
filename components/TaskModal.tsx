@@ -30,7 +30,7 @@ export const TaskModal = ({
   const removeTask = useStore((state) => state.removeTask);
   const statuses = useStore((state) =>
     Object.values(state.columns).filter(
-      (column) => column.boardId === state.currentBoard
+      (column) => column.boardid === state.currentBoard
     )
   );
   return (

@@ -14,7 +14,7 @@ export const Right = () => {
   const [showEditBoardModal, setShowEditBoardModal] = useState(false);
 
   const filteredColumns = Object.values(columns).filter(
-    (column) => column.boardId === currentBoard
+  (column) => column.boardid === currentBoard
   );
   return showEditBoardModal ? (
     <EditBoard id={currentBoard!} setShowBoardModal={setShowEditBoardModal} />

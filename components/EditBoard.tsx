@@ -13,31 +13,81 @@ export const EditBoard = ({
   setShowBoardModal: Function;
   id: number;
 }) => {
-  const { title } = useStore((state) => state.boards[id]);
+  const board = useStore((state) => state.boards[id]);
+  const [title, setTitle] = useState(board.title);
   const initialColumns = useStore((state) =>
-    Object.values(state.columns).filter((column) => column.boardId === id)
+    Object.values(state.columns).filter((column) => column.boardid === id)
   );
 
   const [columns, setColumns] = useState(
-    initialColumns.length > 0 || [
-      {
-        id: 0,
-        title: "",
-        description: "",
-        color: "",
-        boardId: id,
-      },
-    ]
+    initialColumns.length > 0
+      ? initialColumns
+      : [
+          {
+            id: 0,
+            title: "",
+            description: "",
+            color: "",
+            boardid: id,
+          },
+        ]
   );
-  const [text, setText] = useState(title);
 
   useEscapeKey(() => setShowBoardModal(false));
-
   const supabase = getSupabaseClient();
+
   const addBoardToState = useStore((state) => state.addBoard);
   const addColumnToState = useStore((state) => state.addColumn);
 
-  const updateBoard = () => {};
+  const updateBoard = async () => {
+    try {
+      const userid = (await supabase.auth.getUser())?.data?.user?.id;
+      if (!userid) {
+        throw new Error(
+          "Could not resolve userid. Please check your login status"
+        );
+      }
+      console.log(`Attempting to update title ${title} to ${id}`);
+      const { data, error } = await supabase
+        .from("board")
+        .upsert({ id, title, userid })
+        .eq("id", id)
+        .select()
+        .single();
+
+      if (data) {
+        addBoardToState(data);
+
+        for (const column of columns) {
+          const { data, error } = await supabase
+            .from("Columns")
+            .upsert({
+              id: id === -1 ? undefined : column.id,
+              color: "bg-[#]",
+              title: column.title,
+              boardid: id,
+            })
+            .eq("id", id)
+            .select()
+            .single();
+
+          if (data) {
+            addColumnToState(data);
+          }
+
+          if (error) {
+            console.log(`Problem adding column: ${column} , ${error.message}`);
+          }
+        }
+      }
+      setShowBoardModal(false);
+      if (error) {
+        throw new Error(`Problem adding board:  ${error.message}`);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <Modal>
@@ -55,7 +105,7 @@ export const EditBoard = ({
         id="title"
         placeholder="Ex. Product Launch"
         value={title!}
-        onChange={(e) => setText(e.target.value)}
+        onChange={(e) => setTitle(e.target.value)}
       />
       <label className="text-xs text-mediumgrey font-bold" htmlFor="title">
         Columns
@@ -64,9 +114,9 @@ export const EditBoard = ({
       {columns.map((column, idx) => (
         <ColumnInput
           setColumns={setColumns}
-          id={idx}
+          arrayIndex={idx}
           key={idx}
-          dbId={column.id}
+          column={column}
         />
       ))}
       <button
@@ -74,7 +124,7 @@ export const EditBoard = ({
         onClick={() => {
           setColumns((columns) => [
             ...columns,
-            { id: 0, title: "", description: "", color: "", boardId: id },
+            { id: -1, title: "", color: "bg-[#49C4E5]", boardid: id },
           ]);
         }}
       >
@@ -87,7 +137,7 @@ export const EditBoard = ({
           updateBoard();
         }}
       >
-        Create Board
+        Save Changes
       </button>
     </Modal>
   );

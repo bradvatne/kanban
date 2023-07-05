@@ -7,7 +7,7 @@ export type Boards = { [key: number]: Board };
 
 export type Column = {
   id: number;
-  boardId: number | null;
+  boardid: number | null;
   title: string | null;
   color: string | null;
 };

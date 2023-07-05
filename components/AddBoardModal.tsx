@@ -12,7 +12,15 @@ export const CreateBoardModal = ({
   setShowBoardModal: Function;
 }) => {
   const [title, setTitle] = useState("");
-  const [columns, setColumns] = useState([""]);
+  const [columns, setColumns] = useState([
+    { id: -1, title: "Todo", color: "bg-[#49C4E5]", boardid: -1 },
+    {
+      id: -1,
+      title: "Finished",
+      color: "bg-[#49C4E5]",
+      boardid: -1,
+    },
+  ]);
   useEscapeKey(() => setShowBoardModal(false));
 
   const supabase = getSupabaseClient();
@@ -31,33 +39,30 @@ export const CreateBoardModal = ({
           title,
           userid,
         })
-        .select();
+        .select()
+        .single();
 
       if (data) {
-        const { id, title } = data[0];
+        const { id, title } = data;
         addBoardToState({
           id,
           title,
+          
         });
 
         for (const column of columns) {
           const { data, error } = await supabase
             .from("Columns")
             .insert({
-              title: column,
-              color: "bg-[#49C4E5]",
+              title: column.title,
+              color: column.color,
               boardid: id,
             })
-            .select();
+            .select()
+            .single();
 
           if (data) {
-            const { id, title, boardid, color } = data[0];
-            addColumnToState({
-              id,
-              title,
-              boardId: boardid,
-              color,
-            });
+            addColumnToState(data);
             setShowBoardModal(false);
           } else {
             throw new Error(`Error inserting column to db ${error.message}`);
@@ -95,13 +100,21 @@ export const CreateBoardModal = ({
         Columns
       </label>
       {columns.map((column, idx) => (
-        <ColumnInput setColumns={setColumns} id={idx} key={idx} />
+        <ColumnInput
+          setColumns={setColumns}
+          arrayIndex={idx}
+          column={column}
+          key={idx}
+        />
       ))}
       <button
         className="bg-[#635FC71A] bg-opacity-10  py-2 flex w-full items-center justify-center rounded-3xl text-purple font-bold text-sm mb-2 hover:bg-purplehover"
-        onClick={() => {
-          setColumns((columns) => [...columns, ""]);
-        }}
+        onClick={() =>
+          setColumns((columns) => [
+            ...columns,
+            { id: -1, title: "", color: "bg-[#49C4E5]", boardid: -1 },
+          ])
+        }
       >
         Add Column
       </button>
