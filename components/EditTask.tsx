@@ -29,6 +29,7 @@ export const EditTask = ({
   const [statuses, setStatuses] = useState(initialStatuses);
   const [column, setColumn] = useState(initialColumn);
 
+  const state = useStore((state) => state.subtasks);
   const updateSubtasksState = useStore((state) => state.addSubtask);
   const updateTaskState = useStore((state) => state.addTask);
   const updateTask = async ({
@@ -70,7 +71,10 @@ export const EditTask = ({
           .single();
 
         if (data) {
+          console.log("updating state now with, ", data);
           updateSubtasksState(data);
+          console.log("restult: ");
+          console.log(state);
         }
         if (error) {
           throw new Error(
@@ -131,7 +135,6 @@ export const EditTask = ({
           key={id}
           id={id}
           dbId={subtask.id}
-          value={subtask.title}
         />
       ))}
       <button

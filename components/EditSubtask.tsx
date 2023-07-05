@@ -1,17 +1,19 @@
+"use client";
 import { Subtask } from "@/types/types";
 import { XButton } from "./ui/XButton";
+import { useStore } from "@/lib/store";
 
 export const EditSubtask = ({
   setSubtasks,
   id,
   dbId,
-  value,
 }: {
   setSubtasks: Function;
   id: number;
   dbId: number;
-  value: string;
 }) => {
+  const { title } = useStore((state) => state.getSubtaskById(dbId)(state));
+  const state = useStore((state) => state.subtasks);
   const updateParent = (parentId: number, newValue: string) => {
     setSubtasks((state: Subtask[]) =>
       state.map((item, index) => {
@@ -33,10 +35,13 @@ export const EditSubtask = ({
         type="text"
         className="block rounded-md dark:bg-verydarkgrey text-sm border-[#828FA340] w-full mt-2  focus:outline-none placeholder-black dark:placeholder-mediumgrey placeholder-opacity-25 focus:border-purple focus:ring-1 focus:ring-purplehover mb-3"
         id="subtask"
-        defaultValue={value ?? ""}
+        defaultValue={title ?? ""}
         placeholder="Ex. Grab a coffee"
       />
-      <div className="flex items-center justify-center pl-4 pb-4 hover:cursor-pointer h-full">
+      <div
+        className="flex items-center justify-center pl-4 pb-4 hover:cursor-pointer h-full"
+        onClick={() => console.log(state)}
+      >
         <XButton />
       </div>
     </div>
