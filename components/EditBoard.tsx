@@ -1,27 +1,22 @@
 import { useEscapeKey } from "@/lib/hooks";
 import { useStore } from "@/lib/store";
 import { getSupabaseClient } from "@/lib/supabaseClient";
-import { Column } from "@/types/types";
+import { Board, Column } from "@/types/types";
 import React, { useEffect, useState } from "react";
 import { ColumnInput } from "./ui/ColumnInput";
 import { Modal } from "./ui/Modal";
 
 export const EditBoard = ({
   setShowBoardModal,
-  id,
+  board,
 }: {
   setShowBoardModal: Function;
-  id: number | null;
+  board: Board;
 }) => {
-  const [title, setTitle] = useState("");
-  const board = useStore((state) => (id ? state.boards[id] : null));
-  useEffect(() => {
-    if (board) {
-      setTitle(board.title ?? "");
-    }
-  }, []);
+  const [title, setTitle] = useState(board.title);
+
   const initialColumns = useStore((state) =>
-    Object.values(state.columns).filter((column) => column.boardid === id)
+    Object.values(state.columns).filter((column) => column.boardid === board.id)
   );
 
   const [columns, setColumns] = useState(
@@ -33,7 +28,7 @@ export const EditBoard = ({
             title: "",
             description: "",
             color: "",
-            boardid: id,
+            boardid: board.id,
           },
         ]
   );
@@ -44,8 +39,6 @@ export const EditBoard = ({
   const addBoardToState = useStore((state) => state.addBoard);
   const addColumnToState = useStore((state) => state.addColumn);
 
-  const test = useStore((state) => state.columns);
-
   const updateBoard = async () => {
     try {
       const userid = (await supabase.auth.getUser())?.data?.user?.id;
@@ -54,12 +47,12 @@ export const EditBoard = ({
           "Could not resolve userid. Please check your login status"
         );
       }
-      console.log(`Attempting to update title ${title} to ${id}`);
+      console.log(`Attempting to update title ${title} to ${board.id}`);
 
       const { data, error } = await supabase
         .from("board")
-        .upsert({ id: id ?? undefined, title, userid })
-        .eq("id", id)
+        .update({ id: board.id, title, userid })
+        .eq("id", board.id)
         .select()
         .single();
 
@@ -77,7 +70,7 @@ export const EditBoard = ({
               title: column.title,
               boardid: boardid,
             })
-            .eq("id", id)
+            .eq("id", column.id)
             .select()
             .single();
 
@@ -134,7 +127,7 @@ export const EditBoard = ({
         onClick={() => {
           setColumns((columns) => [
             ...columns,
-            { id: -1, title: "", color: "bg-[#49C4E5]", boardid: id },
+            { id: -1, title: "", color: "bg-[#49C4E5]", boardid: board.id },
           ]);
         }}
       >

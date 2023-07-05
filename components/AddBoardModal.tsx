@@ -47,7 +47,6 @@ export const CreateBoardModal = ({
         addBoardToState({
           id,
           title,
-          
         });
 
         for (const column of columns) {
