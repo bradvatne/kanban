@@ -12,7 +12,10 @@ export const EditSubtask = ({
   id: number;
   dbId: number;
 }) => {
-  const { title } = useStore((state) => state.getSubtaskById(dbId)(state));
+  let title;
+  if (dbId) {
+    title = useStore((state) => state.getSubtaskById(dbId)(state).title);
+  }
   const state = useStore((state) => state.subtasks);
   const updateParent = (parentId: number, newValue: string) => {
     setSubtasks((state: Subtask[]) =>

@@ -24,6 +24,11 @@ export const AddTaskModal = ({
       (item) => item.boardId === state.currentBoard
     )
   );
+  const defaultStatus = columns && columns[0] && columns[0]?.id;
+
+  useEffect(() => {
+    setStatus(defaultStatus);
+  }, []);
 
   const [addTaskToState, addSubtaskToState] = useStore((state) => [
     state.addTask,
@@ -141,6 +146,7 @@ export const AddTaskModal = ({
       </label>
       <select
         className="block w-full dark:bg-verydarkgrey rounded border border-[#828FA340] hover:cursor-pointer focus:border-purple focus:ring-1 focus:ring-purplehover mb-6"
+        defaultValue={defaultStatus}
         onChange={(e) => {
           console.log(e.target.value);
           setStatus(parseInt(e.target.value));
