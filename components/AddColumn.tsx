@@ -3,15 +3,15 @@ import { EditBoard } from "./EditBoard";
 import { useStore } from "@/lib/store";
 
 export const AddColumn = () => {
-  const currentBoard = useStore((state) => state.currentBoard);
+  const board = useStore((state) =>
+    state.getBoardById(state.currentBoard!)(state)
+  );
+
   const [showEditBoardModal, setShowEditBoardModal] = useState(false);
   return (
     <div className="flex flex-col">
       {showEditBoardModal && (
-        <EditBoard
-          id={currentBoard ?? null}
-          setShowBoardModal={setShowEditBoardModal}
-        />
+        <EditBoard board={board} setShowBoardModal={setShowEditBoardModal} />
       )}
       <span className="text-xs uppercase text-mediumgrey tracking-widest font-bold opacity-0 mb-5">
         Spacer
