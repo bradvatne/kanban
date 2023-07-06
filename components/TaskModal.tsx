@@ -33,6 +33,7 @@ export const TaskModal = ({ id, setShowTaskModal }: TaskModalProps) => {
   const supabase = getSupabaseClient();
 
   const updateStatus = async (status: number) => {
+    const prev = task.columnid;
     updateTask({ ...task, columnid: status });
     try {
       const { error } = await supabase
@@ -40,6 +41,7 @@ export const TaskModal = ({ id, setShowTaskModal }: TaskModalProps) => {
         .update({ ...task, columnid: status })
         .eq("id", status);
       if (error) {
+        updateTask({ ...task, columnid: prev });
         throw new Error(error.message);
       }
     } catch (err) {
