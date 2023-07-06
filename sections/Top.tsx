@@ -39,11 +39,11 @@ const Top = () => {
         <CurrentBoard />
         <div className="flex gap-[1.5rem] items-center">
           <AddTaskButton boardIsEmpty={boardIsEmpty} />
-          <div onClick={() => setShowEditBoardMenu(true)}>
+          <div onClick={() => setShowEditBoardMenu(!showEditBoardMenu)}>
             <ThreeDotButton />
           </div>
           {showEditBoardMenu && (
-            <div className="absolute flex p-4 flex-col gap-4 rounded-lg bg-white w-[12rem] -right-24 top-10 shadow-xl dark:bg-verydarkgrey ">
+            <div className="absolute flex p-4 flex-col gap-4 rounded-lg bg-white w-[12rem] right-[1rem] top-[5.6rem] shadow-xl dark:bg-verydarkgrey ">
               <button
                 className="text-mediumgrey text-custom text-left"
                 onClick={() => startEditBoard()}
