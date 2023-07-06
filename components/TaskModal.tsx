@@ -7,6 +7,7 @@ import { Modal } from "./ui/Modal";
 import { useEscapeKey } from "@/lib/hooks";
 import { EditTask } from "./EditTask";
 import { ConfirmDeleteTask } from "./ConfirmDeleteTask";
+import { getSupabaseClient } from "@/lib/supabaseClient";
 
 type TaskModalProps = {
   id: number;
@@ -19,7 +20,7 @@ export const TaskModal = ({ id, setShowTaskModal }: TaskModalProps) => {
   const [showMiniMenu, setShowMiniMenu] = useState(false);
   const [showEditTask, setShowEditTask] = useState(false);
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
-
+  const updateTask = useStore((state) => state.addTask);
   const task = useStore((state) => state.getTaskById(id)(state));
   const subtasks = useStore((state) =>
     Object.values(state.subtasks).filter((subtasks) => subtasks.taskid === id)
@@ -29,6 +30,22 @@ export const TaskModal = ({ id, setShowTaskModal }: TaskModalProps) => {
       (column) => column.boardid === state.currentBoard
     )
   );
+  const supabase = getSupabaseClient();
+
+  const updateStatus = async (status: number) => {
+    updateTask({ ...task, columnid: status });
+    try {
+      const { error } = await supabase
+        .from("task")
+        .update({ ...task, columnid: status })
+        .eq("id", status);
+      if (error) {
+        throw new Error(error.message);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   if (showDeleteConfirmation) {
     return <ConfirmDeleteTask task={task} />;
@@ -92,8 +109,9 @@ export const TaskModal = ({ id, setShowTaskModal }: TaskModalProps) => {
               Current Status
             </label>
             <select
-              className="block mt-2 w-full rounded-md py-[.5rem] px-[1rem] bg-white border-lightlines border focus:border-purple dark:bg-verydarkgrey dark:border-darklines"
+              className="block mt-2 w-full rounded-md py-[.5rem] px-[1rem] bg-white border-lightlines border focus:border-purple dark:bg-verydarkgrey dark:border-darklines hover:cursor-pointer"
               defaultValue={task.columnid}
+              onChange={(e) => updateStatus(parseInt(e.target.value))}
             >
               {Object.values(statuses).map((status) => (
                 <option
