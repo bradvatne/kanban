@@ -53,7 +53,9 @@ export const TaskModal = ({ id, setShowTaskModal }: TaskModalProps) => {
               {task.title}
             </h2>
             <div
-              onClick={() => setShowMiniMenu(!showMiniMenu)}
+              onClick={(e) => {
+                setShowMiniMenu(!showMiniMenu);
+              }}
               className="relative pl-4"
             >
               <ThreeDotButton />
@@ -75,33 +77,35 @@ export const TaskModal = ({ id, setShowTaskModal }: TaskModalProps) => {
               )}
             </div>
           </div>
-          <p className="text-sm text-mediumgrey font-medium leading-6 my-[1.5rem]">
-            {task.description}
-          </p>
-          <h3 className="text-xs text-mediumgrey font-bold mb-4">
-            Subtasks ({subtasks.filter((subtask) => subtask.complete).length} of{" "}
-            {subtasks.length})
-          </h3>
-          {subtasks.map((subtask) => (
-            <Subtask id={subtask.id} key={subtask.id} />
-          ))}
-          <label className="text-mediumgrey text-xs pt-6 pb-2 font-bold dark:text-white">
-            Current Status
-          </label>
-          <select
-            className="block mt-2 w-full rounded-md py-[.5rem] px-[1rem] bg-white border-lightlines border focus:border-purple dark:bg-verydarkgrey dark:border-darklines"
-            defaultValue={task.columnid}
-          >
-            {Object.values(statuses).map((status) => (
-              <option
-                className="text-mediumgrey my-1 hover:cursor-pointer"
-                value={status.id}
-                key={status.id}
-              >
-                {status.title}
-              </option>
+          <div onClick={() => setShowMiniMenu(false)}>
+            <p className="text-sm text-mediumgrey font-medium leading-6 my-[1.5rem]">
+              {task.description}
+            </p>
+            <h3 className="text-xs text-mediumgrey font-bold mb-4">
+              Subtasks ({subtasks.filter((subtask) => subtask.complete).length}{" "}
+              of {subtasks.length})
+            </h3>
+            {subtasks.map((subtask) => (
+              <Subtask id={subtask.id} key={subtask.id} />
             ))}
-          </select>
+            <label className="text-mediumgrey text-xs pt-6 pb-2 font-bold dark:text-white">
+              Current Status
+            </label>
+            <select
+              className="block mt-2 w-full rounded-md py-[.5rem] px-[1rem] bg-white border-lightlines border focus:border-purple dark:bg-verydarkgrey dark:border-darklines"
+              defaultValue={task.columnid}
+            >
+              {Object.values(statuses).map((status) => (
+                <option
+                  className="text-mediumgrey my-1 hover:cursor-pointer"
+                  value={status.id}
+                  key={status.id}
+                >
+                  {status.title}
+                </option>
+              ))}
+            </select>
+          </div>
         </>
       )}
     </Modal>
