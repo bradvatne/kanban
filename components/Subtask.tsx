@@ -14,18 +14,16 @@ export const Subtask = ({ id }: { id: number }) => {
 
   const toggleSubtaskOnDatabase = async () => {
     const supabase = getSupabaseClient();
-
+    toggleSubtaskComplete(subtask.id);
     try {
-      console.log("trying to update");
-      const { data, error } = await supabase
+      const { error } = await supabase
         .from("subtask")
         .update({ complete: !subtask.complete })
         .eq("id", subtask.id);
       if (error) {
+        toggleSubtaskComplete(subtask.id);
         throw new Error(error?.message);
       } else {
-        console.log("success");
-        toggleSubtaskComplete(subtask.id);
       }
     } catch (err) {
       console.log(err);
@@ -34,7 +32,7 @@ export const Subtask = ({ id }: { id: number }) => {
 
   return (
     <div
-      className="rounded bg-lightgrey flex gap-4 mb-2 p-3 hover:bg-purplehover dark:bg-verydarkgrey dark:hover:bg-purplehover dark:hover:bg-opacity-25"
+      className="rounded bg-lightgrey flex gap-4 mb-2 p-3 hover:bg-purplehover dark:bg-verydarkgrey dark:hover:bg-purplehover dark:hover:bg-opacity-25 hover:cursor-pointer"
       onClick={(e) => {
         toggleSubtaskOnDatabase();
       }}
