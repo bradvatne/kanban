@@ -8,11 +8,12 @@ import React, { useState } from "react";
 export const Right = () => {
   const columns = useStore((state) =>
     Object.values(state.columns).filter(
-      (column) => column.boardid === currentBoard
+      (column) => column.boardid === state.currentBoard
     )
   );
-  const currentBoard = useStore((state) => state.currentBoard);
-  const board = useStore((state) => state.getBoardById(currentBoard!)(state));
+  const board = useStore((state) =>
+    state.getBoardById(state.currentBoard!)(state)
+  );
   const [showEditBoardModal, setShowEditBoardModal] = useState(false);
 
   return showEditBoardModal ? (

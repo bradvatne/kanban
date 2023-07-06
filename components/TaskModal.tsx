@@ -3,36 +3,37 @@ import React, { useEffect, useState } from "react";
 import { Subtask } from "./Subtask";
 import { useStore } from "@/lib/store";
 import { ThreeDotButton } from "./ui/ThreeDotButton";
-import { removeTaskOptimistic } from "@/lib/queries";
 import { Modal } from "./ui/Modal";
 import { useEscapeKey } from "@/lib/hooks";
 import { EditTask } from "./EditTask";
+import { ConfirmDeleteTask } from "./ConfirmDeleteTask";
 
-export const TaskModal = ({
-  id,
-  setShowTaskModal,
-}: {
+type TaskModalProps = {
   id: number;
   setShowTaskModal: Function;
-}) => {
+};
+
+export const TaskModal = ({ id, setShowTaskModal }: TaskModalProps) => {
+  useEscapeKey(() => setShowTaskModal(false));
+
   const [showMiniMenu, setShowMiniMenu] = useState(false);
   const [showEditTask, setShowEditTask] = useState(false);
+  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
+
   const task = useStore((state) => state.getTaskById(id)(state));
   const subtasks = useStore((state) =>
     Object.values(state.subtasks).filter((subtasks) => subtasks.taskid === id)
   );
-  useEscapeKey(() => setShowTaskModal(false));
-
-  const startEditTask = () => {
-    setShowEditTask(true);
-  };
-
-  const removeTask = useStore((state) => state.removeTask);
   const statuses = useStore((state) =>
     Object.values(state.columns).filter(
       (column) => column.boardid === state.currentBoard
     )
   );
+
+  if (showDeleteConfirmation) {
+    return <ConfirmDeleteTask task={task} />;
+  }
+
   return (
     <Modal>
       {showEditTask ? (
@@ -60,13 +61,13 @@ export const TaskModal = ({
                 <div className="absolute flex p-4 flex-col gap-4 rounded-lg bg-white w-[12rem] -right-24 top-10 shadow-xl dark:bg-verydarkgrey ">
                   <button
                     className="text-mediumgrey text-custom text-left"
-                    onClick={() => startEditTask()}
+                    onClick={() => setShowEditTask(true)}
                   >
                     Edit Task
                   </button>
                   <button
                     className="text-red text-left"
-                    onClick={() => removeTaskOptimistic(task.id, removeTask)}
+                    onClick={() => setShowDeleteConfirmation(true)}
                   >
                     Delete Task
                   </button>
