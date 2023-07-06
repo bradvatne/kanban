@@ -1,6 +1,7 @@
 import { useStore } from "@/lib/store";
 import { XButton } from "./XButton";
 import { Column } from "@/types/types";
+import { getSupabaseClient } from "@/lib/supabaseClient";
 
 export const ColumnInput = ({
   setColumns,
@@ -25,7 +26,29 @@ export const ColumnInput = ({
     );
   };
 
+  const removeColumnFromState = useStore((state) => state.removeColumn);
+  const addColumnToState = useStore((state) => state.addColumn);
   const defaultValue = column?.title;
+
+  const deleteColumn = async () => {
+    const supabase = getSupabaseClient();
+    removeColumnFromState(column.id);
+
+    try {
+      const { data, error } = await supabase
+        .from("Columns")
+        .delete()
+        .eq("id", column.id);
+
+      if (error) {
+        throw new Error(error.message);
+      }
+    } catch (err) {
+      const { id, title, color } = column;
+      addColumnToState({ id, title, color } as Column);
+      console.log(err);
+    }
+  };
 
   return (
     <div className="flex items-center">
@@ -37,7 +60,10 @@ export const ColumnInput = ({
         defaultValue={defaultValue!}
         placeholder="Ex. Make Coffee"
       />
-      <div className="pl-4 flex items-center justify-center">
+      <div
+        className="pl-4 flex items-center justify-center"
+        onClick={() => deleteColumn()}
+      >
         <XButton />
       </div>
     </div>

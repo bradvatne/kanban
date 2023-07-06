@@ -4,7 +4,7 @@ import { Modal } from "./ui/Modal";
 import { useEscapeKey } from "@/lib/hooks";
 import { useStore } from "@/lib/store";
 import { getSupabaseClient } from "@/lib/supabaseClient";
-import { SubtaskInput } from "./SubtaskInput";
+import { AddSubtask } from "./AddSubtask";
 import { Subtask } from "@/types/types";
 
 export const AddTaskModal = ({
@@ -133,7 +133,7 @@ export const AddTaskModal = ({
         Subtasks
       </label>
       {subtasks.map((_, id) => (
-        <SubtaskInput setSubtasks={setSubtasks} key={id} id={id} />
+        <AddSubtask setSubtasks={setSubtasks} key={id} id={id} />
       ))}
       <button
         className="bg-[#635FC71A] bg-opacity-10 py-2 flex w-full items-center justify-center rounded-3xl text-purple font-bold text-sm mb-6 hover:bg-purplehover"

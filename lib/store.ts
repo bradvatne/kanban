@@ -9,39 +9,9 @@ import {
   Subtasks,
   Task,
   Tasks,
+  State
 } from "@/types/types";
 
-export type State = {
-  currentBoard: number | undefined;
-  showTaskModal: boolean;
-  showLeftDrawer: boolean;
-  showBoardModal: boolean;
-  boards: Boards;
-  columns: Columns;
-  tasks: Tasks;
-  subtasks: Subtasks;
-  toggleSubtaskComplete: (subtaskId: number) => void;
-  setShowTaskModal: (bool: boolean) => void;
-  setShowBoardModal: (bool: boolean) => void;
-  setShowLeftDrawer: (bool: boolean) => void;
-  setShowDeleteModal: ({ type, id }: { type: string; id: number }) => void;
-  setBoards: (boards: Boards) => void;
-  setColumns: (columns: Columns) => void;
-  setTasks: (tasks: Tasks) => void;
-  setSubtasks: (subtasks: Subtasks) => void;
-  addBoard: (board: Board) => void;
-  addColumn: (column: Column) => void;
-  addTask: (task: Task) => void;
-  addSubtask: (subtask: Subtask) => void;
-  removeTask: (id: number) => void;
-  removeSubtask: (id: number) => void;
-  removeBoard: (id: number) => void;
-  getBoardById: (id: number) => (state: State) => Board;
-  getTaskById: (id: number) => (state: State) => Task;
-  getColumnById: (id: number) => (state: State) => Column;
-  getSubtaskById: (id: number) => (state: State) => Subtask;
-  setCurrentBoard: (id: number) => void;
-};
 
 export const useStore = create<State>((set) => ({
   currentBoard: undefined,
@@ -76,6 +46,13 @@ export const useStore = create<State>((set) => ({
     set(
       produce((draft) => {
         delete draft.boards[id];
+      })
+    );
+  },
+  removeColumn: (id: number) => {
+    set(
+      produce((draft) => {
+        delete draft.columns[id];
       })
     );
   },
