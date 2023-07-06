@@ -6,24 +6,22 @@ import { useStore } from "@/lib/store";
 import React, { useState } from "react";
 
 export const Right = () => {
-  const columns = useStore((state) => state.columns);
+  const columns = useStore((state) =>
+    Object.values(state.columns).filter(
+      (column) => column.boardid === currentBoard
+    )
+  );
   const currentBoard = useStore((state) => state.currentBoard);
   const board = useStore((state) => state.getBoardById(currentBoard!)(state));
-
   const [showEditBoardModal, setShowEditBoardModal] = useState(false);
 
-  const filteredColumns = Object.values(columns).filter(
-    (column) => column.boardid === currentBoard
-  );
   return showEditBoardModal ? (
     <EditBoard board={board} setShowBoardModal={setShowEditBoardModal} />
   ) : (
     <div className="bg-lightgrey w-full h-full outline outline-lightlines outline-1 flex gap-[1.5rem] pt-6 pl-6 dark:bg-verydarkgrey dark:outline-darklines ">
       {columns &&
-        filteredColumns.map((column) => (
-          <Column id={column.id} key={column.id} />
-        ))}
-      {filteredColumns.length > 0 ? (
+        columns.map((column) => <Column id={column.id} key={column.id} />)}
+      {columns.length > 0 ? (
         <AddColumn />
       ) : (
         <div className="w-full h-full flex items-center justify-center text-lg font-bold text-mediumgrey flex-col">

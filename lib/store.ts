@@ -24,6 +24,7 @@ export type State = {
   setShowTaskModal: (bool: boolean) => void;
   setShowBoardModal: (bool: boolean) => void;
   setShowLeftDrawer: (bool: boolean) => void;
+  setShowDeleteModal: ({ type, id }: { type: string; id: number }) => void;
   setBoards: (boards: Boards) => void;
   setColumns: (columns: Columns) => void;
   setTasks: (tasks: Tasks) => void;
@@ -61,6 +62,7 @@ export const useStore = create<State>((set) => ({
       })
     );
   },
+  setShowDeleteModal: ({ type, id }: { type: string; id: number }) => ({}),
   setShowTaskModal: (bool: boolean) => set(() => ({ showTaskModal: bool })),
   setShowBoardModal: (bool: boolean) => set(() => ({ showBoardModal: bool })),
   setShowLeftDrawer: (bool: boolean) => set(() => ({ showLeftDrawer: bool })),
