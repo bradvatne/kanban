@@ -5,18 +5,21 @@ import { useEscapeKey } from "@/lib/hooks";
 import { useStore } from "@/lib/store";
 import { getSupabaseClient } from "@/lib/supabaseClient";
 import { AddSubtask } from "./AddSubtask";
-import { Subtask } from "@/types/types";
 
-export const AddTaskModal = ({
-  setShowAddTaskModal,
-}: {
+type AddTaskModalProps = {
   setShowAddTaskModal: Function;
-}) => {
+};
+
+export const AddTaskModal = ({ setShowAddTaskModal }: AddTaskModalProps) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [status, setStatus] = useState(0);
   const [subtasks, setSubtasks] = useState(["", ""]);
-
+  const [loading, setLoading] = useState(false);
+  const [addTaskToState, addSubtaskToState] = useStore((state) => [
+    state.addTask,
+    state.addSubtask,
+  ]);
   useEscapeKey(() => setShowAddTaskModal(false));
 
   const columns = useStore((state) =>
@@ -30,11 +33,6 @@ export const AddTaskModal = ({
     setStatus(defaultStatus);
   }, []);
 
-  const [addTaskToState, addSubtaskToState] = useStore((state) => [
-    state.addTask,
-    state.addSubtask,
-  ]);
-
   const addTaskToDatabase = async ({
     columnid,
     description,
@@ -47,16 +45,14 @@ export const AddTaskModal = ({
     subtasks: string[];
   }) => {
     const supabase = getSupabaseClient();
-    console.log("setting loading");
+    setLoading(true);
     try {
-      console.log("starting try block");
       const { data, error } = await supabase
         .from("task")
         .insert({ title, columnid, description })
         .select()
         .single();
 
-      console.log(data);
       if (error) {
         console.log(error);
         throw error;
@@ -72,17 +68,19 @@ export const AddTaskModal = ({
         });
 
         for (let subtask of subtasks) {
-          const { data, error } = await supabase
-            .from("subtask")
-            .insert({ taskid: id, title: subtask })
-            .select()
-            .single();
+          if (subtask.length > 0) {
+            const { data, error } = await supabase
+              .from("subtask")
+              .insert({ taskid: id, title: subtask })
+              .select()
+              .single();
 
-          if (data) {
-            const { id, title, taskid, complete } = data;
-            addSubtaskToState({ id, title, taskid, complete });
-          } else if (error) {
-            console.log(error);
+            if (data) {
+              const { id, title, taskid, complete } = data;
+              addSubtaskToState({ id, title, taskid, complete });
+            } else if (error) {
+              console.log(error);
+            }
           }
         }
       }
@@ -92,7 +90,9 @@ export const AddTaskModal = ({
     }
   };
 
-  return (
+  return loading ? (
+    <Modal>Loading...</Modal>
+  ) : (
     <Modal>
       <div className="flex justify-between items-center mb-[1.5rem]">
         <h2 className="text-xl text-black dark:text-white font-bold inline">

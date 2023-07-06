@@ -19,21 +19,35 @@ export const ConfirmDeleteBoard = ({
 
   const removeBoardFromState = useStore((state) => state.removeBoard);
   const addBoard = useStore((state) => state.addBoard);
+  const setCurrentBoard = useStore((state) => state.setCurrentBoard);
+  const [loading, setLoading] = useState(false);
 
-  const removeBoardOptimistic = () => {
+  const removeBoardOptimistic = async () => {
     const supabase = getSupabaseClient();
 
+    setLoading(true);
     removeBoardFromState(board.id);
 
     try {
-      supabase.from("board").delete().eq("id", board.id).single();
+      const { error } = await supabase
+        .from("board")
+        .delete()
+        .eq("id", board.id);
+
+      if (error) {
+        throw new Error(error.message);
+      }
     } catch (err) {
       console.log("error deleting board from db: ", err);
       addBoard(board);
     }
+
+    setShowDeleteBoardModal(false);
   };
 
-  return (
+  return loading ? (
+    <Modal>Please Wait</Modal>
+  ) : (
     <Modal>
       <h2 className="text-lg font-bold text-red mb-[1.5rem]">
         Delete this task?
