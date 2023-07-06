@@ -6,11 +6,13 @@ import { ColumnInput } from "@/components/ui/ColumnInput";
 import { useStore } from "@/lib/store";
 import { getSupabaseClient } from "@/lib/supabaseClient";
 
+type CreateBoardModalProps = {
+  setShowBoardModal: Function;
+};
+
 export const CreateBoardModal = ({
   setShowBoardModal,
-}: {
-  setShowBoardModal: Function;
-}) => {
+}: CreateBoardModalProps) => {
   const [title, setTitle] = useState("");
   const [columns, setColumns] = useState([
     { id: -1, title: "Todo", color: "bg-[#49C4E5]", boardid: -1 },
@@ -26,12 +28,16 @@ export const CreateBoardModal = ({
   const supabase = getSupabaseClient();
   const addBoardToState = useStore((state) => state.addBoard);
   const addColumnToState = useStore((state) => state.addColumn);
+  const [loading, setLoading] = useState(false);
+
   const addBoard = async () => {
     const user = await supabase.auth.getUser();
     const userid = user?.data?.user?.id;
     if (!userid) {
       throw new Error("userid missing. Please check login status");
     }
+
+    setLoading(true);
     try {
       const { data, error } = await supabase
         .from("board")
@@ -77,7 +83,9 @@ export const CreateBoardModal = ({
     }
   };
 
-  return (
+  return loading ? (
+    <Modal>Please Wait</Modal>
+  ) : (
     <Modal>
       <div className="flex justify-between items-center mb-[1.5rem]">
         <h2 className="text-xl text-black font-bold inline dark:text-white">
