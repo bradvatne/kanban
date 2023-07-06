@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { State, useStore } from "@/lib/store";
+import { useStore } from "@/lib/store";
 import { getSupabaseClient } from "@/lib/supabaseClient";
 import { Modal } from "./ui/Modal";
 import { AddTaskModal } from "./AddTaskModal";

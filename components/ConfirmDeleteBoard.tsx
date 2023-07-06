@@ -46,9 +46,9 @@ export const ConfirmDeleteBoard = ({
   };
 
   return loading ? (
-    <Modal>Please Wait</Modal>
+    <Modal showModal={setShowDeleteBoardModal}>Please Wait</Modal>
   ) : (
-    <Modal>
+    <Modal showModal={setShowDeleteBoardModal}>
       <h2 className="text-lg font-bold text-red mb-[1.5rem]">
         Delete this task?
       </h2>

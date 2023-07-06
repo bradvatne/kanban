@@ -91,9 +91,9 @@ export const AddTaskModal = ({ setShowAddTaskModal }: AddTaskModalProps) => {
   };
 
   return loading ? (
-    <Modal>Loading...</Modal>
+    <Modal showModal={setShowAddTaskModal}>Loading...</Modal>
   ) : (
-    <Modal>
+    <Modal showModal={setShowAddTaskModal}>
       <div className="flex justify-between items-center mb-[1.5rem]">
         <h2 className="text-xl text-black dark:text-white font-bold inline">
           Add New Task

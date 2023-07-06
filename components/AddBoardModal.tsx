@@ -84,9 +84,9 @@ export const CreateBoardModal = ({
   };
 
   return loading ? (
-    <Modal>Please Wait</Modal>
+    <Modal showModal={setShowBoardModal}>Please Wait</Modal>
   ) : (
-    <Modal>
+    <Modal showModal={setShowBoardModal}>
       <div className="flex justify-between items-center mb-[1.5rem]">
         <h2 className="text-xl text-black font-bold inline dark:text-white">
           Add New Board

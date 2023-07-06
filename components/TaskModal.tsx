@@ -35,7 +35,7 @@ export const TaskModal = ({ id, setShowTaskModal }: TaskModalProps) => {
   }
 
   return (
-    <Modal>
+    <Modal showModal={setShowTaskModal}>
       {showEditTask ? (
         <EditTask
           id={task.id}

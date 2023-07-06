@@ -12,20 +12,22 @@ export const Task = ({ id }: { id: number }) => {
   );
 
   return (
-    <div
-      className="bg-white px-4 py-6 shrink-0  rounded-lg shadow-custom hover:cursor-pointer dark:bg-darkgrey"
-      onClick={() => setShowTaskModal(true)}
-    >
+    <>
       {showTaskModal && (
         <TaskModal id={id} setShowTaskModal={setShowTaskModal} />
       )}
-      <div className="text-black font-bold text-custom dark:text-white">
-        {task?.title}
+      <div
+        className="bg-white px-4 py-6 shrink-0  rounded-lg shadow-custom hover:cursor-pointer dark:bg-darkgrey"
+        onClick={() => setShowTaskModal(true)}
+      >
+        <div className="text-black font-bold text-custom dark:text-white">
+          {task?.title}
+        </div>
+        <div className="text-xs text-mediumgrey mt-2 font-bold">
+          {subtasks.filter((subtask: Subtask) => subtask.complete).length} out
+          of {subtasks.length} subtasks.
+        </div>
       </div>
-      <div className="text-xs text-mediumgrey mt-2 font-bold">
-        {subtasks.filter((subtask: Subtask) => subtask.complete).length} out of{" "}
-        {subtasks.length} subtasks.
-      </div>
-    </div>
+    </>
   );
 };

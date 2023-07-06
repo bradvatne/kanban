@@ -103,7 +103,7 @@ export const EditBoard = ({
     );
   }
   return (
-    <Modal>
+    <Modal showModal={setShowBoardModal}>
       <div className="flex justify-between items-center mb-[1.5rem]">
         <h2 className="text-xl text-black font-bold inline dark:text-white">
           Edit Board
