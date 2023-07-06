@@ -7,10 +7,14 @@ import { ThreeDotButton } from "@/components/ui/ThreeDotButton";
 import { EditBoard } from "@/components/EditBoard";
 import { useStore } from "@/lib/store";
 import { getSupabaseClient } from "@/lib/supabaseClient";
+import { ConfirmDeleteBoard } from "@/components/ConfirmDeleteBoard";
+import { useEscapeKey } from "@/lib/hooks";
 
 const Top = () => {
   const [showEditBoardMenu, setShowEditBoardMenu] = useState(false);
   const [showEditBoardModal, setShowEditBoardModal] = useState(false);
+  const [showDeleteBoardModal, setShowDeleteBoardModal] = useState(false);
+  useEscapeKey(() => setShowEditBoardMenu(false));
   const board = useStore((state) =>
     state.getBoardById(state.currentBoard!)(state)
   );
@@ -24,28 +28,6 @@ const Top = () => {
   const startEditBoard = () => {
     setShowEditBoardMenu(false);
     setShowEditBoardModal(true);
-  };
-
-  const supabase = getSupabaseClient();
-  const setCurrentBoard = useStore((state) => state.setCurrentBoard);
-  const deleteBoardFromState = useStore((state) => state.removeBoard);
-
-  const deleteBoard = async () => {
-    try {
-      const { data, error } = await supabase
-        .from("board")
-        .delete()
-        .eq("id", board.id);
-
-      if (error) {
-        throw new Error(`Error deleting board from state ${error.message}`);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-    setShowEditBoardMenu(false);
-    deleteBoardFromState(board.id);
-    setCurrentBoard(boards[0].id);
   };
 
   return (
@@ -70,7 +52,7 @@ const Top = () => {
               </button>
               <button
                 className="text-red text-left"
-                onClick={() => deleteBoard()}
+                onClick={() => setShowDeleteBoardModal(true)}
               >
                 Delete Board
               </button>
@@ -78,8 +60,15 @@ const Top = () => {
           )}
         </div>
       </div>
-      {showEditBoardModal && (
-        <EditBoard setShowBoardModal={setShowEditBoardModal} board={board} />
+      {showDeleteBoardModal ? (
+        <ConfirmDeleteBoard
+          board={board}
+          setShowDeleteBoardModal={setShowDeleteBoardModal}
+        />
+      ) : (
+        showEditBoardModal && (
+          <EditBoard setShowBoardModal={setShowEditBoardModal} board={board} />
+        )
       )}
     </div>
   );

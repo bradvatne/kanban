@@ -5,6 +5,7 @@ import { Board, Column } from "@/types/types";
 import React, { useEffect, useState } from "react";
 import { ColumnInput } from "./ui/ColumnInput";
 import { Modal } from "./ui/Modal";
+import { ConfirmDeleteBoard } from "./ConfirmDeleteBoard";
 
 export const EditBoard = ({
   setShowBoardModal,
@@ -14,6 +15,7 @@ export const EditBoard = ({
   board: Board;
 }) => {
   const [title, setTitle] = useState(board.title);
+  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
 
   const initialColumns = useStore((state) =>
     Object.values(state.columns).filter((column) => column.boardid === board.id)
@@ -33,11 +35,11 @@ export const EditBoard = ({
         ]
   );
 
-  useEscapeKey(() => setShowBoardModal(false));
   const supabase = getSupabaseClient();
 
   const addBoardToState = useStore((state) => state.addBoard);
   const addColumnToState = useStore((state) => state.addColumn);
+  useEscapeKey(() => setShowBoardModal(false));
 
   const updateBoard = async () => {
     try {
@@ -92,6 +94,14 @@ export const EditBoard = ({
     }
   };
 
+  if (showDeleteConfirmation) {
+    return (
+      <ConfirmDeleteBoard
+        board={board}
+        setShowDeleteBoardModal={setShowDeleteConfirmation}
+      />
+    );
+  }
   return (
     <Modal>
       <div className="flex justify-between items-center mb-[1.5rem]">

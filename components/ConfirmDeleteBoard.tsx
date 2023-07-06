@@ -1,0 +1,61 @@
+"use clients";
+import React, { useState } from "react";
+import { Modal } from "./ui/Modal";
+import { Board, Task } from "@/types/types";
+import { useStore } from "@/lib/store";
+import { getSupabaseClient } from "@/lib/supabaseClient";
+import { useEscapeKey } from "@/lib/hooks";
+
+type ConfirmDeleteBoardProps = {
+  board: Board;
+  setShowDeleteBoardModal: Function;
+};
+
+export const ConfirmDeleteBoard = ({
+  board,
+  setShowDeleteBoardModal,
+}: ConfirmDeleteBoardProps) => {
+  useEscapeKey(() => setShowDeleteBoardModal(false));
+
+  const removeBoardFromState = useStore((state) => state.removeBoard);
+  const addBoard = useStore((state) => state.addBoard);
+
+  const removeBoardOptimistic = () => {
+    const supabase = getSupabaseClient();
+
+    removeBoardFromState(board.id);
+
+    try {
+      supabase.from("board").delete().eq("id", board.id).single();
+    } catch (err) {
+      console.log("error deleting board from db: ", err);
+      addBoard(board);
+    }
+  };
+
+  return (
+    <Modal>
+      <h2 className="text-lg font-bold text-red mb-[1.5rem]">
+        Delete this task?
+      </h2>
+      <p className="text-sm text-mediumgrey font-medium leading-6 mb-[1.5rem]">
+        Are you sure you want to delete the '{board.title}' task and its
+        subtasks? This action cannot be reversed.
+      </p>
+      <div className="flex">
+        <button
+          className="bg-red text-white rounded-3xl w-[12.5rem] h-[2.5rem] font-bold text-sm mr-4"
+          onClick={() => removeBoardOptimistic()}
+        >
+          Delete
+        </button>
+        <button
+          className="bg-purplehover text-purple rounded-3xl w-[12.5rem] h-[2.5rem] font-bold text-sm"
+          onClick={() => setShowDeleteBoardModal(false)}
+        >
+          Cancel
+        </button>
+      </div>
+    </Modal>
+  );
+};
