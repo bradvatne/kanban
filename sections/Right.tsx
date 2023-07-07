@@ -18,9 +18,12 @@ export const Right = () => {
     state.getBoardById(state.currentBoard!)(state)
   );
   const [showEditBoardModal, setShowEditBoardModal] = useState(false);
+  const [showAddBoardModal, setShowAddBoardModal] = useState(false);
 
   return showEditBoardModal ? (
     <EditBoard board={board} setShowBoardModal={setShowEditBoardModal} />
+  ) : showAddBoardModal ? (
+    <AddBoardModal setShowBoardModal={setShowAddBoardModal} />
   ) : (
     <div className="bg-lightgrey h-full outline outline-lightlines outline-1 flex gap-[1.5rem] pt-6 pl-6 dark:bg-verydarkgrey dark:outline-darklines shrink-0 width-calc flex-grow">
       {columns && columns.length > 0 ? (
@@ -29,7 +32,11 @@ export const Right = () => {
           <AddColumn />
         </>
       ) : (
-        <EmptyBoard setShowEditBoardModal={setShowEditBoardModal} />
+        <EmptyBoard
+          setShowEditBoardModal={
+            showEditBoardModal ? setShowEditBoardModal : setShowAddBoardModal
+          }
+        />
       )}
     </div>
   );
