@@ -8,9 +8,13 @@ import { AddSubtask } from "./AddSubtask";
 
 type AddTaskModalProps = {
   setShowAddTaskModal: Function;
+  column?: number;
 };
 
-export const AddTaskModal = ({ setShowAddTaskModal }: AddTaskModalProps) => {
+export const AddTaskModal = ({
+  setShowAddTaskModal,
+  column,
+}: AddTaskModalProps) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [status, setStatus] = useState(0);
@@ -27,7 +31,9 @@ export const AddTaskModal = ({ setShowAddTaskModal }: AddTaskModalProps) => {
       (item) => item.boardid === state.currentBoard
     )
   );
-  const defaultStatus = columns && columns[0] && columns[0]?.id;
+  let defaultStatus = columns && columns[0] && columns[0]?.id;
+
+  if (column) defaultStatus = column;
 
   useEffect(() => {
     setStatus(defaultStatus);

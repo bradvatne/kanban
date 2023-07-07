@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { useStore } from "@/lib/store";
 import { Task } from "./Task";
+import { AddFirstTask } from "./AddFirstTask";
 
 const Column = ({ id }: { id: number }) => {
   const tasks = useStore((state) =>
@@ -21,9 +22,11 @@ const Column = ({ id }: { id: number }) => {
           {column.title} ({tasks?.length})
         </span>
       </div>
-      {tasks.map((task) => (
-        <Task id={task.id} key={task.id} />
-      ))}
+      {tasks.length > 0 ? (
+        tasks.map((task) => <Task id={task.id} key={task.id} />)
+      ) : (
+        <AddFirstTask column={column.id}/>
+      )}
     </div>
   );
 };
