@@ -62,5 +62,5 @@ export type State = {
   getTaskById: (id: number) => (state: State) => Task;
   getColumnById: (id: number) => (state: State) => Column;
   getSubtaskById: (id: number) => (state: State) => Subtask;
-  setCurrentBoard: (id: number) => void;
+  setCurrentBoard: (id: number | undefined) => void;
 };

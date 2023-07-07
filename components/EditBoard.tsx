@@ -9,9 +9,11 @@ import { ConfirmDeleteBoard } from "./ConfirmDeleteBoard";
 
 export const EditBoard = ({
   setShowBoardModal,
+  setShowMiniMenu,
   board,
 }: {
   setShowBoardModal: Function;
+  setShowMiniMenu?: Function;
   board: Board;
 }) => {
   const [title, setTitle] = useState(board.title);
@@ -102,6 +104,7 @@ export const EditBoard = ({
       <ConfirmDeleteBoard
         board={board}
         setShowDeleteBoardModal={setShowDeleteConfirmation}
+        setShowMiniMenu={setShowMiniMenu}
       />
     );
   }

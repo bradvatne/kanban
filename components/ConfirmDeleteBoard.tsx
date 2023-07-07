@@ -9,11 +9,13 @@ import { useEscapeKey } from "@/lib/hooks";
 type ConfirmDeleteBoardProps = {
   board: Board;
   setShowDeleteBoardModal: Function;
+  setShowMiniMenu?: Function;
 };
 
 export const ConfirmDeleteBoard = ({
   board,
   setShowDeleteBoardModal,
+  setShowMiniMenu,
 }: ConfirmDeleteBoardProps) => {
   useEscapeKey(() => setShowDeleteBoardModal(false));
 
@@ -26,6 +28,7 @@ export const ConfirmDeleteBoard = ({
     const supabase = getSupabaseClient();
 
     setLoading(true);
+    setShowMiniMenu && setShowMiniMenu(false);
     removeBoardFromState(board.id);
 
     try {
@@ -42,6 +45,7 @@ export const ConfirmDeleteBoard = ({
       addBoard(board);
     }
 
+    setCurrentBoard(undefined);
     setShowDeleteBoardModal(false);
   };
 

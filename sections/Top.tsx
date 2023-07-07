@@ -64,10 +64,11 @@ const Top = () => {
         <ConfirmDeleteBoard
           board={board}
           setShowDeleteBoardModal={setShowDeleteBoardModal}
+          setShowMiniMenu={setShowEditBoardMenu}
         />
       ) : (
         showEditBoardModal && (
-          <EditBoard setShowBoardModal={setShowEditBoardModal} board={board} />
+          <EditBoard setShowBoardModal={setShowEditBoardModal} board={board} setShowMiniMenu={setShowEditBoardMenu}/>
         )
       )}
     </div>

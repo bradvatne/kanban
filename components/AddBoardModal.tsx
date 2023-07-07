@@ -6,13 +6,11 @@ import { ColumnInput } from "@/components/ui/ColumnInput";
 import { useStore } from "@/lib/store";
 import { getSupabaseClient } from "@/lib/supabaseClient";
 
-type CreateBoardModalProps = {
+type AddBoardModalProps = {
   setShowBoardModal: Function;
 };
 
-export const CreateBoardModal = ({
-  setShowBoardModal,
-}: CreateBoardModalProps) => {
+export const AddBoardModal = ({ setShowBoardModal }: AddBoardModalProps) => {
   const [title, setTitle] = useState("");
   const [columns, setColumns] = useState([
     { id: -1, title: "Todo", color: "bg-[#49C4E5]", boardid: -1 },
@@ -28,6 +26,7 @@ export const CreateBoardModal = ({
   const supabase = getSupabaseClient();
   const addBoardToState = useStore((state) => state.addBoard);
   const addColumnToState = useStore((state) => state.addColumn);
+  const setCurrentBoard = useStore((state) => state.setCurrentBoard);
   const [loading, setLoading] = useState(false);
 
   const addBoard = async () => {
@@ -68,6 +67,7 @@ export const CreateBoardModal = ({
 
           if (data) {
             addColumnToState(data);
+            setCurrentBoard(id);
             setShowBoardModal(false);
           } else {
             throw new Error(`Error inserting column to db ${error.message}`);

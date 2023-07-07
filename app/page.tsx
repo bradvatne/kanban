@@ -14,7 +14,7 @@ export default async function Index() {
 
   if (!user) {
     // This route can only be accessed by authenticated users.
-    // Unauthenticated users will be redirected to the `/login` route.
+    // Unauthenticated users will be redirected to the `/login` route
     redirect("/login");
   }
   return (
