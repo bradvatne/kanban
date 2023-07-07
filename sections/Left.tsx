@@ -19,7 +19,7 @@ export const Left = () => {
   }, [supabase]);
 
   return state.showLeftDrawer ? (
-    <div className="w-[300px] shrink-0 flex flex-col justify-between h-full dark:bg-darkgrey">
+    <div className="w-[300px] shrink-0 md:flex flex-col justify-between h-full dark:bg-darkgrey hidden">
       <div>
         <div className="uppercase text-xs text-mediumgrey tracking-widest font-bold pl-8 pt-4">
           All Boards ({Object.entries(state.boards).length})

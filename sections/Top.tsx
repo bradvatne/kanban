@@ -32,7 +32,7 @@ const Top = () => {
 
   return (
     <div className="flex h-[6rem] w-full">
-      <div className="pl-8 pt-8 w-[300px] border-r border-lightlines dark:border-darklines shrink-0 dark:bg-darkgrey">
+      <div className="pl-8 pt-8 w-[300px] border-r border-lightlines dark:border-darklines shrink-0 dark:bg-darkgrey hidden md:block">
         <Logo />
       </div>
       <div className="flex items-center justify-between w-full px-6 dark:bg-darkgrey">
@@ -68,7 +68,11 @@ const Top = () => {
         />
       ) : (
         showEditBoardModal && (
-          <EditBoard setShowBoardModal={setShowEditBoardModal} board={board} setShowMiniMenu={setShowEditBoardMenu}/>
+          <EditBoard
+            setShowBoardModal={setShowEditBoardModal}
+            board={board}
+            setShowMiniMenu={setShowEditBoardMenu}
+          />
         )
       )}
     </div>
