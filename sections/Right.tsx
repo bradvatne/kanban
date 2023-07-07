@@ -19,7 +19,7 @@ export const Right = () => {
   return showEditBoardModal ? (
     <EditBoard board={board} setShowBoardModal={setShowEditBoardModal} />
   ) : (
-    <div className="bg-lightgrey w-full h-full outline outline-lightlines outline-1 flex gap-[1.5rem] pt-6 pl-6 dark:bg-verydarkgrey dark:outline-darklines ">
+    <div className="bg-lightgrey h-full outline outline-lightlines outline-1 flex gap-[1.5rem] pt-6 pl-6 dark:bg-verydarkgrey dark:outline-darklines shrink-0 width-calc flex-grow">
       {columns &&
         columns.map((column) => <Column id={column.id} key={column.id} />)}
       {columns.length > 0 ? (

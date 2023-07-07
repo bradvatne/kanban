@@ -12,7 +12,7 @@ const Column = ({ id }: { id: number }) => {
 
   const test = useStore((state) => state.columns);
   return (
-    <div className="flex flex-col gap-5 w-[17.5rem] overflow-y-auto scrollbar-hide">
+    <div className="flex flex-col gap-5 w-[17.5rem] overflow-y-auto scrollbar-hide shrink-0">
       <div className="flex items-center gap-3">
         <div className={`rounded-full w-[15px] h-[15px] ${column.color}`} />
         <span
@@ -25,7 +25,7 @@ const Column = ({ id }: { id: number }) => {
       {tasks.length > 0 ? (
         tasks.map((task) => <Task id={task.id} key={task.id} />)
       ) : (
-        <AddFirstTask column={column.id}/>
+        <AddFirstTask column={column.id} />
       )}
     </div>
   );

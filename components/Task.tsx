@@ -17,7 +17,7 @@ export const Task = ({ id }: { id: number }) => {
         <TaskModal id={id} setShowTaskModal={setShowTaskModal} />
       )}
       <div
-        className="bg-white px-4 py-6 shrink-0  rounded-lg shadow-custom hover:cursor-pointer dark:bg-darkgrey"
+        className="bg-white px-4 py-6 shrink-0 rounded-lg shadow-custom hover:cursor-pointer dark:bg-darkgrey "
         onClick={() => setShowTaskModal(true)}
       >
         <div className="text-black font-bold text-custom dark:text-white">
