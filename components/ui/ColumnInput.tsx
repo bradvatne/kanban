@@ -27,15 +27,20 @@ export const ColumnInput = ({
   };
 
   const removeColumnFromState = useStore((state) => state.removeColumn);
+  const removeColumnFromParent = () => {
+    setColumns((state: Column[]) =>
+      state.filter((item, idx) => idx !== arrayIndex)
+    );
+  };
   const addColumnToState = useStore((state) => state.addColumn);
   const defaultValue = column?.title;
 
   const deleteColumn = async () => {
     const supabase = getSupabaseClient();
     removeColumnFromState(column.id);
-
+    removeColumnFromParent();
     try {
-      const { data, error } = await supabase
+      const { error } = await supabase
         .from("Columns")
         .delete()
         .eq("id", column.id);
@@ -61,7 +66,7 @@ export const ColumnInput = ({
         placeholder="Ex. Make Coffee"
       />
       <div
-        className="pl-4 flex items-center justify-center"
+        className="pl-4 flex items-center justify-center hover:cursor-pointer"
         onClick={() => deleteColumn()}
       >
         <XButton />
