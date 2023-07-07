@@ -16,6 +16,7 @@ export const EditBoard = ({
 }) => {
   const [title, setTitle] = useState(board.title);
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const initialColumns = useStore((state) =>
     Object.values(state.columns).filter((column) => column.boardid === board.id)
@@ -42,6 +43,7 @@ export const EditBoard = ({
   useEscapeKey(() => setShowBoardModal(false));
 
   const updateBoard = async () => {
+    setLoading(true);
     try {
       const userid = (await supabase.auth.getUser())?.data?.user?.id;
       if (!userid) {
@@ -92,6 +94,7 @@ export const EditBoard = ({
     } catch (err) {
       console.log(err);
     }
+    setLoading(false);
   };
 
   if (showDeleteConfirmation) {
@@ -102,6 +105,11 @@ export const EditBoard = ({
       />
     );
   }
+
+  if (loading) {
+    return <Modal showModal={setShowBoardModal}>Please wait...</Modal>;
+  }
+
   return (
     <Modal showModal={setShowBoardModal}>
       <div className="flex justify-between items-center mb-[1.5rem]">
