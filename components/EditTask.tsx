@@ -26,6 +26,7 @@ export const EditTask = ({
   const [subtasks, setSubtasks] = useState(Object.values(initialSubtasks));
   const [statuses, setStatuses] = useState(initialStatuses);
   const [column, setColumn] = useState(initialColumn);
+  const [loading, setLoading] = useState(false);
 
   const updateSubtasksState = useStore((state) => state.addSubtask);
   const updateTaskState = useStore((state) => state.addTask);
@@ -46,6 +47,7 @@ export const EditTask = ({
     const setShowViewTaskModal = useStore(
       (state) => state.setShowViewTaskModal
     );
+    setLoading(true);
     try {
       const { data, error } = await supabase
         .from("task")
@@ -87,7 +89,10 @@ export const EditTask = ({
     } catch (error) {
       console.log(error);
     }
+    setLoading(false);
   };
+
+  if (loading) return <div>Please wait..</div>;
 
   return (
     <div className="flex flex-col">
