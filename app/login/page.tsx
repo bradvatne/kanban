@@ -35,8 +35,8 @@ export default function Login() {
 
   const handleGuestAccount = async () => {
     await supabase.auth.signInWithPassword({
-      email,
-      password,
+      email: "b.radvatne@gmail.com",
+      password: "password",
     });
     router.push("/");
   };
