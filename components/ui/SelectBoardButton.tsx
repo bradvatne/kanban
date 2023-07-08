@@ -1,8 +1,8 @@
 "use client";
 import React from "react";
-import { BoardIcon } from "./BoardIcon";
 import { useStore } from "@/lib/store";
 import { Board } from "@/types/types";
+import { Icons } from "./Icons";
 
 export const SelectBoardButton = ({ board }: { board: Board }) => {
   const currentBoard = useStore((state) => state.currentBoard);
@@ -18,7 +18,7 @@ export const SelectBoardButton = ({ board }: { board: Board }) => {
       className={boardIsActive ? activeStyle : inactiveStyle}
       onClick={() => setCurrentBoard(board.id)}
     >
-      <BoardIcon color={boardIsActive ? "white" : "#828FA3"} />
+      <Icons.board color={boardIsActive ? "white" : "#828FA3"} />
       {board.title}
     </button>
   );
