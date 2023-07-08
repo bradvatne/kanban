@@ -96,7 +96,7 @@ export default function Login() {
                   Want to take a tour?
                   <button
                     className="ml-1 text-purplehover underline"
-                    onClick={(e) => handleGuestAccount()}
+                    onClick={() => handleGuestAccount()}
                   >
                     Sign in with a guest account
                   </button>
