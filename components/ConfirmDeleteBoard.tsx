@@ -4,7 +4,6 @@ import { Modal } from "./ui/Modal";
 import { Board, Task } from "@/types/types";
 import { useStore } from "@/lib/store";
 import { getSupabaseClient } from "@/lib/supabaseClient";
-import { useEscapeKey } from "@/lib/hooks";
 
 type ConfirmDeleteBoardProps = {
   board: Board;
@@ -17,7 +16,6 @@ export const ConfirmDeleteBoard = ({
   setShowDeleteBoardModal,
   setShowMiniMenu,
 }: ConfirmDeleteBoardProps) => {
-  useEscapeKey(() => setShowDeleteBoardModal(false));
 
   const removeBoardFromState = useStore((state) => state.removeBoard);
   const addBoard = useStore((state) => state.addBoard);
@@ -50,9 +48,9 @@ export const ConfirmDeleteBoard = ({
   };
 
   return loading ? (
-    <Modal showModal={setShowDeleteBoardModal}>Please Wait</Modal>
+    <Modal>Please Wait</Modal>
   ) : (
-    <Modal showModal={setShowDeleteBoardModal}>
+    <Modal>
       <h2 className="text-lg font-bold text-red mb-[1.5rem]">
         Delete this task?
       </h2>

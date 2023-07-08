@@ -6,19 +6,15 @@ import { AddTaskButton } from "@/components/AddTaskButton";
 import { ThreeDotButton } from "@/components/ui/ThreeDotButton";
 import { EditBoard } from "@/components/EditBoard";
 import { useStore } from "@/lib/store";
-import { getSupabaseClient } from "@/lib/supabaseClient";
 import { ConfirmDeleteBoard } from "@/components/ConfirmDeleteBoard";
-import { useEscapeKey } from "@/lib/hooks";
 
 const Top = () => {
   const [showEditBoardMenu, setShowEditBoardMenu] = useState(false);
   const [showEditBoardModal, setShowEditBoardModal] = useState(false);
   const [showDeleteBoardModal, setShowDeleteBoardModal] = useState(false);
-  useEscapeKey(() => setShowEditBoardMenu(false));
   const board = useStore((state) =>
     state.getBoardById(state.currentBoard!)(state)
   );
-  const boards = useStore((state) => Object.values(state.boards));
   const boardIsEmpty = useStore(
     (state) =>
       Object.values(state.columns).filter(
@@ -68,11 +64,7 @@ const Top = () => {
         />
       ) : (
         showEditBoardModal && (
-          <EditBoard
-            setShowBoardModal={setShowEditBoardModal}
-            board={board}
-            setShowMiniMenu={setShowEditBoardMenu}
-          />
+          <EditBoard setShowMiniMenu={setShowEditBoardMenu} />
         )
       )}
     </div>

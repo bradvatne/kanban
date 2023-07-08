@@ -13,7 +13,6 @@ export const EditTask = ({
   initialSubtasks,
   initialStatuses,
   initialColumn,
-  setShowTaskModal,
 }: {
   id: number;
   initialTitle: string;
@@ -21,7 +20,6 @@ export const EditTask = ({
   initialSubtasks: Subtask[];
   initialStatuses: Column[];
   initialColumn: number;
-  setShowTaskModal: Function;
 }) => {
   const [title, setTitle] = useState(initialTitle);
   const [description, setDescription] = useState(initialDescription);
@@ -45,6 +43,9 @@ export const EditTask = ({
     subtasks: Subtask[];
   }) => {
     const supabase = getSupabaseClient();
+    const setShowViewTaskModal = useStore(
+      (state) => state.setShowViewTaskModal
+    );
     try {
       const { data, error } = await supabase
         .from("task")
@@ -81,7 +82,7 @@ export const EditTask = ({
 
       if (data) {
         updateTaskState(data[0] as Task);
-        setShowTaskModal(false);
+        setShowViewTaskModal(false);
       }
     } catch (error) {
       console.log(error);
@@ -151,7 +152,6 @@ export const EditTask = ({
         className="block w-full dark:bg-verydarkgrey rounded border border-[#828FA340] hover:cursor-pointer focus:border-purple focus:ring-1 focus:ring-purplehover mb-6"
         defaultValue={column}
         onChange={(e) => {
-          console.log(e.target.value);
           setColumn(parseInt(e.target.value));
         }}
       >

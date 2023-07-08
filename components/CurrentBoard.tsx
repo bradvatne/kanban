@@ -26,7 +26,7 @@ export const CurrentBoard = () => {
           viewBox="0 0 9 7"
           fill="none"
         >
-          <path d="M1 1L5 5L9 1" stroke="#635FC7" stroke-width="2" />
+          <path d="M1 1L5 5L9 1" stroke="#635FC7" strokeWidth="2" />
         </svg>
       </button>
     </div>

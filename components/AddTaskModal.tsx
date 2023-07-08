@@ -1,18 +1,15 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { Modal } from "./ui/Modal";
-import { useEscapeKey } from "@/lib/hooks";
 import { useStore } from "@/lib/store";
 import { getSupabaseClient } from "@/lib/supabaseClient";
 import { AddSubtask } from "./AddSubtask";
 
 type AddTaskModalProps = {
-  setShowAddTaskModal: Function;
   column?: number;
 };
 
 export const AddTaskModal = ({
-  setShowAddTaskModal,
   column,
 }: AddTaskModalProps) => {
   const [title, setTitle] = useState("");
@@ -20,11 +17,11 @@ export const AddTaskModal = ({
   const [status, setStatus] = useState(0);
   const [subtasks, setSubtasks] = useState(["", ""]);
   const [loading, setLoading] = useState(false);
-  const [addTaskToState, addSubtaskToState] = useStore((state) => [
+  const [addTaskToState, addSubtaskToState, setShowAddTaskModal] = useStore((state) => [
     state.addTask,
     state.addSubtask,
+    state.setShowAddTaskModal
   ]);
-  useEscapeKey(() => setShowAddTaskModal(false));
 
   const columns = useStore((state) =>
     Object.values(state.columns).filter(
@@ -97,9 +94,9 @@ export const AddTaskModal = ({
   };
 
   return loading ? (
-    <Modal showModal={setShowAddTaskModal}>Loading...</Modal>
+    <Modal>Loading...</Modal>
   ) : (
-    <Modal showModal={setShowAddTaskModal}>
+    <Modal>
       <div className="flex justify-between items-center mb-[1.5rem]">
         <h2 className="text-xl text-black dark:text-white font-bold inline">
           Add New Task

@@ -1,4 +1,3 @@
-import { useEscapeKey } from "@/lib/hooks";
 import { useStore } from "@/lib/store";
 import { getSupabaseClient } from "@/lib/supabaseClient";
 import { Board, Column } from "@/types/types";
@@ -6,16 +5,20 @@ import React, { useEffect, useState } from "react";
 import { ColumnInput } from "./ui/ColumnInput";
 import { Modal } from "./ui/Modal";
 import { ConfirmDeleteBoard } from "./ConfirmDeleteBoard";
+import { updateBoard } from "@/lib/queries/updateBoard";
 
 export const EditBoard = ({
-  setShowBoardModal,
   setShowMiniMenu,
-  board,
 }: {
-  setShowBoardModal: Function;
   setShowMiniMenu?: Function;
-  board: Board;
 }) => {
+  const [board, setShowEditBoardModal, addBoardToState, addColumnToState] =
+    useStore((state) => [
+      state.getBoardById(state.currentBoard!)(state),
+      state.setShowEditBoardModal,
+      state.addBoard,
+      state.addColumn,
+    ]);
   const [title, setTitle] = useState(board.title);
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -40,65 +43,6 @@ export const EditBoard = ({
 
   const supabase = getSupabaseClient();
 
-  const addBoardToState = useStore((state) => state.addBoard);
-  const addColumnToState = useStore((state) => state.addColumn);
-  useEscapeKey(() => setShowBoardModal(false));
-
-  const updateBoard = async () => {
-    setLoading(true);
-    try {
-      const userid = (await supabase.auth.getUser())?.data?.user?.id;
-      if (!userid) {
-        throw new Error(
-          "Could not resolve userid. Please check your login status"
-        );
-      }
-      console.log(`Attempting to update title ${title} to ${board.id}`);
-
-      const { data, error } = await supabase
-        .from("board")
-        .update({ id: board.id, title, userid })
-        .eq("id", board.id)
-        .select()
-        .single();
-
-      if (data) {
-        addBoardToState(data);
-        let boardid = data.id;
-
-        for (const column of columns) {
-          7;
-          const { data, error } = await supabase
-            .from("Columns")
-            .upsert({
-              id: column.id === -1 ? undefined : column.id,
-              color: column.color,
-              title: column.title,
-              boardid: boardid,
-            })
-            .eq("id", column.id)
-            .select()
-            .single();
-
-          if (data) {
-            addColumnToState(data);
-          }
-
-          if (error) {
-            console.log(`Problem adding column: ${column} , ${error.message}`);
-          }
-        }
-      }
-      setShowBoardModal(false);
-      if (error) {
-        throw new Error(`Problem adding board:  ${error.message}`);
-      }
-    } catch (err) {
-      console.log(err);
-    }
-    setLoading(false);
-  };
-
   if (showDeleteConfirmation) {
     return (
       <ConfirmDeleteBoard
@@ -110,11 +54,11 @@ export const EditBoard = ({
   }
 
   if (loading) {
-    return <Modal showModal={setShowBoardModal}>Please wait...</Modal>;
+    return <Modal>Please wait...</Modal>;
   }
 
   return (
-    <Modal showModal={setShowBoardModal}>
+    <Modal>
       <div className="flex justify-between items-center mb-[1.5rem]">
         <h2 className="text-xl text-black font-bold inline dark:text-white">
           Edit Board
@@ -157,8 +101,16 @@ export const EditBoard = ({
       <button
         className="bg-purple py-2 flex w-full items-center justify-center rounded-3xl text-white font-bold text-sm mb-2 hover:bg-purplehover"
         onClick={() => {
-          console.log("adding", title, columns);
-          updateBoard();
+          updateBoard({
+            board,
+            columns,
+            title,
+            supabase,
+            addBoardToState,
+            addColumnToState,
+            setLoading,
+            setShowEditBoardModal,
+          });
         }}
       >
         Save Changes

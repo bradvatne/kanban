@@ -1,9 +1,13 @@
 "use client";
 import React, { useState } from "react";
 import { AddTaskModal } from "./AddTaskModal";
+import { useStore } from "@/lib/store";
 
 export const AddTaskButton = ({ boardIsEmpty }: { boardIsEmpty: boolean }) => {
-  const [showAddTaskModal, setShowAddTaskModal] = useState(false);
+  const [showAddTaskModal, setShowAddTaskModal] = useStore((state) => [
+    state.showAddTaskModal,
+    state.setShowAddTaskModal,
+  ]);
 
   return (
     <>
@@ -15,9 +19,7 @@ export const AddTaskButton = ({ boardIsEmpty }: { boardIsEmpty: boolean }) => {
         <span className="flex items-end text-2xl md:mr-1 md:text-md">+</span>
         <span className="hidden md:inline">Add New Task</span>
       </button>
-      {showAddTaskModal && (
-        <AddTaskModal setShowAddTaskModal={setShowAddTaskModal} />
-      )}
+      {showAddTaskModal && <AddTaskModal />}
     </>
   );
 };

@@ -15,13 +15,24 @@ import {
 export const useStore = create<State>((set) => ({
   currentBoard: undefined,
   currentTask: undefined,
-  showTaskModal: false,
+  showViewTaskModal: false,
+  showEditTaskModal: false,
+  showAddTaskModal: false,
   showLeftDrawer: true,
   showBoardModal: false,
+  showEditBoardModal: false,
   boards: {},
   columns: {},
   tasks: {},
   subtasks: {},
+  closeModals: () =>
+    set(() => ({
+      showViewTaskModal: false,
+      showBoardModal: false,
+      showEditBoardModal: false,
+      showEditTaskModal: false,
+      showAddTaskModal: false,
+    })),
   toggleSubtaskComplete: (subtaskId) => {
     set(
       produce((draft) => {
@@ -33,8 +44,15 @@ export const useStore = create<State>((set) => ({
     );
   },
   setShowDeleteModal: ({ type, id }: { type: string; id: number }) => ({}),
-  setShowTaskModal: (bool: boolean) => set(() => ({ showTaskModal: bool })),
+  setShowViewTaskModal: (bool: boolean) =>
+    set(() => ({ showViewTaskModal: bool })),
+  setShowEditTaskModal: (bool: boolean) =>
+    set(() => ({ showEditTaskModal: bool })),
+  setShowAddTaskModal: (bool: boolean) =>
+    set(() => ({ showAddTaskModal: bool })),
   setShowBoardModal: (bool: boolean) => set(() => ({ showBoardModal: bool })),
+  setShowEditBoardModal: (bool: boolean) =>
+    set(() => ({ showEditBoardModal: bool })),
   setShowLeftDrawer: (bool: boolean) => set(() => ({ showLeftDrawer: bool })),
   setBoards: (boards: Boards) => set(() => ({ boards })),
   setColumns: (columns: Columns) => set(() => ({ columns })),
@@ -42,6 +60,7 @@ export const useStore = create<State>((set) => ({
   setSubtasks: (subtasks: Subtasks) => set(() => ({ subtasks })),
   setCurrentBoard: (id: number | undefined) =>
     set(() => ({ currentBoard: id })),
+  setCurrentTask: (id: number | undefined) => set(() => ({ currentTask: id })),
   removeBoard: (id: number) => {
     set(
       produce((draft) => {

@@ -1,7 +1,6 @@
 "use client";
 import React, { useState } from "react";
 import { Modal } from "./ui/Modal";
-import { useEscapeKey } from "@/lib/hooks";
 import { ColumnInput } from "@/components/ui/ColumnInput";
 import { useStore } from "@/lib/store";
 import { getSupabaseClient } from "@/lib/supabaseClient";
@@ -33,11 +32,10 @@ export const AddBoardModal = () => {
     state.setCurrentBoard,
   ]);
 
-  useEscapeKey(() => setShowBoardModal(false));
   return loading ? (
-    <Modal showModal={setShowBoardModal}>Please Wait</Modal>
+    <Modal>Please Wait</Modal>
   ) : (
-    <Modal showModal={setShowBoardModal}>
+    <Modal>
       <div className="flex justify-between items-center mb-[1.5rem]">
         <h2 className="text-xl text-black font-bold inline dark:text-white">
           Add New Board

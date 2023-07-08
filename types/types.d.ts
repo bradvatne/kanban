@@ -34,16 +34,24 @@ export type Subtasks = { [key: number]: Subtask };
 
 export type State = {
   currentBoard: number | undefined;
-  showTaskModal: boolean;
+  currentTask: number | undefined;
+  showViewTaskModal: boolean;
   showLeftDrawer: boolean;
   showBoardModal: boolean;
+  showEditBoardModal: boolean;
+  showEditTaskModal: boolean;
+  showAddTaskModal: boolean;
   boards: Boards;
   columns: Columns;
   tasks: Tasks;
   subtasks: Subtasks;
+  closeModals: () => void;
   toggleSubtaskComplete: (subtaskId: number) => void;
-  setShowTaskModal: (bool: boolean) => void;
+  setShowViewTaskModal: (bool: boolean) => void;
+  setShowEditTaskModal: (bool: boolean) => void;
+  setShowAddTaskModal: (bool: boolean) => void;
   setShowBoardModal: (bool: boolean) => void;
+  setShowEditBoardModal: (bool: boolean) => void;
   setShowLeftDrawer: (bool: boolean) => void;
   setShowDeleteModal: ({ type, id }: { type: string; id: number }) => void;
   setBoards: (boards: Boards) => void;
@@ -63,4 +71,5 @@ export type State = {
   getColumnById: (id: number) => (state: State) => Column;
   getSubtaskById: (id: number) => (state: State) => Subtask;
   setCurrentBoard: (id: number | undefined) => void;
+  setCurrentTask: (id: number | undefined) => void;
 };

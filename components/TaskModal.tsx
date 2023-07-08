@@ -1,29 +1,30 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Subtask } from "./Subtask";
 import { useStore } from "@/lib/store";
 import { ThreeDotButton } from "./ui/ThreeDotButton";
 import { Modal } from "./ui/Modal";
-import { useEscapeKey } from "@/lib/hooks";
 import { EditTask } from "./EditTask";
 import { ConfirmDeleteTask } from "./ConfirmDeleteTask";
 import { getSupabaseClient } from "@/lib/supabaseClient";
 
-type TaskModalProps = {
-  id: number;
-  setShowTaskModal: Function;
-};
-
-export const TaskModal = ({ id, setShowTaskModal }: TaskModalProps) => {
-  useEscapeKey(() => setShowTaskModal(false));
-
-  const [showMiniMenu, setShowMiniMenu] = useState(false);
-  const [showEditTask, setShowEditTask] = useState(false);
-  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
+export const TaskModal = () => {
   const updateTask = useStore((state) => state.addTask);
-  const task = useStore((state) => state.getTaskById(id)(state));
+  const [showMiniMenu, setShowMiniMenu] = useState(false);
+  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
+  const [showEditTaskModal, setshowEditTaskModal, setShowViewTaskModal] =
+    useStore((state) => [
+      state.showEditTaskModal,
+      state.setShowEditTaskModal,
+      state.setShowViewTaskModal,
+    ]);
+  const task = useStore((state) =>
+    state.getTaskById(state.currentTask!)(state)
+  );
   const subtasks = useStore((state) =>
-    Object.values(state.subtasks).filter((subtasks) => subtasks.taskid === id)
+    Object.values(state.subtasks).filter(
+      (subtasks) => subtasks.taskid === task.id
+    )
   );
   const statuses = useStore((state) =>
     Object.values(state.columns).filter(
@@ -54,8 +55,8 @@ export const TaskModal = ({ id, setShowTaskModal }: TaskModalProps) => {
   }
 
   return (
-    <Modal showModal={setShowTaskModal}>
-      {showEditTask ? (
+    <Modal>
+      {showEditTaskModal ? (
         <EditTask
           id={task.id}
           initialTitle={task.title!}
@@ -63,7 +64,6 @@ export const TaskModal = ({ id, setShowTaskModal }: TaskModalProps) => {
           initialSubtasks={subtasks!}
           initialStatuses={statuses!}
           initialColumn={task.columnid}
-          setShowTaskModal={setShowTaskModal}
         />
       ) : (
         <>
@@ -82,7 +82,7 @@ export const TaskModal = ({ id, setShowTaskModal }: TaskModalProps) => {
                 <div className="absolute flex p-4 flex-col gap-4 rounded-lg bg-white w-[12rem] -right-24 top-10 shadow-xl dark:bg-verydarkgrey ">
                   <button
                     className="text-mediumgrey text-custom text-left"
-                    onClick={() => setShowEditTask(true)}
+                    onClick={() => setshowEditTaskModal(true)}
                   >
                     Edit Task
                   </button>
