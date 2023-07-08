@@ -14,7 +14,7 @@ Supabase has been my go-to for several side projects, and I can't get enough of 
 
 🔄 **State Management - Zustand**
 
-This is my first project using Zustand. My initial thoughts are that it reduces a lot of the boilerplate code associated with Redux, and it magically doesn't even require a context provider. My implementation here is extremely basic, but Zustand is a tool that I would certainly like to dive deeper into in the future.
+This is my first project using Zustand. My initial thoughts are that it reduces a lot of the boilerplate code associated with state management tools like Redux (especially when combined with immer), and it magically doesn't even require a context provider. My implementation here is extremely basic, but Zustand is a tool that I would certainly like to dive deeper into in the future.
 
 🎨 **CSS Framework - TailwindCSS**
 
