@@ -23,11 +23,13 @@ export const EditTask = ({
 }) => {
   const [title, setTitle] = useState(initialTitle);
   const [description, setDescription] = useState(initialDescription);
-  const [subtasks, setSubtasks] = useState(Object.values(initialSubtasks));
+  const [subtasks, setSubtasks] = useState(
+    Object.values(initialSubtasks ?? [])
+  );
   const [statuses, setStatuses] = useState(initialStatuses);
   const [column, setColumn] = useState(initialColumn);
   const [loading, setLoading] = useState(false);
-
+  const setShowViewTaskModal = useStore((state) => state.setShowViewTaskModal);
   const updateSubtasksState = useStore((state) => state.addSubtask);
   const updateTaskState = useStore((state) => state.addTask);
   const updateTask = async ({
@@ -44,9 +46,7 @@ export const EditTask = ({
     subtasks: Subtask[];
   }) => {
     const supabase = getSupabaseClient();
-    const setShowViewTaskModal = useStore(
-      (state) => state.setShowViewTaskModal
-    );
+
     setLoading(true);
     try {
       const { data, error } = await supabase
@@ -63,22 +63,23 @@ export const EditTask = ({
         throw new Error(`Error posting to db: ${error.message}`);
       }
 
-      setSubtasks([]);
-      for (const subtask of subtasks) {
-        const { data, error } = await supabase
-          .from("subtask")
-          .upsert(subtask)
-          .eq("taskid", id)
-          .select()
-          .single();
+      if (subtasks) {
+        for (const subtask of subtasks) {
+          const { data, error } = await supabase
+            .from("subtask")
+            .upsert(subtask)
+            .eq("taskid", id)
+            .select()
+            .single();
 
-        if (data) {
-          updateSubtasksState(data);
-        }
-        if (error) {
-          throw new Error(
-            `Error updating subtask#${subtask.id}: ${error.message}`
-          );
+          if (data) {
+            updateSubtasksState(data);
+          }
+          if (error) {
+            throw new Error(
+              `Error updating subtask#${subtask.id}: ${error.message}`
+            );
+          }
         }
       }
 
