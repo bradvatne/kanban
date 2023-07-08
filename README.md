@@ -1,48 +1,44 @@
-# Supabase Starter
+🌐 #Kanban - A Task Management Portfolio Project Built with Next.js
 
-This starter configures Supabase Auth to use cookies, making the user's session available throughout the entire Next.js app - Client Components, Server Components, Route Handlers, Server Actions and Middleware.
+> Crafted pixel-perfect from the Kanban Figma files provided by frontendmentor.io. Here are the tech details and my thoughts:
 
-## Deploy your own
+🛠 **JS Framework - Next.js**
+Next.js makes the creation of full-stack applications smooth and enjoyable. I have a particular fondness for the new app router and server components. I'm planning to stick with this framework for the foreseeable future.
 
-The Vercel deployment will guide you through creating a Supabase account and project. After installation of the Supabase integration, all relevant environment variables will be set up so that the project is usable immediately after deployment 🚀
+🔐 **DB/Auth - Supabase**
+Supabase has been my go-to for several side projects, and I can't get enough of it! It offers a generous free tier and provides out-of-the-box authentication and APIs. Combined with Next.js, it's like doing full-stack development on autopilot. I'm a big fan of the Supabase client too - it's impressively type-safe and features an intuitive API.
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/vercel/next.js/tree/canary/examples/with-supabase&project-name=nextjs-with-supabase&repository-name=nextjs-with-supabase&integration-ids=oac_jUduyjQgOyzev1fjrW83NYOv)
+🔄 **State Management - Zustand**
+This is my first project using Zustand. My initial thoughts are that it reduces a lot of the boilerplate code associated with Redux, and it magically doesn't even require a context provider. My implementation here is extremely basic, but Zustand is a tool that I would certainly like to dive deeper into in the future.
 
-## How to use
+🎨 **CSS Framework - TailwindCSS**
+TailwindCSS is my love. At this point, I know the Tailwind selectors better than the original CSS ones. It just clicks with me, and with the mastery of multi-cursor methods, I can't see a reason to pick a different CSS framework. If I wasn't attempting to implement a Figma file, I would've liked to use a UI library such as ShadCN on top of it.
 
-1. Create a [new Supabase project](https://database.new)
-1. Run `npx create-next-app -e with-supabase` to create a Next.js app using the Supabase Starter template
-1. Use `cd` to change into the app's directory
-1. Run `npm install` to install dependencies
-1. Rename `.env.local.example` to `.env.local` and update the values for `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` from [your Supabase project's API settings](https://app.supabase.com/project/_/settings/api)
-1. Run `npm run dev` to start the local development server
+💡 **Concepts Practiced:**
 
-> Check out [the docs for Local Development](https://supabase.com/docs/guides/getting-started/local-development) to also run Supabase locally.
+🛂 Authentication
+🔒 Protected Routes
+📑 Row-Level Security
+🧮 State Management
+👍 Optimistic Update Pattern
+🕴️ Singleton Pattern
+❗ Form Validation & Error Handling
+💾 Persisting Data in a PostgreSQL Database
+🖼️ Figma File 1:1 Recreation
+🎀 Tailwind CSS
+🌓 Dark/Light Theme
 
-### Create a Supabase client
+📚 **General Things I Learned from This Project**
 
-Check out the [`/app/_examples`](./app/_examples/) folder for an example of creating a Supabase client in:
+📝 **Do More Preplanning**
+When I kicked off, I started coding the UI straight away, and as I continued, I decided to add data persistence through a database. I began creating tables, rows, and columns on-the-fly, with no logical connection to the front end, resulting in quite a mess. Several times, I had to refactor due to these missteps. Moving forward, I plan to have my data all sorted ahead of time before I start working on the front end.
 
-- [Client Components](./app/_examples/client-component/page.tsx)
-- [Server Components](./app/_examples/server-component/page.tsx)
-- [Route Handlers](./app/_examples/route-handler/route.ts)
-- [Server Actions](./app/_examples/server-action/page.tsx)
+🎯 **Just Get it Done**
+A common roadblock in my development process is the quest for the perfect solution, or doubts about the approach I'm taking. In many projects, I lose sight of the finish line because I get wrapped up in 'optimizing' and starting over, rather than just pushing through. In this project, I maintained a mindset that, so long as what I'm doing works and doesn't seem like it will cause issues further down the line, it's good enough. While I can (and did) refactor later, the first time around, I just need the code to be readable and the project to function.
 
-### Create `todo` table and seed with data (optional)
+🛠 **It's Not Cheating to Use Tools**
+The layers of abstraction offered by Next.js and Supabase in building a full-stack application are quite astonishing. Sometimes, I feel like being so distant from what's happening behind the scenes makes me less of a programmer - as if not writing in assembly somehow disqualifies me. However, this project helped me shake off that notion. The goal isn't about being a 'badass programmer', but about building stuff. And these tools make the process enjoyable and (relatively) straightforward.
 
-Navigate to [your project's SQL Editor](https://app.supabase.com/project/_/sql), click `New query`, paste the contents of the [init.sql](./supabase/migrations/20230618024722_init.sql) file and click `RUN`.
+Thanks for taking the time to check out my project!
 
-This will create a basic `todos` table, enable Row Level Security (RLS), and write RLS policies enabling `select` and `insert` actions for `authenticated` users.
-
-To seed your `todos` table with some dummy data, run the contents of the [seed.sql](./supabase/seed.sql) file.
-
-## Feedback and issues
-
-Please file feedback and issues over on the [Supabase GitHub org](https://github.com/supabase/supabase/issues/new/choose).
-
-## More Supabase examples
-
-- [Next.js Subscription Payments Starter](https://github.com/vercel/nextjs-subscription-payments)
-- [Cookie-based Auth and the Next.js 13 App Router (free course)](https://youtube.com/playlist?list=PL5S4mPUpp4OtMhpnp93EFSo42iQ40XjbF)
-- [Supabase Auth and the Next.js App Router](https://github.com/supabase/supabase/tree/master/examples/auth/nextjs)
-- [Next.js Auth Helpers Docs](https://supabase.com/docs/guides/auth/auth-helpers/nextjs)
+Made with ❤️ by Brad in Bali 🌴 
