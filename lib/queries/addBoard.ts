@@ -57,14 +57,14 @@ export const addBoard = async ({
           })
           .select()
           .single();
-
-        if (data) {
-          addColumnToState(data);
-          setCurrentBoard(id);
-          setShowBoardModal(false);
-        } else {
+        if (error) {
           throw new Error(`Error inserting column to db ${error.message}`);
         }
+      }
+      if (data) {
+        addColumnToState(data);
+        setCurrentBoard(id);
+        setShowBoardModal(false);
       }
     } else {
       throw new Error(
