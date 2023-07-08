@@ -1,6 +1,6 @@
 🌐 #Kanban - A Task Management Portfolio Project Built with Next.js
 
-*Crafted pixel-perfect from the Kanban Figma files provided by frontendmentor.io. *
+Crafted pixel-perfect from the Kanban Figma files provided by frontendmentor.io.
 
 Here are the tech details and my thoughts:
 
