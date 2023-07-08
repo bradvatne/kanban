@@ -5,13 +5,11 @@ import { useEscapeKey } from "@/lib/hooks";
 import { ColumnInput } from "@/components/ui/ColumnInput";
 import { useStore } from "@/lib/store";
 import { getSupabaseClient } from "@/lib/supabaseClient";
+import { addBoard } from "@/lib/queries/addBoard";
 
-type AddBoardModalProps = {
-  setShowBoardModal: Function;
-};
-
-export const AddBoardModal = ({ setShowBoardModal }: AddBoardModalProps) => {
+export const AddBoardModal = () => {
   const [title, setTitle] = useState("");
+  const [loading, setLoading] = useState(false);
   const [columns, setColumns] = useState([
     { id: -1, title: "Todo", color: "bg-[#49C4E5]", boardid: -1 },
     {
@@ -21,68 +19,21 @@ export const AddBoardModal = ({ setShowBoardModal }: AddBoardModalProps) => {
       boardid: -1,
     },
   ]);
-  useEscapeKey(() => setShowBoardModal(false));
 
   const supabase = getSupabaseClient();
-  const addBoardToState = useStore((state) => state.addBoard);
-  const addColumnToState = useStore((state) => state.addColumn);
-  const setCurrentBoard = useStore((state) => state.setCurrentBoard);
-  const [loading, setLoading] = useState(false);
+  const [
+    setShowBoardModal,
+    addBoardToState,
+    addColumnToState,
+    setCurrentBoard,
+  ] = useStore((state) => [
+    state.setShowBoardModal,
+    state.addBoard,
+    state.addColumn,
+    state.setCurrentBoard,
+  ]);
 
-  const addBoard = async () => {
-    const user = await supabase.auth.getUser();
-    const userid = user?.data?.user?.id;
-    if (!userid) {
-      throw new Error("userid missing. Please check login status");
-    }
-
-    setLoading(true);
-    try {
-      const { data, error } = await supabase
-        .from("board")
-        .insert({
-          title,
-          userid,
-        })
-        .select()
-        .single();
-
-      if (data) {
-        const { id, title } = data;
-        addBoardToState({
-          id,
-          title,
-        });
-
-        for (const column of columns) {
-          const { data, error } = await supabase
-            .from("Columns")
-            .insert({
-              title: column.title,
-              color: column.color,
-              boardid: id,
-            })
-            .select()
-            .single();
-
-          if (data) {
-            addColumnToState(data);
-            setCurrentBoard(id);
-            setShowBoardModal(false);
-          } else {
-            throw new Error(`Error inserting column to db ${error.message}`);
-          }
-        }
-      } else {
-        throw new Error(
-          `Error: Did not recieve data back from database insert ${error.message}`
-        );
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
+  useEscapeKey(() => setShowBoardModal(false));
   return loading ? (
     <Modal showModal={setShowBoardModal}>Please Wait</Modal>
   ) : (
@@ -128,8 +79,16 @@ export const AddBoardModal = ({ setShowBoardModal }: AddBoardModalProps) => {
       <button
         className="bg-purple py-2 flex w-full items-center justify-center rounded-3xl text-white font-bold text-sm mb-2 hover:bg-purplehover"
         onClick={() => {
-          console.log("adding", title, columns);
-          addBoard();
+          addBoard({
+            title,
+            columns,
+            supabase,
+            addBoardToState,
+            addColumnToState,
+            setLoading,
+            setCurrentBoard,
+            setShowBoardModal,
+          });
         }}
       >
         Create Board

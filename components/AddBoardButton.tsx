@@ -17,9 +17,7 @@ export const CreateNewBoardButton = () => {
       >
         <BoardIcon color="#635FC7" />+ Create New Board
       </button>
-      {showBoardModal && (
-        <AddBoardModal setShowBoardModal={setShowBoardModal} />
-      )}
+      {showBoardModal && <AddBoardModal />}
     </>
   );
 };

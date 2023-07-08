@@ -9,12 +9,12 @@ import {
   Subtasks,
   Task,
   Tasks,
-  State
+  State,
 } from "@/types/types";
-
 
 export const useStore = create<State>((set) => ({
   currentBoard: undefined,
+  currentTask: undefined,
   showTaskModal: false,
   showLeftDrawer: true,
   showBoardModal: false,
