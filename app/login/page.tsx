@@ -33,6 +33,14 @@ export default function Login() {
     router.push("/");
   };
 
+  const handleGuestAccount = async () => {
+    await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+    router.push("/");
+  };
+
   return (
     <div className="flex w-full h-full justify-center items-center bg-slate-50 dark:bg-darkgrey">
       <div className="flex-1 flex flex-col w-full max-w-sm justify-center gap-2">
@@ -81,7 +89,16 @@ export default function Login() {
                     className="ml-1 text-purplehover underline"
                     onClick={() => setView("sign-up")}
                   >
-                    Sign Up Now
+                    Sign up now
+                  </button>
+                </p>
+                <p className="text-sm text-neutral-500 text-center">
+                  Want to take a tour?
+                  <button
+                    className="ml-1 text-purplehover underline"
+                    onClick={(e) => handleGuestAccount()}
+                  >
+                    Sign in with a guest account
                   </button>
                 </p>
               </>
