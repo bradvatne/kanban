@@ -10,8 +10,11 @@ import { Icons } from "@/components/ui/Icons";
 
 const Top = () => {
   const [showEditBoardMenu, setShowEditBoardMenu] = useState(false);
-  const [showEditBoardModal, setShowEditBoardModal] = useState(false);
   const [showDeleteBoardModal, setShowDeleteBoardModal] = useState(false);
+  const [showEditBoardModal, setShowEditBoardModal] = useStore((state) => [
+    state.showEditBoardModal,
+    state.setShowEditBoardModal,
+  ]);
   const board = useStore((state) =>
     state.getBoardById(state.currentBoard!)(state)
   );
