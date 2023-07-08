@@ -1,7 +1,7 @@
 import { useStore } from "@/lib/store";
-import { XButton } from "./XButton";
 import { Column } from "@/types/types";
 import { getSupabaseClient } from "@/lib/supabaseClient";
+import { Icons } from "./Icons";
 
 export const ColumnInput = ({
   setColumns,
@@ -69,7 +69,7 @@ export const ColumnInput = ({
         className="pl-4 flex items-center justify-center hover:cursor-pointer"
         onClick={() => deleteColumn()}
       >
-        <XButton />
+        <Icons.xButton />
       </div>
     </div>
   );

@@ -18,7 +18,7 @@ export const Icons = {
       </svg>
     );
   },
-  eye: () => {
+  closedEye: () => {
     return (
       <svg
         width="18"

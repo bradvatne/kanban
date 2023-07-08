@@ -1,8 +1,8 @@
 "use client";
 import { Subtask } from "@/types/types";
-import { XButton } from "./ui/XButton";
 import { useStore } from "@/lib/store";
 import { getSupabaseClient } from "@/lib/supabaseClient";
+import { Icons } from "./ui/Icons";
 
 export const EditSubtask = ({
   setSubtasks,
@@ -70,7 +70,7 @@ export const EditSubtask = ({
         className="flex items-center justify-center pl-4 pb-4 hover:cursor-pointer h-full"
         onClick={() => removeSubtaskOptimistic()}
       >
-        <XButton />
+        <Icons.xButton />
       </div>
     </div>
   );

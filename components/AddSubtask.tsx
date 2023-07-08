@@ -1,6 +1,6 @@
 "use client";
 
-import { XButton } from "./ui/XButton";
+import { Icons } from "./ui/Icons";
 
 type AddSubtaskProps = {
   setSubtasks: Function;
@@ -8,7 +8,6 @@ type AddSubtaskProps = {
 };
 
 export const AddSubtask = ({ setSubtasks, id }: AddSubtaskProps) => {
-  
   const updateParent = (newValue: string) => {
     setSubtasks((state: string[]) =>
       state.map((item, index) => {
@@ -36,7 +35,7 @@ export const AddSubtask = ({ setSubtasks, id }: AddSubtaskProps) => {
         className="flex items-center justify-center pl-4 pb-4 hover:cursor-pointer h-full"
         onClick={() => console.log("thiung")}
       >
-        <XButton />
+        <Icons.xButton />
       </div>
     </div>
   );

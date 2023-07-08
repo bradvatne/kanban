@@ -2,13 +2,13 @@
 import { HideSidebarButton } from "@/components/HideSidebarButton";
 import ToggleThemeButton from "@/components/ToggleThemeButton";
 import { CreateNewBoardButton } from "@/components/AddBoardButton";
-import { OpenEyeIcon } from "@/components/ui/OpenEyeIcon";
 import { SelectBoardButton } from "@/components/ui/SelectBoardButton";
 import { useStore } from "@/lib/store";
 import { Board } from "@/types/types";
 import React, { useEffect } from "react";
 import { fetchData } from "@/lib/queries";
 import { getSupabaseClient } from "@/lib/supabaseClient";
+import { Icons } from "@/components/ui/Icons";
 
 export const Left = () => {
   const supabase = getSupabaseClient();
@@ -38,6 +38,6 @@ export const Left = () => {
       </div>
     </div>
   ) : (
-    <OpenEyeIcon />
+    <Icons.openEye />
   );
 };

@@ -2,11 +2,11 @@
 import React, { useState } from "react";
 import { Subtask } from "./SubtaskCard";
 import { useStore } from "@/lib/store";
-import { ThreeDotButton } from "./ui/ThreeDotButton";
 import { Modal } from "./ui/Modal";
 import { EditTask } from "./EditTask";
 import { ConfirmDeleteTask } from "./ConfirmDeleteTask";
 import { getSupabaseClient } from "@/lib/supabaseClient";
+import { Icons } from "./ui/Icons";
 
 export const TaskModal = () => {
   const updateTask = useStore((state) => state.addTask);
@@ -77,7 +77,7 @@ export const TaskModal = () => {
               }}
               className="relative pl-4"
             >
-              <ThreeDotButton />
+              <Icons.threeDot />
               {showMiniMenu && (
                 <div className="absolute flex p-4 flex-col gap-4 rounded-lg bg-white w-[12rem] -right-24 top-10 shadow-xl dark:bg-verydarkgrey ">
                   <button

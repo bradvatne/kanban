@@ -2,11 +2,11 @@
 import React, { useState } from "react";
 import { Logo } from "@/components/ui/Logo";
 import { AddTaskButton } from "@/components/AddTaskButton";
-import { ThreeDotButton } from "@/components/ui/ThreeDotButton";
 import { EditBoard } from "@/components/EditBoard";
 import { useStore } from "@/lib/store";
 import { ConfirmDeleteBoard } from "@/components/ConfirmDeleteBoard";
 import { CurrentBoardTitle } from "@/components/CurrentBoardTitle";
+import { Icons } from "@/components/ui/Icons";
 
 const Top = () => {
   const [showEditBoardMenu, setShowEditBoardMenu] = useState(false);
@@ -36,7 +36,7 @@ const Top = () => {
         <div className="flex gap-[1.5rem] items-center">
           <AddTaskButton boardIsEmpty={boardIsEmpty} />
           <div onClick={() => setShowEditBoardMenu(!showEditBoardMenu)}>
-            <ThreeDotButton />
+            <Icons.threeDot />
           </div>
           {showEditBoardMenu && (
             <div className="absolute flex p-4 flex-col gap-4 rounded-lg bg-white w-[12rem] right-[1rem] top-[5.6rem] shadow-xl dark:bg-verydarkgrey ">
