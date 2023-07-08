@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { EditBoard } from "./EditBoard";
 import { useStore } from "@/lib/store";
 
@@ -13,10 +13,7 @@ export const AddColumn = () => {
   ]);
   return (
     <div className="flex flex-col">
-      {showEditBoardModal && (
-        <EditBoard
-        />
-      )}
+      {showEditBoardModal && <EditBoard />}
       <span className="text-xs uppercase text-mediumgrey tracking-widest font-bold opacity-0 mb-5">
         Spacer
       </span>

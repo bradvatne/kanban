@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useStore } from "@/lib/store";
 import { TaskCard } from "./TaskCard";
 import { AddFirstTask } from "./AddFirstTask";
@@ -30,4 +30,3 @@ export const ColumnCard = ({ id }: { id: number }) => {
     </div>
   );
 };
-

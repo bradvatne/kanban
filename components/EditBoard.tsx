@@ -1,7 +1,6 @@
 import { useStore } from "@/lib/store";
 import { getSupabaseClient } from "@/lib/supabaseClient";
-import { Board, Column } from "@/types/types";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { ColumnInput } from "./ui/ColumnInput";
 import { Modal } from "./ui/Modal";
 import { ConfirmDeleteBoard } from "./ConfirmDeleteBoard";

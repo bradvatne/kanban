@@ -1,7 +1,6 @@
 "use client";
 import { AddBoardModal } from "@/components/AddBoardModal";
 import { AddColumn } from "@/components/AddColumn";
-import Column from "@/components/Column";
 import { Columns } from "@/components/Columns";
 import { EditBoard } from "@/components/EditBoard";
 import { EmptyBoard } from "@/components/EmptyBoard";
@@ -21,9 +20,9 @@ export const Right = () => {
   const [showAddBoardModal, setShowAddBoardModal] = useState(false);
 
   return showEditBoardModal ? (
-    <EditBoard board={board} setShowBoardModal={setShowEditBoardModal} />
+    <EditBoard />
   ) : showAddBoardModal ? (
-    <AddBoardModal setShowBoardModal={setShowAddBoardModal} />
+    <AddBoardModal />
   ) : (
     <div className="bg-lightgrey h-full outline outline-lightlines outline-1 flex gap-[1.5rem] pt-6 pl-6 dark:bg-verydarkgrey dark:outline-darklines shrink-0 width-calc flex-grow">
       {columns && columns.length > 0 ? (

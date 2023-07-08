@@ -1,7 +1,7 @@
 "use clients";
 import React, { useState } from "react";
 import { Modal } from "./ui/Modal";
-import { Board, Task } from "@/types/types";
+import { Board } from "@/types/types";
 import { useStore } from "@/lib/store";
 import { getSupabaseClient } from "@/lib/supabaseClient";
 
@@ -16,7 +16,6 @@ export const ConfirmDeleteBoard = ({
   setShowDeleteBoardModal,
   setShowMiniMenu,
 }: ConfirmDeleteBoardProps) => {
-
   const removeBoardFromState = useStore((state) => state.removeBoard);
   const addBoard = useStore((state) => state.addBoard);
   const setCurrentBoard = useStore((state) => state.setCurrentBoard);

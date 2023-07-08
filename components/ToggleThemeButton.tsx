@@ -1,7 +1,6 @@
 "use client";
 import React from "react";
 import { useTheme } from "next-themes";
-import { useRouter } from "next/navigation";
 import { Moon } from "./ui/Moon";
 import { Sun } from "./ui/Sun";
 
