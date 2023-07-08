@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { Subtask } from "./Subtask";
+import { Subtask } from "./SubtaskCard";
 import { useStore } from "@/lib/store";
 import { ThreeDotButton } from "./ui/ThreeDotButton";
 import { Modal } from "./ui/Modal";

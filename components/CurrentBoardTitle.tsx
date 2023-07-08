@@ -3,7 +3,7 @@ import { useStore } from "@/lib/store";
 import React, { useEffect } from "react";
 import { Logo } from "./ui/Logo";
 
-export const CurrentBoard = () => {
+export const CurrentBoardTitle = () => {
   const currentBoard = useStore((state) => state.currentBoard);
   const board = useStore((state) =>
     Object.values(state.boards).find((board) => board.id === currentBoard)

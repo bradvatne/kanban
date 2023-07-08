@@ -4,7 +4,7 @@ import { useStore } from "@/lib/store";
 import { TaskModal } from "./TaskModal";
 import { Subtask } from "@/types/types";
 
-export const Task = ({ id }: { id: number }) => {
+export const TaskCard = ({ id }: { id: number }) => {
   const [
     showViewTaskModal,
     setShowViewTaskModal,

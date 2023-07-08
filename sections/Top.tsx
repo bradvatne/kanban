@@ -1,12 +1,12 @@
 "use client";
 import React, { useState } from "react";
 import { Logo } from "@/components/ui/Logo";
-import { CurrentBoard } from "@/components/CurrentBoard";
 import { AddTaskButton } from "@/components/AddTaskButton";
 import { ThreeDotButton } from "@/components/ui/ThreeDotButton";
 import { EditBoard } from "@/components/EditBoard";
 import { useStore } from "@/lib/store";
 import { ConfirmDeleteBoard } from "@/components/ConfirmDeleteBoard";
+import { CurrentBoardTitle } from "@/components/CurrentBoardTitle";
 
 const Top = () => {
   const [showEditBoardMenu, setShowEditBoardMenu] = useState(false);
@@ -32,7 +32,7 @@ const Top = () => {
         <Logo />
       </div>
       <div className="flex items-center justify-between w-full px-6 dark:bg-darkgrey">
-        <CurrentBoard />
+        <CurrentBoardTitle />
         <div className="flex gap-[1.5rem] items-center">
           <AddTaskButton boardIsEmpty={boardIsEmpty} />
           <div onClick={() => setShowEditBoardMenu(!showEditBoardMenu)}>
