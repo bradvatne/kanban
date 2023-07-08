@@ -2,26 +2,22 @@
 import React, { useEffect, useState } from "react";
 import { Modal } from "./ui/Modal";
 import { useStore } from "@/lib/store";
-import { getSupabaseClient } from "@/lib/supabaseClient";
+import { addTask } from "@/lib/queries/addTask";
 import { AddSubtask } from "./AddSubtask";
 
 type AddTaskModalProps = {
   column?: number;
 };
 
-export const AddTaskModal = ({
-  column,
-}: AddTaskModalProps) => {
+export const AddTaskModal = ({ column }: AddTaskModalProps) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [status, setStatus] = useState(0);
   const [subtasks, setSubtasks] = useState(["", ""]);
   const [loading, setLoading] = useState(false);
-  const [addTaskToState, addSubtaskToState, setShowAddTaskModal] = useStore((state) => [
-    state.addTask,
-    state.addSubtask,
-    state.setShowAddTaskModal
-  ]);
+  const [addTaskToState, addSubtaskToState, setShowAddTaskModal] = useStore(
+    (state) => [state.addTask, state.addSubtask, state.setShowAddTaskModal]
+  );
 
   const columns = useStore((state) =>
     Object.values(state.columns).filter(
@@ -35,63 +31,6 @@ export const AddTaskModal = ({
   useEffect(() => {
     setStatus(defaultStatus);
   }, []);
-
-  const addTaskToDatabase = async ({
-    columnid,
-    description,
-    title,
-    subtasks,
-  }: {
-    columnid: any;
-    description: string;
-    title: string;
-    subtasks: string[];
-  }) => {
-    const supabase = getSupabaseClient();
-    setLoading(true);
-    try {
-      const { data, error } = await supabase
-        .from("task")
-        .insert({ title, columnid, description })
-        .select()
-        .single();
-
-      if (error) {
-        console.log(error);
-        throw error;
-      }
-
-      if (data) {
-        const { id } = data;
-        addTaskToState({
-          id,
-          columnid,
-          description,
-          title,
-        });
-
-        for (let subtask of subtasks) {
-          if (subtask.length > 0) {
-            const { data, error } = await supabase
-              .from("subtask")
-              .insert({ taskid: id, title: subtask })
-              .select()
-              .single();
-
-            if (data) {
-              const { id, title, taskid, complete } = data;
-              addSubtaskToState({ id, title, taskid, complete });
-            } else if (error) {
-              console.log(error);
-            }
-          }
-        }
-      }
-      setShowAddTaskModal(false);
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   return loading ? (
     <Modal>Loading...</Modal>
@@ -168,11 +107,15 @@ export const AddTaskModal = ({
       <button
         className="bg-purple py-2 flex w-full items-center justify-center rounded-3xl text-white font-bold text-sm mb-2 hover:bg-purplehover"
         onClick={() => {
-          addTaskToDatabase({
+          addTask({
             columnid: status,
             title: title,
             description: description,
             subtasks: subtasks,
+            setLoading,
+            addTaskToState,
+            addSubtaskToState,
+            setShowAddTaskModal,
           });
         }}
       >

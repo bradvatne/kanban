@@ -6,7 +6,7 @@ import { SelectBoardButton } from "@/components/ui/SelectBoardButton";
 import { useStore } from "@/lib/store";
 import { Board } from "@/types/types";
 import React, { useEffect } from "react";
-import { fetchData } from "@/lib/queries";
+import { fetchData } from "@/lib/queries/fetchData";
 import { getSupabaseClient } from "@/lib/supabaseClient";
 import { Icons } from "@/components/ui/Icons";
 

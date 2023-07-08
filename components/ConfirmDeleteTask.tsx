@@ -1,7 +1,7 @@
 "use clients";
 import React from "react";
 import { Modal } from "./ui/Modal";
-import { removeTaskOptimistic } from "@/lib/queries";
+import { removeTaskOptimistic } from "@/lib/queries/removeTask";
 import { Task } from "@/types/types";
 import { useStore } from "@/lib/store";
 

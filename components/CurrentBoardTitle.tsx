@@ -9,9 +9,7 @@ export const CurrentBoardTitle = () => {
     Object.values(state.boards).find((board) => board.id === currentBoard)
   );
 
-  useEffect(() => {
-    console.log(currentBoard);
-  }, [currentBoard]);
+  useEffect(() => {}, [currentBoard]);
   return (
     <div className="flex">
       <div className="w-[1.5rem] mr-[1.5rem] md:hidden block">
