@@ -13,7 +13,7 @@ export const fetchData = async (
   const { data } = await supabase
     .from("board")
     .select(
-      "*, Columns (boardid, color, id, title, task (columnid, id, title, description, subtask(taskid, id, title, complete)))"
+      "*, Columns (boardid, color, id, title, task (columnid, id, title, description, position, subtask(taskid, id, title, complete)))"
     )
     .eq("userid", session?.user.id);
   if (data !== null) {
@@ -40,6 +40,7 @@ export const fetchData = async (
             columnid: column.id,
             title: task.title!,
             description: task.description,
+            position: task.position!,
           };
 
           for (let subtask of task.subtask) {

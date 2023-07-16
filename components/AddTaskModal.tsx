@@ -23,8 +23,6 @@ export const AddTaskModal = ({ column }: AddTaskModalProps) => {
   );
   const lastTask = tasks && tasks[tasks?.length-1];
   const oldPos = lastTask?.position || null;
-  console.log("oldPos", oldPos);
-  console.log(tasks);
   const columns = useStore((state) =>
     Object.values(state.columns).filter(
       (item) => item.boardid === state.currentBoard
@@ -96,7 +94,6 @@ export const AddTaskModal = ({ column }: AddTaskModalProps) => {
         className="block w-full dark:bg-verydarkgrey rounded border border-[#828FA340] hover:cursor-pointer focus:border-purple focus:ring-1 focus:ring-purplehover mb-6"
         defaultValue={defaultStatus}
         onChange={(e) => {
-          console.log(e.target.value);
           setStatus(parseInt(e.target.value));
         }}
       >
