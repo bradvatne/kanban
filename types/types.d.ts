@@ -39,6 +39,7 @@ export type State = {
   showViewTaskModal: boolean;
   showLeftDrawer: boolean;
   showBoardModal: boolean;
+  showEditBoardMenu: boolean;
   showEditBoardModal: boolean;
   showEditTaskModal: boolean;
   showAddTaskModal: boolean;
@@ -52,6 +53,7 @@ export type State = {
   setShowEditTaskModal: (bool: boolean) => void;
   setShowAddTaskModal: (bool: boolean) => void;
   setShowBoardModal: (bool: boolean) => void;
+  setShowEditBoardMenu: (bool: boolean) => void;
   setShowEditBoardModal: (bool: boolean) => void;
   setShowLeftDrawer: (bool: boolean) => void;
   setShowDeleteModal: ({ type, id }: { type: string; id: number }) => void;

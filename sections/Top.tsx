@@ -10,7 +10,10 @@ import { Icons } from "@/components/ui/Icons";
 import { TaskModal } from "@/components/TaskModal";
 
 const Top = () => {
-  const [showEditBoardMenu, setShowEditBoardMenu] = useState(false);
+  const [showEditBoardMenu, setShowEditBoardMenu] = useStore((state) => [
+    state.showEditBoardMenu,
+    state.setShowEditBoardMenu,
+  ]);
   const [showDeleteBoardModal, setShowDeleteBoardModal] = useState(false);
   const [showEditBoardModal, setShowEditBoardModal] = useStore((state) => [
     state.showEditBoardModal,
@@ -35,7 +38,7 @@ const Top = () => {
   ]);
 
   return (
-    <div className="flex h-[6rem] w-full">
+    <div className="flex h-[6rem] w-full" onClick={()=> setShowEditBoardMenu(false)}>
       <div className="pl-8 pt-8 w-[300px] border-r border-lightlines dark:border-darklines shrink-0 dark:bg-darkgrey hidden md:block">
         <Logo />
       </div>
@@ -43,10 +46,10 @@ const Top = () => {
         <CurrentBoardTitle />
         <div className="flex gap-[1.5rem] items-center">
           <AddTaskButton boardIsEmpty={boardIsEmpty} />
-          <div onClick={() => setShowEditBoardMenu(!showEditBoardMenu)}>
+          <div onClick={(e) =>{ e.stopPropagation(); setShowEditBoardMenu(!showEditBoardMenu)}}>
             <Icons.threeDot />
           </div>
-          {showEditBoardMenu && (
+          {showEditBoardMenu && !showEditBoardModal && (
             <div className="absolute flex p-4 flex-col gap-4 rounded-lg bg-white w-[12rem] right-[1rem] top-[5.6rem] shadow-xl dark:bg-verydarkgrey ">
               <button
                 className="text-mediumgrey text-custom text-left"

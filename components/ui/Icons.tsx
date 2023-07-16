@@ -100,7 +100,7 @@ export const Icons = {
   threeDot: () => {
     return (
       <svg
-        width="5"
+        width="30"
         height="20"
         viewBox="0 0 5 20"
         fill="none"
