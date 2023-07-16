@@ -23,33 +23,49 @@ export const Columns = ({ columns }: { columns: ColumnType[] }) => {
     try {
       const newCol = e.destination.droppableId;
       const newPos = e.destination.index;
+      console.log("newcol", newCol, "newpos", newPos);
       const currentCol = allCols[newCol]?.id;
       const filteredTasks = allTasks.filter(
         (task) => task.columnid === currentCol
       );
       const taskid = parseInt(e.draggableId);
-      console.log("filteredtasks", filteredTasks);
+      console.log("target array", filteredTasks);
       console.log("taskid", taskid);
       const movingTask = allTasks.filter((task) => task.id === taskid)[0];
-      const taskBelowPosition = filteredTasks[newPos]?.position;
       const calculateBelowPosition = () => {
-        if (!filteredTasks[newPos - 1]?.position) {
+        if (filteredTasks[newPos - 1]?.position === undefined) {
           return null;
         }
         return filteredTasks[newPos - 1]?.position;
       };
 
       const calculateAbovePosition = () => {
-        if (!filteredTasks[newPos]?.position) {
+        if (filteredTasks[newPos + 1]?.position === undefined) {
           return null;
         }
-        return filteredTasks[newPos]?.position;
+        return filteredTasks[newPos + 1]?.position;
       };
       const below = calculateBelowPosition();
       const above = calculateAbovePosition();
-      console.log("below", below, "above", above);
-      const newKey = generateKeyBetween(below, above);
-
+      console.log(
+        "below index",
+        newPos - 1,
+        "below value",
+        below,
+        "above index",
+        newPos + 1,
+        "above value",
+        above,
+        "newpos index",
+        newPos
+      );
+      let newKey;
+      try {
+        newKey = generateKeyBetween(below, above);
+      } catch (err) {
+        newKey = "a0";
+      }
+      console.log("newpos value", newKey);
       console.log("ADDING", {
         ...movingTask,
         columnid: currentCol,
@@ -82,10 +98,10 @@ export const Columns = ({ columns }: { columns: ColumnType[] }) => {
     );
     const taskid = e.draggableId;
     const movingTask = filteredTasks.find((task) => task.id === taskid);
-    console.log(parseInt(taskid));
     const taskBelowPosition = filteredTasks[newPos]?.position || null;
     const taskAbovePosition = filteredTasks[newPos + 1]?.position || null;
     const newKey = generateKeyBetween(taskBelowPosition, taskAbovePosition);
+    console.log(parseInt(taskid));
     console.log(
       "column id",
       currentCol,

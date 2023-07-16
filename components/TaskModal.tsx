@@ -51,7 +51,7 @@ export const TaskModal = () => {
   };
 
   if (showDeleteConfirmation) {
-    return <ConfirmDeleteTask task={task} />;
+    return <ConfirmDeleteTask />;
   }
 
   return (

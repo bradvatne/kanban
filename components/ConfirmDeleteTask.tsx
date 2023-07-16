@@ -5,12 +5,12 @@ import { removeTaskOptimistic } from "@/lib/queries/removeTask";
 import { Task } from "@/types/types";
 import { useStore } from "@/lib/store";
 
-type ConfirmDeleteProps = {
-  task: Task;
-};
-
-export const ConfirmDeleteTask = ({ task }: ConfirmDeleteProps) => {
+export const ConfirmDeleteTask = () => {
+  const task = useStore((state) =>
+    state.getTaskById(state.currentTask!)(state)
+  );
   const removeTaskFromState = useStore((state) => state.removeTask);
+  if (!task) return <div></div>;
   return (
     <Modal>
       <h2 className="text-lg font-bold text-red mb-[1.5rem]">
