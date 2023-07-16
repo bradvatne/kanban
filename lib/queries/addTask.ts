@@ -1,11 +1,13 @@
 import { State } from "@/types/types";
 import { getSupabaseClient } from "../supabaseClient";
+import { generateKeyBetween } from "fractional-indexing";
 
 export const addTask = async ({
   columnid,
   description,
   title,
   subtasks,
+  oldPosition,
   setLoading,
   addTaskToState,
   addSubtaskToState,
@@ -16,16 +18,18 @@ export const addTask = async ({
   title: string;
   subtasks: string[];
   setLoading: Function;
+  oldPosition: string | null;
   addTaskToState: State["addTask"];
   addSubtaskToState: State["addSubtask"];
   setShowAddTaskModal: State["setShowAddTaskModal"];
 }) => {
   const supabase = getSupabaseClient();
   setLoading(true);
+  const newPosition = generateKeyBetween(oldPosition, null);
   try {
     const { data, error } = await supabase
       .from("task")
-      .insert({ title, columnid, description })
+      .insert({ title, columnid, description, position: newPosition })
       .select()
       .single();
 
@@ -41,6 +45,7 @@ export const addTask = async ({
         columnid,
         description,
         title,
+        position: newPosition,
       });
 
       for (let subtask of subtasks) {

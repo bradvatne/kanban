@@ -96,18 +96,21 @@ export interface Database {
           id: number;
           title: string | null;
           description: string | null;
+          position?: string | null;
         };
         Insert: {
           columnid?: number | null;
           id?: number;
           title?: string | null;
           description: string | null;
+          position?: string | null;
         };
         Update: {
           columnid?: number | null;
           id?: number;
           title?: string | null;
           description: string | null;
+          position?: string | null;
         };
         Relationships: [
           {

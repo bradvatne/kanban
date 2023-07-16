@@ -11,6 +11,7 @@
     "@types/react-beautiful-dnd": "^13.1.4",
     "autoprefixer": "10.4.14",
     "encoding": "^0.1.13",
+    "fractional-indexing": "^3.2.0",
     "immer": "^10.0.2",
     "next": "latest",
     "next-themes": "^0.2.1",
