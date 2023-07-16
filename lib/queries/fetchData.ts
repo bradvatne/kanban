@@ -1,5 +1,5 @@
 import { Database } from "@/types/supabase";
-import { Boards, Columns, Subtasks, Tasks } from "@/types/types";
+import { Boards, Columns, Subtasks, Task, Tasks } from "@/types/types";
 import { SupabaseClient } from "@supabase/supabase-js";
 import { State } from "@/types/types";
 
@@ -54,6 +54,7 @@ export const fetchData = async (
         }
       }
     }
+
     state.setBoards(boards);
     state.setColumns(columns);
     state.setTasks(tasks);
