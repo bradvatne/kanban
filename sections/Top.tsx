@@ -7,6 +7,7 @@ import { useStore } from "@/lib/store";
 import { ConfirmDeleteBoard } from "@/components/ConfirmDeleteBoard";
 import { CurrentBoardTitle } from "@/components/CurrentBoardTitle";
 import { Icons } from "@/components/ui/Icons";
+import { TaskModal } from "@/components/TaskModal";
 
 const Top = () => {
   const [showEditBoardMenu, setShowEditBoardMenu] = useState(false);
@@ -28,6 +29,10 @@ const Top = () => {
     setShowEditBoardMenu(false);
     setShowEditBoardModal(true);
   };
+  const [showViewTaskModal, currentTask] = useStore((state) => [
+    state.showViewTaskModal,
+    state.currentTask,
+  ]);
 
   return (
     <div className="flex h-[6rem] w-full">
@@ -59,6 +64,7 @@ const Top = () => {
           )}
         </div>
       </div>
+      {showViewTaskModal && <TaskModal />}
       {showDeleteBoardModal ? (
         <ConfirmDeleteBoard
           board={board}

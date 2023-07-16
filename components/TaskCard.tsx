@@ -25,7 +25,6 @@ export const TaskCard = ({ id }: { id: number }) => {
 
   return (
     <>
-      {showViewTaskModal && currentTask === id && <TaskModal />}
       <div
         className="bg-white px-4 py-6 shrink-0 rounded-lg shadow-custom hover:cursor-pointer dark:bg-darkgrey "
         onClick={() => {
