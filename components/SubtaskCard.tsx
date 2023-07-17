@@ -7,7 +7,7 @@ export const Subtask = ({ id }: { id: number }) => {
   const completedStyle = "text-sm text-mediumgrey font-bold line-through";
   const inProgressStyle = "text-sm text-black font-bold dark:text-white";
 
-  const subtask = useStore((state) => state.getSubtaskById(id)(state));
+  const subtask = useStore((state) => state.getSubtaskById(id));
   const toggleSubtaskComplete = useStore(
     (state) => state.toggleSubtaskComplete
   );

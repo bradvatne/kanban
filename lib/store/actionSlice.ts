@@ -11,6 +11,7 @@ export interface IActionSlice {
   removeSubtask: (id: number) => void;
   removeBoard: (id: number) => void;
   removeColumn: (id: number) => void;
+  toggleSubtaskComplete: (subtaskId: number) => void;
 }
 
 export const createActionSlice = (set: any) => ({
@@ -68,6 +69,16 @@ export const createActionSlice = (set: any) => ({
     set(
       produce((draft: Draft<State>) => {
         delete draft.subtasks[subtaskId];
+      })
+    );
+  },
+  toggleSubtaskComplete: (subtaskId: number) => {
+    set(
+      produce((draft: Draft<State>) => {
+        const subtask = draft.subtasks[subtaskId];
+        if (subtask) {
+          subtask.complete = !subtask.complete;
+        }
       })
     );
   },

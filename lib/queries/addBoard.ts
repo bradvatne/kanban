@@ -60,6 +60,11 @@ export const addBoard = async ({
         if (error) {
           throw new Error(`Error inserting column to db ${error.message}`);
         }
+        if (data) {
+          addColumnToState(data);
+          setCurrentBoard(id);
+          setShowBoardModal(false);
+        }
       }
       if (data) {
         addColumnToState(data);

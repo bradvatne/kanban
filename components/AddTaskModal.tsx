@@ -18,7 +18,7 @@ export const AddTaskModal = () => {
     Object.values(state.tasks).filter((task) => task.columnid === status)
   );
   const lastTask = tasks && tasks[tasks?.length - 1];
-  const oldPos = lastTask?.position || null;
+  const oldPos = lastTask?.position || "a1";
   const columns = useStore((state) =>
     Object.values(state.columns).filter(
       (item) => item.boardid === state.currentBoard

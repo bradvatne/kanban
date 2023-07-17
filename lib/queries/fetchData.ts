@@ -1,7 +1,7 @@
 import { Database } from "@/types/supabase";
 import { Boards, Columns, Subtasks, Task, Tasks } from "@/types/types";
 import { SupabaseClient } from "@supabase/supabase-js";
-import { State } from "@/types/types";
+import { State } from "@/lib/store";
 
 export const fetchData = async (
   supabase: SupabaseClient<Database>,
