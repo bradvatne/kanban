@@ -18,9 +18,7 @@ export const TaskModal = () => {
       state.setShowEditTaskModal,
       state.setShowViewTaskModal,
     ]);
-  const task = useStore((state) =>
-    state.getTaskById(state.currentTask!)(state)
-  );
+  const task = useStore((state) => state.getTaskById(state.currentTask!));
   const subtasks = useStore((state) =>
     Object.values(state.subtasks).filter(
       (subtasks) => subtasks.taskid === task.id

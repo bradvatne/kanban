@@ -2,9 +2,8 @@ import React from "react";
 import { ColumnCard } from "./ColumnCard";
 import { AddColumn } from "./AddColumn";
 import { Column as ColumnType } from "@/types/types";
-import { DragDropContext, DragDropContextProps } from "react-beautiful-dnd";
+import { DragDropContext } from "react-beautiful-dnd";
 import { useStore } from "@/lib/store";
-import { DropArgument } from "net";
 import { getSupabaseClient } from "@/lib/supabaseClient";
 import { generateKeyBetween } from "fractional-indexing";
 
@@ -19,115 +18,73 @@ export const Columns = ({ columns }: { columns: ColumnType[] }) => {
     state.addTask,
   ]);
 
+  //handles optimistic logic for state + db updates according to drag events
   const handleDragEnd = async (e: any) => {
     try {
-      const newCol = e.destination.droppableId;
-      const newPos = e.destination.index;
-      console.log("newcol", newCol, "newpos", newPos);
-      const currentCol = allCols[newCol]?.id;
-      const filteredTasks = allTasks.filter(
-        (task) => task.columnid === currentCol
+      const destinationColumnIndex = e.destination.droppableId;
+      const destinationColumnUID = allCols[destinationColumnIndex]?.id;
+      const newPositionIndex = e.destination.index;
+      const destinationColumnTasksArray = allTasks.filter(
+        (task) => task.columnid === destinationColumnUID
       );
-      const taskid = parseInt(e.draggableId);
-      console.log("target array", filteredTasks);
-      console.log("taskid", taskid);
-      const movingTask = allTasks.filter((task) => task.id === taskid)[0];
+      const draggedTaskUID = parseInt(e.draggableId);
+      const draggedTaskObject = allTasks.filter(
+        (task) => task.id === draggedTaskUID
+      )[0];
       const calculateBelowPosition = () => {
-        if (filteredTasks[newPos - 1]?.position === undefined) {
+        if (
+          destinationColumnTasksArray[newPositionIndex - 1]?.position ===
+          undefined
+        ) {
           return null;
         }
-        return filteredTasks[newPos - 1]?.position;
+        return destinationColumnTasksArray[newPositionIndex - 1]?.position;
       };
 
       const calculateAbovePosition = () => {
-        if (filteredTasks[newPos + 1]?.position === undefined) {
+        if (
+          destinationColumnTasksArray[newPositionIndex + 1]?.position ===
+          undefined
+        ) {
           return null;
         }
-        return filteredTasks[newPos + 1]?.position;
+        return destinationColumnTasksArray[newPositionIndex + 1]?.position;
       };
-      const below = calculateBelowPosition();
-      const above = calculateAbovePosition();
-      console.log(
-        "below index",
-        newPos - 1,
-        "below value",
-        below,
-        "above index",
-        newPos + 1,
-        "above value",
-        above,
-        "newpos index",
-        newPos
-      );
-      let newKey;
-      try {
-        newKey = generateKeyBetween(below, above);
-      } catch (err) {
-        newKey = "a0";
-      }
-      console.log("newpos value", newKey);
-      console.log("ADDING", {
-        ...movingTask,
-        columnid: currentCol,
-        position: newKey,
-      });
+      const itemBelowPositionValue = calculateBelowPosition();
+      const itemAbovePositionValue = calculateAbovePosition();
 
-      addTask({ ...movingTask, columnid: currentCol, position: newKey! });
+      let draggedItemNewPositionValue = "a0";
       try {
-        const { data, error } = await supabase
-          .from("task")
-          .update({ ...movingTask, columnid: currentCol, position: newKey! })
-          .eq("id", taskid);
+        draggedItemNewPositionValue = generateKeyBetween(
+          itemBelowPositionValue,
+          itemAbovePositionValue
+        );
       } catch (err) {
-        console.log(err);
-        addTask({ ...movingTask });
+        draggedItemNewPositionValue = "a0";
+      }
+      addTask({
+        ...draggedTaskObject,
+        columnid: destinationColumnUID,
+        position: draggedItemNewPositionValue!,
+      });
+      try {
+        await supabase
+          .from("task")
+          .update({
+            ...draggedTaskObject,
+            columnid: destinationColumnUID,
+            position: draggedItemNewPositionValue!,
+          })
+          .eq("id", draggedTaskUID);
+      } catch (error) {
+        console.log(error);
+        addTask({ ...draggedTaskObject });
       }
     } catch (error) {
-      console.log("", error);
+      console.log(error);
     }
-    //insert the new one
   };
 
-  const logging = async (e: any) => {
-    //get that column that is being dropped into
-    const newCol = e.destination.droppableId;
-    const newPos = e.destination.index;
-    const currentCol = allCols[newCol]?.id;
-    const filteredTasks = allTasks.filter(
-      (task) => task.columnid === currentCol
-    );
-    const taskid = e.draggableId;
-    const movingTask = filteredTasks.find((task) => task.id === taskid);
-    const taskBelowPosition = filteredTasks[newPos]?.position || null;
-    const taskAbovePosition = filteredTasks[newPos + 1]?.position || null;
-    const newKey = generateKeyBetween(taskBelowPosition, taskAbovePosition);
-    console.log(parseInt(taskid));
-    console.log(
-      "column id",
-      currentCol,
-      "\n task below",
-      taskBelowPosition,
-      "\n task above",
-      taskAbovePosition
-    );
-
-    removeTask(taskid);
-    addTask({ ...movingTask!, position: newKey });
-    //use the array# to get the position of the items below and above the ones being dropped
-    try {
-      const { data, error } = await supabase
-        .from("task")
-        .delete()
-        .eq("id", taskid);
-    } catch (err) {
-      console.log(err);
-    }
-    //delete the old one
-
-    //insert the new one
-    console.log(filteredTasks);
-    console.log(e);
-  };
   return (
     <DragDropContext onDragEnd={handleDragEnd}>
       {columns && columns.length > 1 ? (

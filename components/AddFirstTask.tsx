@@ -2,9 +2,8 @@
 import React from "react";
 import { useStore } from "@/lib/store";
 
-export const AddFirstTask = ({ column }: { column: number }) => {
-  const [showAddTaskModal, setShowAddTaskModal] = useStore((state) => [
-    state.showAddTaskModal,
+export const AddFirstTask = () => {
+  const [setShowAddTaskModal] = useStore((state) => [
     state.setShowAddTaskModal,
   ]);
   return (

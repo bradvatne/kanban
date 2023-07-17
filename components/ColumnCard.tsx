@@ -44,7 +44,7 @@ export const ColumnCard = ({ id, pos }: { id: number; pos: number }) => {
               </Draggable>
             ))
           ) : (
-            <AddFirstTask column={column.id} />
+            <AddFirstTask />
           )}
           {provided.placeholder}
         </div>

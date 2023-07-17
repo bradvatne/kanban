@@ -5,11 +5,7 @@ import { useStore } from "@/lib/store";
 import { addTask } from "@/lib/queries/addTask";
 import { AddSubtask } from "./AddSubtask";
 
-type AddTaskModalProps = {
-  column?: number;
-};
-
-export const AddTaskModal = ({ column }: AddTaskModalProps) => {
+export const AddTaskModal = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [status, setStatus] = useState(0);
@@ -21,7 +17,7 @@ export const AddTaskModal = ({ column }: AddTaskModalProps) => {
   const tasks = useStore((state) =>
     Object.values(state.tasks).filter((task) => task.columnid === status)
   );
-  const lastTask = tasks && tasks[tasks?.length-1];
+  const lastTask = tasks && tasks[tasks?.length - 1];
   const oldPos = lastTask?.position || null;
   const columns = useStore((state) =>
     Object.values(state.columns).filter(
@@ -29,8 +25,6 @@ export const AddTaskModal = ({ column }: AddTaskModalProps) => {
     )
   );
   let defaultStatus = columns && columns[0] && columns[0]?.id;
-
-  if (column) defaultStatus = column;
 
   useEffect(() => {
     setStatus(defaultStatus);

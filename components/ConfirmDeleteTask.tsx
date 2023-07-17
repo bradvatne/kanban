@@ -6,9 +6,7 @@ import { Task } from "@/types/types";
 import { useStore } from "@/lib/store";
 
 export const ConfirmDeleteTask = () => {
-  const task = useStore((state) =>
-    state.getTaskById(state.currentTask!)(state)
-  );
+  const task = useStore((state) => state.getTaskById(state.currentTask!));
   const removeTaskFromState = useStore((state) => state.removeTask);
   if (!task) return <div></div>;
   return (
