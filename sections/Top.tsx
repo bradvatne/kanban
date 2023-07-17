@@ -19,9 +19,7 @@ const Top = () => {
     state.showEditBoardModal,
     state.setShowEditBoardModal,
   ]);
-  const board = useStore((state) =>
-    state.getBoardById(state.currentBoard!)(state)
-  );
+  const board = useStore((state) => state.getBoardById(state.currentBoard!));
   const boardIsEmpty = useStore(
     (state) =>
       Object.values(state.columns).filter(
@@ -38,7 +36,10 @@ const Top = () => {
   ]);
 
   return (
-    <div className="flex h-[6rem] w-full" onClick={()=> setShowEditBoardMenu(false)}>
+    <div
+      className="flex h-[6rem] w-full"
+      onClick={() => setShowEditBoardMenu(false)}
+    >
       <div className="pl-8 pt-8 w-[300px] border-r border-lightlines dark:border-darklines shrink-0 dark:bg-darkgrey hidden md:block">
         <Logo />
       </div>
@@ -46,7 +47,12 @@ const Top = () => {
         <CurrentBoardTitle />
         <div className="flex gap-[1.5rem] items-center">
           <AddTaskButton boardIsEmpty={boardIsEmpty} />
-          <div onClick={(e) =>{ e.stopPropagation(); setShowEditBoardMenu(!showEditBoardMenu)}}>
+          <div
+            onClick={(e) => {
+              e.stopPropagation();
+              setShowEditBoardMenu(!showEditBoardMenu);
+            }}
+          >
             <Icons.threeDot />
           </div>
           {showEditBoardMenu && !showEditBoardModal && (

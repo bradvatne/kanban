@@ -18,7 +18,7 @@ export const TaskCard = ({ id }: { id: number }) => {
     state.currentTask,
     state.setCurrentTask,
   ]);
-  const task = useStore((state) => state.getTaskById(id)(state));
+  const task = useStore((state) => state.getTaskById(id));
   const subtasks = useStore((state) =>
     Object.values(state.subtasks).filter((subtasks) => subtasks.taskid === id)
   );

@@ -4,7 +4,7 @@ import { useStore } from "@/lib/store";
 
 export const AddColumn = () => {
   const currentBoard = useStore((state) =>
-    state.getBoardById(state.currentBoard!)(state)
+    state.getBoardById(state.currentBoard!)
   );
 
   const [showEditBoardModal, setShowEditBoardModal] = useStore((state) => [

@@ -3,18 +3,14 @@ import React from "react";
 import { useStore } from "@/lib/store";
 import { TaskCard } from "./TaskCard";
 import { AddFirstTask } from "./AddFirstTask";
-import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
+import { Draggable, Droppable } from "react-beautiful-dnd";
 import { sortArrayByPosition } from "@/lib/hooks";
 
 export const ColumnCard = ({ id, pos }: { id: number; pos: number }) => {
   const tasks = useStore((state) =>
     Object.values(state.tasks).filter((task) => task.columnid === id)
   );
-  const column = useStore((state) => state.getColumnById(id)(state));
-  const test = useStore((state) => state.columns);
-  const onDragEnd = () => {
-    //do logic here
-  };
+  const column = useStore((state) => state.getColumnById(id));
 
   return (
     <Droppable droppableId={pos.toString()}>

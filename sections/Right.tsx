@@ -14,7 +14,7 @@ export const Right = () => {
     )
   );
   const board = useStore((state) =>
-    state.getBoardById(state.currentBoard!)(state)
+    state.getBoardById(state.currentBoard!)
   );
   const [showEditBoardModal, setShowEditBoardModal] = useState(false);
   const [showAddBoardModal, setShowAddBoardModal] = useState(false);

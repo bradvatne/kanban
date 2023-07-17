@@ -13,7 +13,7 @@ export const EditBoard = ({
 }) => {
   const [board, setShowEditBoardModal, addBoardToState, addColumnToState] =
     useStore((state) => [
-      state.getBoardById(state.currentBoard!)(state),
+      state.getBoardById(state.currentBoard!),
       state.setShowEditBoardModal,
       state.addBoard,
       state.addColumn,
