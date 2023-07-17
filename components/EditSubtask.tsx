@@ -15,7 +15,7 @@ export const EditSubtask = ({
 }) => {
   let title;
   if (dbId) {
-    title = useStore((state) => state.getSubtaskById(dbId)(state).title);
+    title = useStore((state) => state.getSubtaskById(dbId).title);
   }
 
   const updateParent = (newValue: string) => {
@@ -38,7 +38,7 @@ export const EditSubtask = ({
 
   const removeSubtaskFromState = useStore((state) => state.removeSubtask);
   const addSubtaskToState = useStore((state) => state.addSubtask);
-  const subtask = useStore((state) => state.getSubtaskById(id)(state));
+  const subtask = useStore((state) => state.getSubtaskById(id));
 
   const removeSubtaskOptimistic = async () => {
     removeSubtaskFromState(dbId);
